@@ -4,6 +4,7 @@
 Copyright(c) 2015-2023, by YanGongmin, All rights reserved.
 Northwestern Polytechnical University, Xi'an, P.R.China.
 Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 22/11/2021, 17/10/2022, 23/08/2023
+      04/02/2024
 */
 
 #include "PSINS.h"
@@ -21,9 +22,9 @@ int			 psinslasterror = 0;
 int			 psinsstack0 = 0, psinsstacksize = 0;
 
 //***************************  class CGLV  *********************************/
-CGLV::CGLV(double Re, double f, double g0, double wie0)
+CGLV::CGLV(double Re, double f, double g0)
 {
-	this->Re = Re; this->f = f; this->g0 = g0; this->wie = wie0;
+	this->Re = Re; this->f = f; this->g0 = g0; this->wie = WIE;
 	Rp = (1-f)*Re;
 	e = sqrt(2*f-f*f); e2 = e*e;
 	ep = sqrt(Re*Re-Rp*Rp)/Rp; ep2 = ep*ep;
@@ -409,6 +410,16 @@ CVect3 abs(const CVect3 &v)
 	return res;
 }
 
+inline double absp(double val)
+{
+	return val>0.0 ? val : 0.0;
+}
+
+CVect3 absp(const CVect3 &v)
+{
+	return CVect3(absp(v.i),absp(v.j),absp(v.k));
+}
+
 CVect3 maxabs(const CVect3 &v1, const CVect3 &v2)
 {
 	CVect3 res1, res2;
@@ -702,6 +713,16 @@ CVect3 ff2muxy(const CVect3 &f0, const CVect3 &f1, const char *dir0, const char 
     if(dir0) IMURFU(&v0, 1, dir0);  if(dir1) IMURFU(&v1, 1, dir1);
     double n = norm(v0), f = cos(v0.j/n);  if(f<0.1) f=0.1;
     return CVect3((v1.j-v0.j)/f, v0.i-v1.i, 0)/norm(v0);
+}
+
+CVect3 ff2mu(const CVect3 &f0, const CVect3 &f1, double uz)
+{
+	CVect3 df=f1-f0, mu;
+	double fz = 7.5*f0.k*f0.k<f0.i*f0.i+f0.j*f0.j ? 10.0 : f0.k;  // 20deg
+	mu.i = (uz*f1.i-df.j)/fz;
+	mu.j = (df.i+uz*f1.j)/fz;
+	mu.k = uz;
+	return mu;
 }
 
 //***************************  class CQuat  *********************************/
@@ -1163,6 +1184,8 @@ CVect3 m2att(const CMat3 &Cnb)
 	att.i = asinEx(Cnb.e21);
 	att.j = atan2Ex(-Cnb.e20, Cnb.e22);
 	att.k = atan2Ex(-Cnb.e01, Cnb.e11);
+	if(Cnb.e21>0.999999)       { att.j=0.0; att.k= atan2Ex(Cnb.e02,Cnb.e00); }
+	else if(Cnb.e21<-0.999999) { att.j=0.0; att.k=-atan2Ex(Cnb.e02,Cnb.e00); }
 	return att;
 }
 
@@ -4825,6 +4848,11 @@ CVect3 CGKP::IGKP(const CVect3 &xy)
 //***************************  class CEarth  *********************************/
 CEarth::CEarth(double a0, double f0, double g0)
 {
+	Init(a0, f0, g0);
+}
+
+void CEarth::Init(double a0, double f0, double g0)
+{
 	a = a0;	f = f0; wie = glv.wie; 
 	b = (1-f)*a;
 	e = sqrt(a*a-b*b)/a;	e2 = e*e;
@@ -5491,8 +5519,8 @@ void CDR::Init(const CVect3 &att0, const CVect3 &pos0, const CVect3 &kappa, doub
 
 void CDR::Update(const CVect3 &wm, double dS, double ts, const CVect3 &vm)
 {
-	tk += ts;  dist += dS;
-	double vel = dS*Kod/ts;
+	tk += ts;  dS *= Kod; dist += dS;
+	double vel = dS/ts;
 	if(vel>velMax||vel<velMin) vel=velPre;  // if abnormal, keep last velocity
 	CVect3 vnk = Cnb*(Cbo*CVect3(0,vel,0));  velPre=vel;
 	eth.Update(pos, vnk);
@@ -6199,7 +6227,7 @@ CFileRdWt& CFileRdWt::operator<<(const CSINS &sins)
 
 CFileRdWt& CFileRdWt::operator<<(const CDR &dr)
 {
-	return *this<<dr.att<<dr.vn<<dr.pos<<dr.tk;
+	return *this<<dr.att<<dr.vn<<dr.pos<<dr.dist<<dr.tk;
 }
 
 #ifdef PSINS_RMEMORY
@@ -7334,11 +7362,6 @@ void CAligntf::operator<<(CFileRdWt &f)
 }
 #endif
 
-//***************************  class CUartPP  *********************************/
-#ifdef PSINS_CONSOLE_UART
-
-#pragma message("  PSINS_CONSOLE_UART")
-
 CUartPP::CUartPP(int frameLen0, unsigned short head0)
 {
 	popIdx = 0;
@@ -7419,6 +7442,70 @@ int CUartPP::pop(unsigned char *buf0)
 	}
 	return getframetmp;
 }
+
+unsigned char chksum8(const unsigned char *pc, int len)
+{
+	unsigned char sum=0;
+	for(const unsigned char *pend=&pc[len]; pc<pend; pc++) sum += *pc;
+	return sum;
+}
+
+unsigned short chksum16(const unsigned short *ps, int len)
+{
+	unsigned short sum=0;
+	for(const unsigned short *pend=&ps[len]; ps<pend; ps++) sum += *ps;
+	return sum;
+}
+
+double flt22db(float f1, float f2)
+{
+#define fltNEG 5.0e6F
+	double db=f1;
+	db += f2;	
+	if(f1>=fltNEG) { db = -(db-fltNEG); }
+	return db;
+}
+
+void db2flt2(double db, float *pf1, float *pf2)
+{
+	if(db>=0) {
+		*pf1 = (float)((int)db);  *pf2 = (float)(db-*pf1);
+	}
+	else {
+		db = -db;
+		*pf1 = (float)((int)db);  *pf2 = (float)(db-*pf1);
+		*pf1 += fltNEG;  // if negative, >=fltNEG
+	}
+}
+
+int iga2flt(float *pf, const double *pwm, const double *pvm, const double *pgps, const double *pavp, const double *pt)
+{
+	float *pf0=pf;
+	if(pwm) {
+		*pf++=(float)*pwm++, *pf++=(float)*pwm++, *pf++=(float)*pwm;	// gyro
+		*pf++=(float)*pvm++, *pf++=(float)*pvm++, *pf++=(float)*pvm;	// acc
+	}
+	if(pgps) {
+		*pf++=(float)*pgps++, *pf++=(float)*pgps++, *pf++=(float)*pgps++;	// gps-ve/n/u
+		db2flt2(*pgps++/DEG, &pf[0], &pf[1]);  pf+=2;						// gps-lat
+		db2flt2(*pgps++/DEG, &pf[0], &pf[1]);  pf+=2;  *pf++=(float)*pgps;	// gps-lon/hgt
+	}
+	if(pavp) {
+		*pf++=(float)*pavp++, *pf++=(float)*pavp++, *pf++=(float)*pavp++;	// att
+		*pf++=(float)*pavp++, *pf++=(float)*pavp++, *pf++=(float)*pavp++;	// vn
+		db2flt2(*pavp++/DEG, &pf[0], &pf[1]);  pf+=2;						// avp-lat
+		db2flt2(*pavp++/DEG, &pf[0], &pf[1]);  pf+=2;  *pf++=(float)*pavp;	// avp-lon/hgt
+	}
+	if(pt) {
+		db2flt2(*pt++, &pf[0], &pf[1]);  pf+=2;
+	}
+	return pf-pf0;  // count of float
+}
+
+//***************************  class CUartPP  *********************************/
+#ifdef PSINS_CONSOLE_UART
+
+#pragma message("  PSINS_CONSOLE_UART")
 
 //***************************  class CConUart  *********************************/
 CUartPP *pUart;
@@ -7834,6 +7921,36 @@ int* deci(int i, int *pi)
 	return di;
 }
 
+#ifdef PSINS_EXTERN_C_EXAMPLE
+
+CSINS sinsExample;
+
+extern "C" void psinsInit0(const double *att0, const double *vn0, const double *pos0, double t0)
+{
+	sinsExample.Init(*(const CVect3*)att0, *(const CVect3*)vn0, *(const CVect3*)pos0, t0);
+}
+
+extern "C" void psinsUpdate0(const double *gyro, const double *acc, int n, double ts)
+{
+	sinsExample.Update((CVect3*)gyro, (CVect3*)acc, n, ts);
+}
+
+extern "C" void psinsUpdatef(const float *gyro, const float *acc, int n, double ts)
+{
+	CVect3 wm[5], vm[5];
+	double *pwm=&wm[0].i, *pvm=&vm[0].i, *pEnd=&wm[n].i;
+	for(; pwm<pEnd; pwm++,pvm++,gyro++,acc++) { *pwm=*gyro, *pvm=*acc; }
+	sinsExample.Update(wm, vm, n, ts);
+}
+
+extern "C" void psinsOut0(double *att, double *vn, double *pos, double *tk)
+{
+	*(CVect3*)att = sinsExample.att, *(CVect3*)vn = sinsExample.vn, *(CVect3*)pos = sinsExample.pos;
+	*tk = sinsExample.tk;
+}
+
+#endif // PSINS_EXTERN_C_EXAMPLE
+
 void add(CVect3 &res, const CVect3 &v1, const CVect3 &v2)
 {
 	res.i=v1.i+v2.i, res.j=v1.j+v2.j, res.k=v1.k+v2.k;
@@ -8058,7 +8175,7 @@ void AXbt(CVect3 &res, const CMat3 &A, const CVect3 &X, const CVect3 &b, const d
 	res.i=i, res.j=j;
 }
 
-void sizedisp(int i)
+void ClassSizeDisp(int i)
 {
 #define ClsSize(xxx)	printf("\t"#xxx":%10d\n", sizeof(xxx))
 	printf("Size of each class (in bytes):\n");

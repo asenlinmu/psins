@@ -4,6 +4,7 @@
 Copyright(c) 2015-2023, by YanGongmin, All rights reserved.
 Northwestern Polytechnical University, Xi'an, P.R.China.
 Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 22/11/2021, 17/10/2022, 23/09/2023
+      04/02/2024
 */
 
 #ifndef _PSINS_H
@@ -31,7 +32,8 @@ Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 22/11/2021, 17
 //#define PSINS_CONSOLE_UART
 //#define PSINS_VC_AFX_HEADER
 //#define PSINS_COMPLEX
-#define PSINS_FAST_CALCULATION
+//#define PSINS_FAST_CALCULATION
+#define PSINS_EXTERN_C_EXAMPLE
 //#define PSINS_FOR_LINUX
 
 #ifdef PSINS_IO_FILE
@@ -95,9 +97,10 @@ typedef unsigned char BYTE;
 #define UGPSHZ	(UG/1)			// ug/sqrt(Hz)
 #define UGPG2	(UG/G0/G0)		// ug/g^2
 #define SECPG	(SEC/G0)		// sec/g
+#define PPM		1.0e-6
 #define RE		6378137.0
 #define FF		(1.0/298.257)
-#define PPM		1.0e-6
+#define WIE		7.2921151467e-5
 
 #ifndef EPS
 #define EPS		(2.220446049e-16)
@@ -230,9 +233,9 @@ extern int	psinsstack0, psinsstacksize;
 #endif
 
 #define disp(i, FRQ, n)  { if((i)%((n)*(FRQ))==0) printf("%d\n", (i)/(FRQ)); } 
-#define dispx(i, FRQ, n)  { disp(i,FRQ,n);  if(kbhit()&&getch()=='x') exit(0); }   // kbhit & getch waste time
+#define dispx(i, FRQ, n)  { disp(i,FRQ,n);  if(kbhit()&&getch()=='x') exit(0); }   // kbhit & getch, waste time!
 
-void sizedisp(int i=0);
+void ClassSizeDisp(int i=0);
 
 // class define
 class CGLV;
@@ -314,10 +317,10 @@ class CGLV
 public:
 	double Re, f, g0, wie;										// the Earth's parameters
 	double e, e2, ep, ep2, Rp;
-	double mg, ug, deg, min, sec, hur, ppm, ppmpsh;					// commonly used units
+	double mg, ug, deg, min, sec, hur, ppm, ppmpsh;				// commonly used units
 	double dps, dph, dpsh, dphpsh, dph2, dphpg, ugpsh, ugpsHz, ugpg2, mpsh, mpspsh, secpsh;
 
-	CGLV(double Re=6378137.0, double f=(1.0/298.257), double g0=9.7803267714, double wie0=7.2921151467e-5);
+	CGLV(double Re=RE, double f=FF, double g0=G0);
 #ifdef PSINS_IO_FILE
 	clock_t	t0;
 	int toc(BOOL disp=0);
@@ -394,6 +397,8 @@ double crossXY(const CVect3 &v1, const CVect3 &v2);
 CVect3 operator-(const CVect3 &v);				// minus
 CMat3 vxv(const CVect3 &v1, const CVect3 &v2);	// column-vector multiply row-vector, v1*v2'
 CVect3 abs(const CVect3 &v);						// abs for each element
+inline double absp(double val);
+CVect3 absp(const CVect3 &v);
 CVect3 maxabs(const CVect3 &v1, const CVect3 &v2);	// max_abs for each element
 double norm(const CVect3 &v);					// vector norm
 double normlize(CVect3 *v);						// vector normlize
@@ -449,6 +454,7 @@ CVect3 fopp(const CVect3 &a, const CVect3 &b, const CVect3 &c, const CVect3 &d);
 CVect3 tp2att(const CVect3 &a, const CVect3 &b, const CVect3 &c); // triad point to attitude
 CVect3 attract(const CVect3 &v, const CVect3 &th=One31, const CVect3 &center=O31);
 CVect3 ff2muxy(const CVect3 &f0, const CVect3 &f1, const char *dir0=NULL, const char *dir1=NULL);
+CVect3 ff2mu(const CVect3 &f0, const CVect3 &f1, double uz=0.0);
 
 class CQuat
 {
@@ -804,7 +810,8 @@ public:
 	double sl, sl2, sl4, cl, tl, RMh, RNh, clRNh, f_RMh, f_RNh, f_clRNh;
 	CVect3 pos0, pos, vn, wnie, wnen, wnin, wnnin, gn, gcc, *pgn;
 
-	CEarth(double a0=glv.Re, double f0=glv.f, double g0=glv.g0);
+	CEarth(double a0=RE, double f0=FF, double g0=G0);
+	void Init(double a0=RE, double f0=FF, double g0=G0);
 	void Update(const CVect3 &pos, const CVect3 &vn=O31, int isMemsgrade=0);
 	CVect3 vn2dpos(const CVect3 &vn, double ts=1.0) const;
 	void vn2dpos(CVect3 &dpos, const CVect3 &vn, double ts) const;
@@ -1631,14 +1638,6 @@ public:
 	int Update(int cnt);
 };
 
-#ifdef PSINS_CONSOLE_UART
-
-typedef struct {
-	float hd, t, gx, gy, gz, ax, ay, az, magx, magy, magz, bar, pch, rll, yaw, ve, vn, vu,
-		lon0, lon1, lat0, lat1, hgt, gpsve, gpsvn, gpsvu, gpslon0, gpslon1, gpslat0, gpslat1, gpshgt,
-		gpsstat, gpsdly, tmp, sum;
-} PSINSBoard;
-
 class CUartPP
 {
 public:
@@ -1655,6 +1654,20 @@ public:
 	int push(const unsigned char *buf0, int len);
 	int pop(unsigned char *buf0=(unsigned char*)NULL);
 };
+unsigned char chksum8(const unsigned char *pc, int len);
+unsigned short chksum16(const unsigned short *ps, int len);
+double flt22db(float f1, float f2);
+void db2flt2(double db, float *pf1, float *pf2);
+int iga2flt(float *pf, const double *pwm, const double *pvm=NULL, const double *pgps=NULL, const double *pavp=NULL, const double *pt=NULL);
+
+
+#ifdef PSINS_CONSOLE_UART
+
+typedef struct {
+	float hd, t, gx, gy, gz, ax, ay, az, magx, magy, magz, bar, pch, rll, yaw, ve, vn, vu,
+		lon0, lon1, lat0, lat1, hgt, gpsve, gpsvn, gpsvu, gpslon0, gpslon1, gpslat0, gpslat1, gpshgt,
+		gpsstat, gpsdly, tmp, sum;
+} PSINSBoard;
 
 #include "..\uart\serialport.h"
 
@@ -1679,7 +1692,7 @@ public:
 	void sendUart(void);
 };
 
-#endif // PSINS_UART_PUSH_POP
+#endif // PSINS_CONSOLE_UART
 
 class CBytemani {
 public:
@@ -1704,6 +1717,22 @@ public:
 };
 
 #endif // PSINS_VC_AFX_HEADER
+
+#ifdef PSINS_EXTERN_C_EXAMPLE
+
+// an example called by C-main file, and copy the defines to a C-header file
+#ifdef __cplusplus
+extern "C" {
+#endif
+void psinsInit0(const double *att0, const double *vn0, const double *pos0, double t0);
+void psinsUpdate0(const double *gyro, const double *acc, int n, double ts); // IMU double type
+void psinsUpdatef(const float *gyro, const float *acc, int n, double ts);	// IMU float type
+void psinsOut0(double *att, double *vn, double *pos, double *t);
+#ifdef __cplusplus
+};
+#endif
+
+#endif // PSINS_EXTERN_C_EXAMPLE
 
 void add(CVect3 &res, const CVect3 &v1, const CVect3 &v2);
 void add(CMat3 &res, const CMat3 &m1, const CMat3 &m2);

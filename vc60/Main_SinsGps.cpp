@@ -3,8 +3,9 @@
 
 void main(void)
 {
-	if(PSINSDemo>=0) {	psinsdemo(); exit(0); }
-	// else (PSINSDemo==-1) ...
+//	ClassSizeDisp();
+	psinsdemo(0);
+
 	CFileRdWt::Dir("D:\\ygm2020\\PSINSÍøÕ¾\\¹ßµ¼Êý¾Ý\\", "D:\\psins210207\\VC60\\Data\\");
 	CFileRdWt fins("ins.bin"), fkf("kf.bin");
 	CFileRdSr fimu("mimuattgps.bin");  // download from: http://www.psins.org.cn/newsinfo/958984.html
