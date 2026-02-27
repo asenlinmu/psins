@@ -1,7 +1,7 @@
-function [y, Pyy, Pxy, X, Y] = ut(x, Pxx, hfx, tpara, alpha, beta, kappa)
+function [y, Pyy, Pxy, X, Y] = ukfUT(x, Pxx, hfx, tpara, alpha, beta, kappa)
 % Unscented transformation.
 %
-% Prototype: [y, Pyy, Pxy, X, Y] = ut(x, Pxx, hfx, tpara, alpha, beta, kappa)
+% Prototype: [y, Pyy, Pxy, X, Y] = ukfUT(x, Pxx, hfx, tpara, alpha, beta, kappa)
 % Inputs: x, Pxx - state vector and its variance matrix
 %         hfx - a handle for nonlinear state equation
 %         tpara - some time-variant parameter pass to hfx
@@ -10,7 +10,7 @@ function [y, Pyy, Pxy, X, Y] = ut(x, Pxx, hfx, tpara, alpha, beta, kappa)
 %          Pxy - covariance matrix between x & y
 %          X, Y - Sigma-point vectors before & after UT
 %
-% See also  ukf
+% See also  ukf, ckfCT, SSUT.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
