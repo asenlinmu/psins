@@ -15,6 +15,7 @@ function yaw = yawcvt(yaw, cvstr)
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 30/05/2014, 25/02/2017
+    if nargin<2, cvstr='c360cc180'; end
     switch cvstr
         % 360 -> 180
         case 'c360cc180',  %****** clockwise 0->360deg to counter-clockwise -180->180deg

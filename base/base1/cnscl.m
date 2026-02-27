@@ -4,9 +4,10 @@ function [phim, dvbm, dphim, rotm, scullm] = cnscl(imu, coneoptimal)
 % Prototype: [phim, dvbm, dphim, rotm, scullm] = cnscl(imu, coneoptimal)
 % Inputs:  imu(:,1:3) - gyro angular increments
 %          imu(:,4:6) - acc velocity increments (may not exist)
-%          coneoptimal - 1 for optimal coning compensation method,
-%                        0 for polinomial compensation method.
+%          coneoptimal - 0 for optimal coning compensation method,
+%                        1 for polinomial compensation method.
 %                        2 single sample+previous sample
+%                        3 high order coning compensation
 % Outputs: phim - rotation vector after coning compensation
 %          dvbm - velocity increment after rotation & sculling compensation
 %          dphim - attitude coning error

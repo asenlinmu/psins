@@ -14,6 +14,7 @@ function avp1 = insinstant(imu, avp, t0, t1)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 23/06/2017
 global glv
+    if size(avp,2)==4, avp=[avp(:,1:3), zeros(length(avp),6), avp(:,end)]; end
     if ~exist('t0', 'var'), t0 = avp(1,end); end
     if ~exist('t1', 'var'), t1 = imu(end,end); end
     idx0 = find(avp(:,end)>=t0,1);

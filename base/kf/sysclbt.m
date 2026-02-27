@@ -101,6 +101,7 @@ function Ft = getFt(fb, wb, Cnb, wnie, SS)   % kffk
     wX = askew(wnie); fX = askew(Cnb*fb);
     wx = wb(1); wy = wb(2); wz = wb(3); fx = fb(1); fy = fb(2); fz = fb(3);
     CDf2 = Cnb*diag(fb.^2); CwXf = Cnb*cross(wb,fb);
+    %        1   4     7    10    13       16       19       22       25       28       31    34  37  40   43    
     %states: fi  dvn   eb   db    dKg(:,1) dKg(:,2) dKg(:,3) dKa(:,1) dKa(:,2) dKa(:,3) dKa2  rx  ry  rz   tGA
     Ft = [  -wX  o33  -Cnb  o33  -wx*Cnb  -wy*Cnb  -wz*Cnb   o33      o33      o33      o33   o33 o33 o33  o31
              fX  o33   o33  Cnb   o33      o33      o33      fx*Cnb   fy*Cnb   fz*Cnb   CDf2  Cnb*SS       CwXf

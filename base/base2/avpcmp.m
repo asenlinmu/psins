@@ -18,11 +18,11 @@ function [avperr, i1, i0] = avpcmp(avp1, avp0, eb_db_Etc0)
         avp0 = avp0(:)';  % convert to row vector
         avp0 = [repmat(avp0,length(avp1),1), avp1(:,end)];
     end
-    [t, i1, i0] = intersect(round(avp1(:,end)*1e4), round(avp0(:,end)*1e4)); t = t/1e4;
-    if length(t)<1
+%     [t, i1, i0] = intersect(round(avp1(:,end)*1e4), round(avp0(:,end)*1e4)); t = t/1e4;
+%     if length(t)<1
         avp1 = avpinterp1(avp1, avp0(:,end), 'linear');
         [t, i1, i0] = intersect(avp1(:,end), avp0(:,end));
-    end
+%     end
     avp1 = avp1(i1,1:end-1); avp0 = avp0(i0,1:end-1);
     dn = size(avp1,2) - size(avp0,2);
     if dn>0
@@ -40,6 +40,12 @@ function [avperr, i1, i0] = avpcmp(avp1, avp0, eb_db_Etc0)
     if ~exist('eb_db_Etc0', 'var'), eb_db_Etc0 = 0; end
     if strcmp(eb_db_Etc0, 'noatt')==1
     	avperr(:,1:3) = avp1(:,1:3) - avp0(:,1:3);
+    elseif strcmp(eb_db_Etc0, 'datt')==1
+    	avperr(:,1:3) = avp1(:,1:3) - avp0(:,1:3);
+        idx = avperr(:,3)>pi/2;
+        avperr(idx,3)=avperr(idx,3)-pi;
+        idx = avperr(:,3)<-pi/2;
+        avperr(idx,3)=avperr(idx,3)+pi;
     elseif strcmp(eb_db_Etc0, 'mu')==1
     	avperr(:,1:3) = aa2mu(avp1(:,1:3), avp0(:,1:3));
     end

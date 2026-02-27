@@ -5,7 +5,7 @@ function dvlplot(dvl, sf)
 % Inputs: dvl - [vb_right, vb_forward, vb_up, t] or [vb_forward, t]
 %         sf - scale factor
 %          
-% See also  imuplot, insplot, inserrplot, kfplot, gpsplot.
+% See also  imuplot, magplot, baroplot, insplot, inserrplot, kfplot, gpsplot.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

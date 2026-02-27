@@ -80,6 +80,8 @@ function seg = trjsegment(seg, segtype, lasting, w, a, var1)
             seg = trjsegment(seg, 'headdown', lasting, w);
             seg = trjsegment(seg, 'uniform',  uniformlasting);
             seg = trjsegment(seg, 'headup',   lasting, w);
+        case 'user',
+            seg.wat = [seg.wat; [lasting, seg.vel, w'*dps, a']];
         otherwise,
             error('trjsegment type mismatch.');
     end

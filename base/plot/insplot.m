@@ -5,7 +5,7 @@ function insplot(avp, ptype, varargin)
 % Inputs: avp - may be [att], [att,vn] or [att,vn,pos]
 %         ptype - plot type define
 %          
-% See also  inserrplot, kfplot, gpsplot, imuplot, pos2dxyz.
+% See also  inserrplot, kfplot, gpsplot, imuplot, magplot, dvlplot, pos2dxyz.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -28,12 +28,23 @@ global glv
             myfigure;
             subplot(211), plot(t, avp(:,1:2)/glv.deg), xygo('pr');
             subplot(212), plot(t, avp(:,3)/glv.deg), xygo('y');
+        case 'v',
+            myfigure;
+            plot(t, avp(:,1:3)), xygo('vn');
         case 'av',
             myfigure;
             subplot(221), plot(t, avp(:,1:2)/glv.deg); xygo('pr');
             subplot(223), plot(t, avp(:,3)/glv.deg); xygo('y');
             subplot(222), plot(t, avp(:,4:5)); xygo('VEN');
             subplot(224), plot(t, avp(:,6)); xygo('VU');
+        case 'vb',
+            avp(:,4:6) = amulvBatch(avp(:,1:3),avp(:,4:6));
+            if n<8, ptype='av';
+            elseif n<11, ptype='avp';
+            elseif n<17, ptype='avped'; end
+            insplot(avp, ptype);
+            if n<8, subplot(222); xygo('v_{x,y}^b / (m/s)'); subplot(224); xygo('v_z^b / (m/s)');
+            else, subplot(323); xygo('V^b / (m/s)'); end
         case 'avp',
             if size(avp,2)==9, t=1:length(t); end
             myfigure;
@@ -51,6 +62,8 @@ global glv
             legend(sprintf('LON0:%.2f, LAT0:%.2f (DMS)', r2dms(avp(1,8)),r2dms(avp(1,7))));
         case 'ap',
             insplot([avp(:,1:3),zeros(length(avp),3),avp(:,4:end)],'avp');
+        case 'vp',
+            insplot([zeros(length(avp),3),avp],'avp');
         case 'avped'
             myfigure;
             subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr');

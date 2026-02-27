@@ -16,9 +16,9 @@ function [att0, attk, xkpk] = alignvn(imu, qnb, pos, phi0, imuerr, wvn, ts)
 %
 % Example:
 %	avp0 = avpset([0;0;0], zeros(3,1), glv.pos0);
+%	imuerr = imuerrset(0.03, 100, 0.001, 10);
 %	imu = imustatic(avp0, 1, 300, imuerr);
 %	phi = [.5; .5; 5]*glv.deg;
-%	imuerr = imuerrset(0.03, 100, 0.001, 10);
 %	wvn = [0.01; 0.01; 0.01];
 %	[att0, attk, xkpk] = alignvn(imu, avp0(1:3)', avp0(7:9)', phi, imuerr, wvn);
 %
@@ -28,6 +28,9 @@ function [att0, attk, xkpk] = alignvn(imu, qnb, pos, phi0, imuerr, wvn, ts)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 17/06/2011
 global glv
+    if nargin<4,  phi0 = [1.5; 1.5; 3]*glv.deg;  end
+    if nargin<5,  imuerrset(0.01, 100, 0.001, 1);  end
+    if nargin<6,  wvn = [0.01; 0.01; 0.01];  end
     if nargin<7,  ts = imu(2,7)-imu(1,7);  end
     if length(qnb)==3, qnb=a2qua(qnb); end  %if input qnb is Eular angles.
     nn = 2; nts = nn*ts;

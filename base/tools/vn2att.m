@@ -13,6 +13,7 @@ function att = vn2att(vn, th, isfig)
 global glv
     if nargin<3, isfig = 0; end
     if nargin<2, th = 0.1; end
+    if size(vn,2)>4, vn = vn(:,[1:3,end]); end
     vl = normv(vn(:,1:2));
     att = [atan2(vn(:,3), vl), vn(:,1)*0, atan2(-vn(:,1), vn(:,2)), vn(:,end)];
     idx = vl<th;

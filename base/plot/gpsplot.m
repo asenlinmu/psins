@@ -14,7 +14,7 @@ global glv
     [m,n] = size(vpGPS);
     if mod(n,3)==0, vpGPS = [vpGPS,(1:length(vpGPS))']; end
     t = vpGPS(:,end);
-    if t(1)>1000
+    if t(1)>10000
         t = t+(t(2)-2*t(1));
     end
     if mod(n,3)==1  % if not exist tag, then add 1

@@ -11,6 +11,10 @@ function xygo(xtext, ytext)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 17/02/2014
+    if nargin==0 % xygo
+        ytext = 'value';
+        xtext = '\itt \rm / s';
+    end
     if nargin==1 % xygo(ytext)
         ytext = xtext;
         xtext = '\itt \rm / s';

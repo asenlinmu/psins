@@ -1,4 +1,4 @@
-function err = sreval(errs, t, vel_dyaw, dK_roll)
+function err = sreval(errs, t, vel_dyaw, dK_roll, isfig)
 % Short-range INS error evaluation. 
 %
 % Prototype: err = sreval(errs, t, vel_dyaw)
@@ -17,6 +17,7 @@ function err = sreval(errs, t, vel_dyaw, dK_roll)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 01/06/2017, 26/07/2017
 global glv
+    if nargin<5, isfig=1; end
     errs(6) = 0;
     eb = errs(1)*glv.dph; db = errs(2)*glv.mg; phi = errs(3)*glv.deg; dv = errs(4); dp = errs(5);
     err = [9.8*t^3*eb/6, [db,9.8*phi]*t^2/2, dv*t, dp];
@@ -28,14 +29,16 @@ global glv
         ebK = dK_roll(1)*2*pi*dK_roll(2)/1e6;
         err = [err, 9.8*t^3*ebK/6];
     end
-    err = [err, norm(err)];
-    figure, bar(err); ylabel(sprintf('INS error / m @ %.0fs',t));
-    if exist('dK_roll','var')
-        xtl = {'eb', 'db', 'phix/y0', 'dv0', 'dpos0', 'phiz0', 'dKroll', 'Total'};
-    elseif exist('vel_dyaw','var')
-        xtl = {'eb', 'db', 'phix/y0', 'dv0', 'dpos0', 'phiz0', 'Total'};
-    else
-        xtl = {'eb', 'db', 'phix/y0', 'dv0', 'dpos0', 'Total'};
+    err = [err, sqrt(err*err'+err(1:3)*err(1:3)')];
+    if isfig==1
+        figure, bar(err); ylabel(sprintf('INS error / m @ %.0fs',t));
+        if exist('dK_roll','var')
+            xtl = {'eb', 'db', 'phix/y0', 'dv0', 'dpos0', 'phiz0', 'dKroll', 'Total'};
+        elseif exist('vel_dyaw','var')
+            xtl = {'eb', 'db', 'phix/y0', 'dv0', 'dpos0', 'phiz0', 'Total'};
+        else
+            xtl = {'eb', 'db', 'phix/y0', 'dv0', 'dpos0', 'Total'};
+        end
+        set(gca, 'XTicklabel', xtl);
+        xlabel('Error sources');
     end
-    set(gca, 'XTicklabel', xtl);
-    xlabel('Error sources');

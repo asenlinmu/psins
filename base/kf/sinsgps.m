@@ -2,14 +2,24 @@ function [avp, xkpk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, lever, r0, 
 % %% init
 % imuerr = imuerrset(0.03, 100, 0.001, 1);
 % davp = avpseterr([300;300;300], [1;1;1], [1;1;3]*100);
-% ins = insinit(avp(1,1:9), ts); ins.nts=nts;
+% ins = insinit(avp(1,1:9), ts); ins.nts=ts;
 % %% kf
 % lever = [0;0;0];
 % rk = [10/glv.Re;10/glv.Re;30];
 % [avp1, xkpk, ins1, kf] = sinsgps(imu, gps, ins, davp, imuerr, lever, rk, 'avp');
 global glv
-    if ~exist('fbstr', 'var'), fbstr='avp'; end
+    if ~exist('fbstr', 'var'), fbstr='avped'; end
+    if ~exist('r0', 'var'),
+        pos0=gps(1,1:3)'; r0=[10/glv.Re;10/glv.Re;30]; if size(gps,2)>6, pos0=gps(1,4:6)'; r0=[[1;1;1]/10;r0]; end
+    end
+    if ~exist('lever', 'var'), lever = [0;0;0]; end
+    if ~exist('imuerr', 'var'), imuerr = imuerrset(0.01, 100, 0.001, 1); end
+    if ~exist('davp', 'var'), davp = avpseterr([300;300;300], [1;1;1], [1;1;3]*100); end
     [nn, ts, nts] = nnts(2, diff(imu(1:2,end)));
+    if ~exist('ins', 'var'),
+        [att0, res0] = aligni0(imu(1:fix(200/ts),:), pos0);
+        ins = insinit([res0.attk(1,1:3)'; 0;0;0; pos0], ts); ins.nts=ts;
+    end
     gpspos_only = 0;
     if size(gps,2)<=5, gpspos_only = 1; end 
     psinstypedef(186);
@@ -17,9 +27,9 @@ global glv
     kf.Qt = diag([imuerr.web; imuerr.wdb; zeros(3,1); imuerr.sqg; imuerr.sqa; zeros(3,1)])^2;
     kf.Rk = diag(r0)^2;
     kf.Pxk = diag([davp; imuerr.eb; imuerr.db; lever]*1.0)^2;
-    kf.Pmin = [[3;3;10]*glv.min; [0.01;0.01;0.01]; [[1;1]/glv.Re;1]; [5;5;5]*glv.dph; [100;100;100]*glv.ug; [0;0;0]].^2;
-    kf.Pmax = 100*diag(kf.Pxk); kf.pconstrain = 1; % kf.adaptive = 1;
-%     kf.xtau = [ [1;1;1]*10; [1;1;1]; [1;1;1]; [10;10;10]; [10;10;10]; [1;1;1] ];
+    kf.Pmin = [[3;3;10]*glv.sec; [0.01;0.01;0.01]/100; [[1;1]/glv.Re;1]/100; [1;1;1]/1000*glv.dph; [1;1;10]*glv.ug; [0;0;0]].^2;
+    kf.Pmax = 10000*diag(kf.Pxk); kf.pconstrain = 1; kf.adaptive = 1;
+    kf.xtau = [ [1;1;1]*10; [1;1;1]; [1;1;1]; [10;10;10]; [10;10;10]; [1;1;1] ];
     kf.Hk = zeros(length(r0),18);
     kf = kfinit0(kf, nts);
     imugpssyn(imu(:,7), gps(:,end));

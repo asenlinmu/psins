@@ -6,7 +6,7 @@ function res = sumn(scr, n, dim)
 %         n - element number to be summed
 %         dim - =1 summed along rows, =2 summed along columns
 %
-% See also  meann, cumint.
+% See also  meann, maxn, cumint.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

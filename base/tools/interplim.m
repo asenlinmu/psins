@@ -4,7 +4,7 @@ function Vq = interplim(X, V, Xq)
 % Vq = V(1) + ---------  *  (Xq-X(1))
 %             X(2)-X(1)
 %
-% See also interp1.
+% See also interp1n.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

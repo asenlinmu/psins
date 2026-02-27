@@ -3,7 +3,7 @@ function [wvm, Dir] = imurfu(wvm0, dirstr)
 % frame axes X-Y-Z respectively. Call this function when the user's 
 % SIMU outputs does not follow the above convention.
 %
-% Prototype: wvm = imurfu(wvm0, dirstr)
+% Prototype: [wvm, Dir] = imurfu(wvm0, dirstr)
 % Inputs: wvm0 - the user's raw SIMU data
 %         dirstr - raw SIMU X-Y-Z orientations including three characters, 
 %               the orientation abbreviations are:
@@ -17,7 +17,7 @@ function [wvm, Dir] = imurfu(wvm0, dirstr)
 %         [wvm1, Dir] = imurfu([], 'flu')
 %         wvm2 = [1 2 3 1 2 3]*blkdiag(Dir',Dir')
 %
-% See also  imurot, imuresample, insupdate, trjsimu.
+% See also  wierfu, imurot, imuresample, insupdate, trjsimu.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

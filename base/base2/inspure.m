@@ -13,6 +13,9 @@ function avp = inspure(imu, avp0, href)
 %                   'H' - height fix-damping.
 %                   'f' - height free.
 %                   'O' - open loop, vn=0.
+%                If href is a vector length(href)==length(imu)
+%                   'z' - fix vU & hgt, vU=vUref, hgt=href.
+%                   'Z' - fix hgt, hgt=href.
 % Output: avp - navigation results, avp = [att,vn,pos,t]
 %
 % See also  insinstant, trjsimu, insupdate, drpure.
@@ -37,9 +40,9 @@ global glv
             ins.openloop = 1;
         end
     else
-        if size(href,2)==2
+        if size(href,2)==3
             vp_fix = 'z';
-        elseif size(href,2)==1
+        elseif size(href,2)==2
             vp_fix = 'Z';
         end
     end

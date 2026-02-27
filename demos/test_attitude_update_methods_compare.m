@@ -5,7 +5,7 @@
 % 14/02/2017
 glvs
 [nn, ts, nts] = nnts(4, 0.01);  % subsamples & sampling interval
-afa = 90.*glv.deg;              % half-apex angle
+afa = 90*glv.deg;              % half-apex angle
 f = 2;  w = 2*pi*f;             % frequency
 T = 1;                          % simulation time
 [wm, qr] = conesimu(afa, f, ts, T);
@@ -29,8 +29,14 @@ for k=1:nn:len-nn+1
 %         q1=q0; q2=q0; ...
 %     end
 end
+% figure
+% t = (1:size(res,1))*nts;
+% subplot(131), plot(t, res(:,1:3:end)/glv.sec), xygo('\phi / \prime\prime');
+% subplot(132), plot(t, res(:,2:3:end)/glv.sec), xygo('\phi / \prime\prime');
+% subplot(133), plot(t, res(:,3:3:end)/glv.sec), xygo('\phi / \prime\prime');
+
 figure
 t = (1:size(res,1))*nts;
-subplot(131), plot(t, res(:,1:6)/glv.sec), xygo('\phi / \prime\prime');
-subplot(132), plot(t, res(:,7:12)/glv.sec), xygo('\phi / \prime\prime');
-subplot(133), plot(t, res(:,13:18)/glv.sec), xygo('\phi / \prime\prime');
+subplot(131), plot(t, res(:,7:3:15)/glv.sec), xygo('\phi / \prime\prime');
+subplot(132), plot(t, res(:,7:3:15)/glv.sec), xygo('\phi / \prime\prime');
+subplot(133), plot(t, res(:,7:3:15)/glv.sec), xygo('\phi / \prime\prime');

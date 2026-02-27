@@ -1,0 +1,16 @@
+function res = no0(scr, clm)
+% To get non-zero data for specified columns.
+%
+% Prototype: res = no0(scr, clm)
+% Inputs: scr - data source input
+%         clm - column for non-zero
+% Output: res - result
+%
+% See also  norep, normv.
+
+% Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
+% Northwestern Polytechnical University, Xi An, P.R.China
+% 30/08/2020
+    if nargin==2,   nv = normv(scr(:,clm));
+    else,           nv = normv(scr); end
+    res = scr(nv>0, :);

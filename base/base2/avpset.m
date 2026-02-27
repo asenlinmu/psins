@@ -13,6 +13,7 @@ function avp = avpset(att, vn, pos)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 08/03/2014
+    if nargin==2, pos=vn; vn=zeros(3,1); end  % avp = avpset(att, pos);
     if length(att)==1,  att = [att; att; att];  end
     if length(vn)==1,   % vn is scalar, representing the forward velocity
         vb = [0; vn; 0];

@@ -5,7 +5,7 @@ function varargout = tshift(varargin)
 % Examples: 1) [o1, o2, o3] = tshift(i1, i2, i3, t0)
 %           2) [o1, o2, o3] = tshift(i1, i2, i3)   % t0=0
 %
-% See also  xxx.
+% See also  adddt.
 
 % Copyright(c) 2009-2015, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

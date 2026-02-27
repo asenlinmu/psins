@@ -8,7 +8,7 @@ function data = txtfile(fname, formatstr, data, varargin)
 %         varargin - infomation strings attatched to the txt file
 % Output: data - data read from txt file
 
-% See also  binfile, imufile, avpfile.
+% See also  loadtxt, binfile, imufile, avpfile.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

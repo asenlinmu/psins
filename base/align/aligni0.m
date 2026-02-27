@@ -8,7 +8,7 @@ function [att0, res] = aligni0(imu, pos, ts)
 % Output: att0 - attitude align result
 %         res - some other paramters for debug
 %
-% See also  alignfn, alignvn, aligncmps, alignWahba, alignsb, i0fvp.
+% See also  alignfn, alignvn, aligni0vn, aligncmps, alignWahba, alignsb, i0fvp.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -17,6 +17,7 @@ global glv
     if nargin<3,  ts = imu(2,end)-imu(1,end);  end
     nn = 2; nts = nn*ts;  ratio = 1; % 0.995;
     len = fix(length(imu)/nn)*nn;
+    if(length(pos)>4) pos=pos(4:6); end
     eth = earth(pos);  lat = pos(1);  g0 = -eth.gn(3);
     qib0b = [1; 0; 0; 0];
     [vib0, vi0, pib0, pi0, vib0_1, vi0_1] = setvals(zeros(3,1));
@@ -71,4 +72,4 @@ global glv
     subplot(211), plot(t, attk(:,1:2)/glv.deg), xygo('pr');
         hold on,  plot(t, attkv(:,1:2)/glv.deg, 'm:'),
     subplot(212), plot(t, attk(:,3)/glv.deg), xygo('y');
-        hold on,  plot(t, attkv(:,3)/glv.deg, 'm:'), legend('i0 pos', 'i0 vel');
+        hold on,  plot(t, attkv(:,3)/glv.deg, 'm:'), legend('i0 pos', 'i0 vel'); title(sprintf('\\psi=%.4f', attk(end,3)/glv.deg));

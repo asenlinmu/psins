@@ -11,7 +11,7 @@ function att = q2att(qnb)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 21/02/2008, 28/01/2013
 
-%     att = m2att(q2cnb(qnb));
+%     att = m2att(q2mat(qnb));
 
     q11 = qnb(1)*qnb(1); q12 = qnb(1)*qnb(2); q13 = qnb(1)*qnb(3); q14 = qnb(1)*qnb(4); 
     q22 = qnb(2)*qnb(2); q23 = qnb(2)*qnb(3); q24 = qnb(2)*qnb(4);     

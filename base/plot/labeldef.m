@@ -11,7 +11,7 @@ function stext = labeldef(stext)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 08/03/2014
     specl = {...  % string cell
-        'phi',  '\it\phi\rm / ( \prime )';
+        'phi',   '\it\phi\rm / ( \prime )';
         'phiE',  '\it\phi\rm_E / ( \prime\prime )';
         'phiN',  '\it\phi\rm_N / ( \prime\prime )';
         'phiU',  '\it\phi\rm_U / ( \prime )';
@@ -21,9 +21,9 @@ function stext = labeldef(stext)
         'phiz',  '\it\phi_z\rm / ( \circ )';
         'phixy', '\it\phi _{x,y}\rm / ( \circ )';
         'mu',    '\it\mu \rm / ( \prime )';
-        'mux',    '\it\mu_x \rm / ( \prime )';
-        'muy',    '\it\mu_y \rm / ( \prime )';
-        'muz',    '\it\mu_z \rm / ( \prime )';
+        'mux',   '\it\mu_x \rm / ( \prime )';
+        'muy',   '\it\mu_y \rm / ( \prime )';
+        'muz',   '\it\mu_z \rm / ( \prime )';
         'theta', '\it\theta \rm / ( \prime )';
         'dVEN',  '\it\delta V \rm_{E,N} / ( m/s )';
         'dVE',   '\delta\it V \rm_E / ( m/s )';
@@ -36,23 +36,25 @@ function stext = labeldef(stext)
         'r',     '\it\gamma\rm / ( \circ )';
         'y',     '\it\psi\rm / ( \circ )';
         'att',   '\itAtt\rm / ( \circ )';
+        'datt',  '\itdAtt\rm / ( \circ )';
         'VEN',   '\itV \rm_{E,N} / ( m/s )';
         'VU',    '\itV \rm_U / ( m/s )';
         'V',     '\itV\rm / ( m/s )';
-        'Vx',     '\itVx\rm / ( m/s )';
-        'Vy',     '\itVy\rm / ( m/s )';
-        'Vz',     '\itVz\rm / ( m/s )';
+        'Vx',    '\itVx\rm / ( m/s )';
+        'Vy',    '\itVy\rm / ( m/s )';
+        'Vz',    '\itVz\rm / ( m/s )';
         'dlat',  '\delta\it L\rm / m';
         'dlon',  '\delta\it \lambda\rm / m';
         'dH',    '\delta\it H\rm / m';
         'dP',    '\delta\it P\rm / m';
         'lat',   '\itL\rm / ( \circ )';
         'lon',   '\it\lambda\rm / ( \circ )';
+        'hgt',   '\ith\rm / ( m )';
         'est',   '\itEast\rm / m';
         'nth',   '\itNorth\rm / m';
         'H',     '\itH\rm / m';
         'DP',    '\Delta\it P\rm / m';
-        'ebyz',    '\it\epsilon _{y,z}\rm / ( (\circ)/h )';
+        'ebyz',  '\it\epsilon _{y,z}\rm / ( (\circ)/h )';
         'eb',    '\it\epsilon\rm / ( (\circ)/h )';
         'en',    '\it\epsilon\rm / ( (\circ)/h )';
         'db',    '\it\nabla\rm / \mu\itg';

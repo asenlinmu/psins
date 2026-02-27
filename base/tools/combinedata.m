@@ -15,5 +15,5 @@ function  data = combinedata(data1, data2)
     t2 = interp1(data1(:,end), data1(:,end), data2(:,end), 'nearst');
     [na, i1, i2] = intersect(data1(:,end), t2);
     data = [data1, zeros(size(data1,1),size(data2,2))];
-    data(i1,end-size(data2,2)+1:end) = [data2(:,1:end-1), data1(i1,end)-data2(:,end)];
+    data(i1,end-size(data2,2)+1:end) = [data2(i2,1:end-1), data1(i1,end)-data2(i2,end)];
 

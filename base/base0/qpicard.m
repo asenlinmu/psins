@@ -9,7 +9,7 @@ function [qt0, iter] = qpicard(Wt, T, tol)
 % Outputs: qt0 - output quaternion at time T
 %          iter - iteration count
 % 
-% See also  qrk4, qtaylor, dcmtaylor, wm2wtcoef.
+% See also  qrk4, qtaylor, dcmtaylor, btzpicard, wm2wtcoef.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

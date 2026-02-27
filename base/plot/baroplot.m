@@ -4,7 +4,7 @@ function baroplot(baro, href)
 % Prototype: baroplot(baro)
 % Input: baro - barometer outpu in meter
 %          
-% See also  magplot, gpsplot, imuplot, insplot, inserrplot, kfplot.
+% See also  magplot, dvlplot, gpsplot, imuplot, insplot, inserrplot, kfplot.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

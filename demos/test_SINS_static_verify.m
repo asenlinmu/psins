@@ -2,8 +2,8 @@
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 27/11/2015
 glvs
-T = 60;  % total simulation time length
-[nn, ts, nts] = nnts(1, 0.1);
+T = 600;  % total simulation time length
+[nn, ts, nts] = nnts(2, 0.1);
 avp0 = avpset([0;0;0], [0;0;0], [34;110;380]);  eth = earth(avp0(7:9));
 imuerr = imuerrset([0;0;0.], [0;0;0], 0.0, 0.0);
 imu = imustatic(avp0, ts, T, imuerr);   % SIMU simulation

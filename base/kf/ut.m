@@ -29,7 +29,7 @@ function [y, Pyy, Pxy, X, Y] = ut(x, Pxx, hfx, tpara, alpha, beta, kappa)
         Y(:,k) = feval(hfx, X(:,k), tpara);
         y = y + Wm(k)*Y(:,k);
     end
-    Pyy = zeros(n); Pxy = zeros(n,m);
+    Pyy = zeros(m); Pxy = zeros(n,m);
     for k=1:1:2*n+1
         yerr = Y(:,k)-y;
         Pyy = Pyy + Wc(k)*(yerr*yerr');  % variance

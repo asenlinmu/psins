@@ -16,9 +16,9 @@ global glv
     n = size(avp0,2);
     phi_mu = 'phi';
     if ischar(varargin{end})
-        phi_mu = varargin{end};
-        if strcmp(phi_mu,'phi')==1, phi_mu = 'phi'; varargin = varargin(1:end-1);
-        elseif strcmp(phi_mu,'mu')==1, phi_mu = 'mu'; varargin = varargin(1:end-1); end
+        if strcmp(varargin{end},'phi')==1, phi_mu = 'phi'; varargin = varargin(1:end-1);
+        elseif strcmp(varargin{end},'mu')==1, phi_mu = 'mu'; varargin = varargin(1:end-1);
+        elseif strcmp(varargin{end},'datt')==1, phi_mu = 'datt'; varargin = varargin(1:end-1); end
     end
     if ischar(varargin{end}),  ptype = varargin{end};  varargin = varargin(1:end-1);
     else
@@ -71,6 +71,10 @@ global glv
             if size(avp,2)<10, avp = [zeros(length(avp),3), avp]; end
             if size(avp0,2)<10, avp0 = [zeros(length(avp0),3), avp0]; end
             subplot(121), plot(t, avp(:,6)); xygo('V');
+        case 'vb',
+            avp = avp0; t = avp(:,end);
+            vb0 = amulvBatch(avp(:,1:3), avp(:,[4:6,end]));
+            subplot(121), plot(t, vb0(:,1:3)); xygo('v^b / m/s');
         case 'p',
             avp = avp0; t = avp(:,end);
             if size(avp,2)<10, avp = [zeros(length(avp),3), avp]; end
@@ -122,7 +126,7 @@ global glv
                 err = avpcmp(avp, avp0, phi_mu); t = err(:,end);
                 subplot(322), hold on, plot(t, err(:,1:3)/glv.min, strk, 'LineWidth',2); xygo(phi_mu); mylegend([phi_mu,'x'],[phi_mu,'y'],[phi_mu,'z']);
                 subplot(324), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dV'); mylegend('dVE','dVN','dVU');
-                subplot(326), hold on, plot(t, [err(:,7:8)*glv.Re,err(:,9)], strk, 'LineWidth',2); xygo('dP'); mylegend('dlat','dlon','dH');
+                subplot(326), hold on, plot(t, [[err(:,7),err(:,8)*cos(avp(1,7))]*glv.Re,err(:,9)], strk, 'LineWidth',2); xygo('dP'); mylegend('dlat','dlon','dH');
             end
         case 'vp',
             for k=1:kk
@@ -134,7 +138,7 @@ global glv
                 subplot(223), hold on, plot(t, [[avp(:,7)-avp0(1,7),(avp(:,8)-avp0(1,8))*cos(avp0(1,7))]*glv.Re,avp(:,9)-avp0(1,9)], strk, 'LineWidth',2); xygo('DP');
                 err = avpcmp(avp, avp0, 'noatt'); t = err(:,end);
                 subplot(222), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dV'); mylegend('dVE','dVN','dVU');
-                subplot(224), hold on, plot(t, [err(:,7:8)*glv.Re,err(:,9)], strk, 'LineWidth',2); xygo('dP'); mylegend('dlat','dlon','dH');
+                subplot(224), hold on, plot(t, [[err(:,7),err(:,8)*cos(avp(1,7))]*glv.Re,err(:,9)], strk, 'LineWidth',2); xygo('dP'); mylegend('dlat','dlon','dH');
             end
         case 'v',
             for k=1:kk
@@ -173,6 +177,15 @@ global glv
                 err = avpcmp(avp, avp0, 'noatt'); t = err(:,end);
                 subplot(122), hold on, plot(t, err(:,6), strk, 'LineWidth',2); xygo('dV'); mylegend('dVU');
             end
+        case 'vb',
+            for k=1:kk
+                strk = str(k*2-1:k*2);
+                avp = varargin{k}; t = avp(:,end);
+                vb = amulvBatch(avp(:,1:3),avp(:,[4:6,end]));
+                subplot(121), hold on, plot(t, vb(:,1:3), strk, 'LineWidth',2); xygo('v^b / m/s');
+                err = avpcmp(vb, vb0, 'noatt'); t = err(:,end);
+                subplot(122), hold on, plot(t, err(:,1:3), strk, 'LineWidth',2); xygo('\deltav^b / m/s'); mylegend('dVR','dVF','dVUp');
+            end
         case 'p',
             for k=1:kk
                 strk = str(k*2-1:k*2);
@@ -181,6 +194,7 @@ global glv
                 if size(avp,2)<10, avp = [zeros(length(avp),3), avp]; end
                 subplot(121), hold on, plot(t, [[avp(:,7)-avp0(1,7),(avp(:,8)-avp0(1,8))*cos(avp0(1,7))]*glv.Re,avp(:,9)-avp0(1,9)], strk, 'LineWidth',2); xygo('DP');
                 err = avpcmp(avp, avp0, 'noatt'); t = err(:,end);
-                subplot(122), hold on, plot(t, [err(:,7:8)*glv.Re,err(:,9)], strk, 'LineWidth',2); xygo('dP'); mylegend('dlat','dlon','dH');
+                subplot(122), hold on, plot(t, [[err(:,7),err(:,8)*cos(avp(1,7))]*glv.Re,err(:,9)], strk, 'LineWidth',2); xygo('dP'); mylegend('dlat','dlon','dH');
             end
     end
+    

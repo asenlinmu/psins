@@ -30,8 +30,8 @@ switch tag
         avpgps = [zeros(length(avpgps(:,1:3)),3), avpgps];
         t0 = xkpk(1,end);  xkpk(:,end) = xkpk(:,end)-t0;  avp(:,end) = avp(:,end)-t0; avpgps(:,end) = avpgps(:,end)-t0;
         insplot(avp);   % avp
-        subplot(323), plot(avpgps(:,10), avpgps(:,4:6), 'm');
-        subplot(325), plot(avpgps(:,10), [[avpgps(:,7)-avp(1,7),(avpgps(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avpgps(:,9)-avp(1,9)], 'm');
+        subplot(323), plot(avpgps(:,10)-avpgps(1,10), avpgps(:,4:6), 'm');
+        subplot(325), plot(avpgps(:,10)-avpgps(1,10), [[avpgps(:,7)-avp(1,7),(avpgps(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avpgps(:,9)-avp(1,9)], 'm');
         subplot(3,2,[4,6]), plot((avpgps(:,8)-avp(1,8))*glv.Re*cos(avp(1,7)), (avpgps(:,7)-avp(1,7))*glv.Re);
         inserrplot(xkpk(:,[1:19,end]), 'avpedlt');   % err
         inserrplot([sqrt(xkpk(:,22:22+18)),xkpk(:,end)], 'avpedlt');

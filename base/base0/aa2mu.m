@@ -33,5 +33,6 @@ function mu = aa2mu(att1, att0)
                  cj*sk+si*sj*ck, ci*ck,   sj*sk-si*cj*ck;
                 -ci*sj,          si,      ci*cj ];
         Cbb = Cnb1'*Cnb0;
+%         mu(k,:) = -q2rv( qmul(qconj(a2qua(att1(k,1:3)')),a2qua(att0(k,1:3)')) )';
         mu(k,:) = [Cbb(2,3)-Cbb(3,2), Cbb(3,1)-Cbb(1,3), Cbb(1,2)-Cbb(2,1)]/2.0;
     end

@@ -1,7 +1,7 @@
-function att = m2att(Cnb)
+function [att, attr] = m2att(Cnb)
 % Convert direction cosine matrix(DCM) to Euler attitude angles.
 %
-% Prototype: att = m2att(Cnb)
+% Prototype: [att, attr] = m2att(Cnb)
 % Input: Cnb - DCM from body-frame to navigation-frame
 % Output: att - att=[pitch; roll; yaw] in radians
 %
@@ -13,3 +13,8 @@ function att = m2att(Cnb)
     att = [ asin(Cnb(3,2)); 
             atan2(-Cnb(3,1),Cnb(3,3)); 
             atan2(-Cnb(1,2),Cnb(2,2)) ];
+    if nargout==2  % dual Euler angles
+        attr = [ atan2(Cnb(3,2),Cnb(3,3)); 
+                 asin(-Cnb(3,1)); 
+                 atan2(Cnb(2,1),Cnb(1,1)) ];
+    end

@@ -24,9 +24,10 @@ function q1 = qrk4(q0, wm, T)
         b = 2*(-wm(1,:)+wm(2,:))'/T^2;
         w0 = a; w01 = a+b*T; w1 = a+2*b*T;
     end
-    k1 = 0.5*qmul(q0,         [1;w0] );
-    k2 = 0.5*qmul(q0+T/2*k1,  [1;w01]);
-    k3 = 0.5*qmul(q0+T/2*k2,  [1;w01]);
-    k4 = 0.5*qmul(q0+T*k3,    [1;w1] );
+    k1 = 0.5*qmul(q0,         [0;w0] );
+    k2 = 0.5*qmul(q0+T/2*k1,  [0;w01]);
+    k3 = 0.5*qmul(q0+T/2*k2,  [0;w01]);
+    k4 = 0.5*qmul(q0+T*k3,    [0;w1] );
     q1 = q0 + T/6*(k1+2*(k2+k3)+k4);
     q1 = q1 / sqrt(q1'*q1);
+    

@@ -18,5 +18,5 @@ function sstate = stateplot(state)
         mtmp = max(tmp);
         if mtmp>0, sstate = [sstate, tmp/mtmp*(k+1)]; end
     end
-    myfigure, plot(t, sstate, '*');  xygo('Running-state');
-
+    myfigure, plot(t, sstate, '*'); xygo('Running-state');
+    ylim([0,max(max(sstate))+0.2]);
