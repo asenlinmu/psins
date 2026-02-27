@@ -1,14 +1,17 @@
-function attebfn = Mahony(imu, tau, att0)
+function attebfn = Mahony(imu, tau, att0, pos0)
 % See also  MahonyInit, MahonyUpdate, inspure.
 global glv
+    if ~exist('pos0', 'var'), pos0 = glv.pos0; end
     if ~exist('att0', 'var'), att0 = zeros(3,1); end
     if ~exist('tau', 'var'), tau = 2; end
     [nn,ts,nts] = nnts(1,diff(imu(1:2,end)));
     ahrs = MahonyInit(tau, att0);
+    wniets = wnieg(pos0)*nts;
     attebfn = zeros(length(imu)/nn,10);
     ki = timebar(1, length(imu)/nn, 'Mahony processing.');
     for k=1:nn:length(imu)-nn+1
         [phim, dvbm] = cnscl(imu(k:k+nn-1,1:6));
+        phim = phim-ahrs.Cnb'*wniets;   % 2025-8-27
         if size(imu,2)<9
             ahrs = MahonyUpdate(ahrs, [phim;dvbm]', 0, nts);
         else

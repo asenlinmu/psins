@@ -35,6 +35,7 @@ global glv
     glv.beta1 = (5*m*f-f^2)/8; glv.beta2 = 3.086e-6; glv.beta3 = 8.08e-9;
     glv.mg = 1.0e-3*glv.g0;         % milli g
     glv.ug = 1.0e-6*glv.g0;         % micro g
+    glv.ugph = glv.ug/3600;         % ug/h
     glv.mGal = 1.0e-3*0.01;         % milli Gal = 1cm/s^2 ~= 1.0E-6*g0
     glv.uGal = glv.mGal/1000;       % micro Gal
     glv.ugpg = glv.ug/glv.g0;       % ug/g
@@ -52,7 +53,8 @@ global glv
     glv.rps = 360*glv.dps;          % revolutions per second
     glv.rpm = 360*glv.dps/60;       % revolutions per min
     glv.dph = glv.deg/glv.hur;      % arcdeg / hour
-    glv.dpss = glv.deg/sqrt(1);     % arcdeg / sqrt(second)
+    glv.pdph = 0.01*glv.dph;        % 1 percent dph
+    glv.dpss = glv.deg/sqrt(1);     % arcdeg / sqrt(second) or arcdeg/s^2
     glv.dpsh = glv.deg/sqrt(glv.hur);  % arcdeg / sqrt(hour)
     glv.dphpsh = glv.dph/sqrt(glv.hur); % (arcdeg/hour) / sqrt(hour)
     glv.dph2 = glv.dph/glv.hur;    % (arcdeg/hour) / hour
@@ -86,6 +88,7 @@ global glv
         [2315, 4558, 7296, 7834, 15797]/4620 ];
     glv.csmax = size(glv.cs,1)+1;  % max subsample number
     glv.csCompensate = 1; % csCompensate=0 or 1, default 1
+    glv.ns = 2;          % n-subsampling
     glv.v0 = [0;0;0];    % 3x1 zero-vector
     glv.qI = [1;0;0;0];  % identity quaternion
     glv.I33 = eye(3); glv.o33 = zeros(3);  % identity & zero 3x3 matrices

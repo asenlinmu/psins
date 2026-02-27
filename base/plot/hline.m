@@ -13,7 +13,7 @@ function hline(t, y)
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 29/11/2023
-    if nargin<2, y=t; t=get(gca,'xlim'); end;  % hline(y)
+    if nargin<2, y=t; t=get(gca,'xlim'); end  % hline(y)
     t = [t(1);t(end)];
     hold on;
     for k=1:length(y)

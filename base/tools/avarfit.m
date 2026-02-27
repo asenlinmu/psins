@@ -10,6 +10,9 @@ function avarfit(sigma, tau)
 %     y = avarsimu([0.001,0.05,0.01,.0], [1, 1], 0.01, 1000000, 1);
 %     [sigma,tau] = avar(y, 0.01);  avarfit(sigma, tau);
 %
+%     y = avarsimu([0.001,0.05,0.01,.0], [], 0.01, 1000000, 1);
+%     [sigma,tau] = avar(y, 0.01);  avarfit(sigma, tau);
+%
 % See also  avar, avarsimu, lmc.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.

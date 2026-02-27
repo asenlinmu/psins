@@ -1,7 +1,7 @@
 function [imu, avp] = lciavp2imu(avp, pos0, A0)
 % Transform LCI AVP to FUR-IMU for launch vehicle use.
 %
-% Prototype: imu = lciavp2imu(avp, pos0, A0)
+% Prototype: [imu, avp] = lciavp2imu(avp, pos0, A0)
 % Inputs: avp - LCI-frame AVP =[pitch,roll,yaw, vx,vy,vz, x,y,z, t],
 %                               FUR pitch-yaw-roll for att,
 %                               x-forward, y-upward, z-rightward for vel&pos

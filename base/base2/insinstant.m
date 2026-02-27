@@ -37,7 +37,8 @@ global glv
 	subplot(321), plot(t, avp(:,1:2)/glv.deg, '-.m', 'linewidth', 2); xygo('pr'); legend('Pitch Pure', 'Roll Pure');
 	subplot(322), plot(t, avp(:,3)/glv.deg, '-.m', 'linewidth', 2); xygo('y'); legend('Yaw Pure');
     if size(avp,2)>4
-        subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)], '-.m', 'linewidth', 2); xygo('V');
+       % subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)], '-.m', 'linewidth', 2); xygo('V');
+        subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2)], '-.m', 'linewidth', 2); xygo('V');
         subplot(325), plot(t, [[avp(:,7)-avp(1,7),(avp(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avp(:,9)-avp(1,9)], '-.m', 'linewidth', 2); xygo('DP');
         subplot(3,2,[4,6]), plot(0, 0, 'rp');   % 19/04/2015
             hold on, plot((avp(:,8)-avp(1,8))*glv.Re*cos(avp(1,7)), (avp(:,7)-avp(1,7))*glv.Re, '-.m', 'linewidth', 2); xygo('est', 'nth');

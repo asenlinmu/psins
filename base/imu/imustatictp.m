@@ -1,4 +1,4 @@
-function [imu, att] = imustatictp(avp0, ts, T, wz, az, imuerr)
+function [imu, att, T1T2] = imustatictp(avp0, ts, T, wz, az, imuerr)
 % SIMU sensor incremental outputs on static base, for two-position alignment simulation.
 %
 % Prototype: imu = imustatictp(avp0, ts, T, wz, az, imuerr)
@@ -9,10 +9,11 @@ function [imu, att] = imustatictp(avp0, ts, T, wz, az, imuerr)
 %         imuerr - SIMU error setting structure array from imuerrset
 % Output: imu - gyro & acc incremental outputs
 %         att - attitude output
+%         T1T2 - [T2;T2] rotation interval
 %
 % Example:
-%   imuerr = imuerrset(0.01,100,0.001,10, 0.001,1000,10,1000, 10,10,10,10);
-%   [imu, att] = imustatictp([[1;2;10]*glv.deg; glv.pos0], 0.01, 300, -10*glv.dps, 180*glv.deg, imuerr); imuplot(imu);
+%   imuerr = imuerrset(0.01,100,0.001,10, 0.001,1000,10,1000, 10,10,10,10, 0.1);
+%   [imu, att, T1T2] = imustatictp([[1;2;10]*glv.deg; glv.pos0], 0.01, 300, -10*glv.dps, 180*glv.deg, imuerr); imuplot(imu);
 %
 % See also  imustatic, imupos19, alignpetp, alignvntp, imustatic, imusway.
 
@@ -21,12 +22,13 @@ function [imu, att] = imustatictp(avp0, ts, T, wz, az, imuerr)
 % 12/11/2021
 global glv;
     if ~exist('imuerr', 'var'), imuerr = imuerrset(0,0,0,0); end
-    if ~exist('az', 'var'), az = 180*glv.deg; end;
+    if ~exist('az', 'var'), az = 180*glv.deg; end
     if ~exist('wz', 'var'), wz = 10*glv.dps; end
     if length(avp0)<6, avp0 = [avp0(1:3); glv.pos0]; end
     if length(avp0)<9, avp0 = [avp0(1:3); zeros(3,1); avp0(4:6)]; end
     Tturn = abs(az/wz);
     if Tturn>T/3, Tturn=T/3; end
+    T1T2 = [T/2-Tturn/2-2; T/2+Tturn/2+2];
     
     paras = [  1    0,0,1,   az/glv.deg, Tturn, T/2-Tturn/2, T/2-Tturn/2];
     paras(:,5) = paras(:,5)*glv.deg;

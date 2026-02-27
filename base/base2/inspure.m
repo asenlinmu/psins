@@ -31,7 +31,7 @@ function avp = inspure(imu, avp0, href, isfig)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 12/01/2013, 04/09/2014
 global glv
-    [nn, ts, nts] = nnts(2, imu(:,end));
+    [nn, ts, nts] = nnts(glv.ns, imu(:,end));
     if avp0(1)>pi, aT=fix(avp0(1)/ts); pos=avp0(2:4);
         avp0=[alignsb(imu(1:aT,:),pos);pos]; imu(1:aT,:)=[]; end % avp0=[alignT;pos]
     if abs(norm(avp0(1:4))-1)<1e-6, avp0(1:3)=q2att(avp0(1:4)); avp0(4)=[]; end % avp0=[qnb; ...]

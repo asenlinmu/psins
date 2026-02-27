@@ -1,4 +1,4 @@
-function t = cnt2t(cnt, ts, t0)
+function t = cnt2t(cnt, ts, t0, m)
 % Convert wrapped uint8 count [0,255] or uint16 count [0,65535] to 
 % continuous time tag.
 %
@@ -8,15 +8,15 @@ function t = cnt2t(cnt, ts, t0)
 %         t0 - start time
 % Output: t - continuous time tag
 %
-% See also  dhms2t.
+% See also  dhms2t, fctest.
 
 % Copyright(c) 2009-2018, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 29/03/2018
     if ~exist('ts', 'var'), ts = 1; end
     if ~exist('t0', 'var'), t0 = ts; end
-    dcnt = diff(cnt);
-    m = max(cnt);  idx=dcnt<0;
+    if ~exist('m', 'var'), m = max(cnt); end    
+    dcnt = diff(cnt);  idx=dcnt<0;
     if m>10 && m<=15
 %         dcnt(dcnt==-15) = 1;
         dcnt(idx) = dcnt(idx)+16;
@@ -26,6 +26,10 @@ function t = cnt2t(cnt, ts, t0)
     elseif m>65530 && m<=65535
 %         dcnt(dcnt==-65535) = 1;
         dcnt(idx) = dcnt(idx)+65536;
+    elseif m==99
+        dcnt(idx) = dcnt(idx)+100;   % 28/09/2025
+    elseif m==199
+        dcnt(idx) = dcnt(idx)+200;
     else
         idx = dcnt<0;
         dcnt(idx) = dcnt(1);

@@ -5,7 +5,7 @@ function ylimall(y0, y1, fign)
 % Inputs: y0, y1 - ylim value.
 %         fign - figure NO.
 %
-% See also  xlimall, gridall, scft0, xygo, mylegend.
+% See also  xlimall, gylim, gridall, scft0, xygo, mylegend.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

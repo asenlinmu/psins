@@ -1,13 +1,13 @@
 function [CeG, slat, clat, slon, clon, zeta] = pos2ceg(pos)
 % Convert geographic pos = [lat; lon; *] to transformation matrix CeG (
-% from Earth-frame to grid-frame £©.
+% from Earth-frame to grid-frame ).
 %
 % Prototype: [CeG, slat, clat, slon, clon, zeta] = pos2ceg(pos)
 % Input: pos - geographic position [lat,lon,hgt]
 % Output: CeG - transformation matrix from Earth-frame to grid-frame
 %         slat, clat, slon, clon, zeta - see the code
 %
-% See also  pos2cng, pos2cen, cen2pos, blh2xyz, xyz2blh, nv2cen.
+% See also  pos2cng, pos2cen, pos2cew, cen2pos, blh2xyz, xyz2blh, nv2cen.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

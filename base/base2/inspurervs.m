@@ -52,8 +52,12 @@ function avp = inspurervs(imu, avp1, href, isfig)
         avp(ki,:) = [ins.avp; t]';
         ki = timebar;
     end
-    avp = flipud(avp(1:ki-1,:));  avp(1,7:9)=avp(end,7:9);
+    avp = flipud(avp);  avp(:,4:6)=-avp(:,4:6);
+    % avp = flipud(avp(1:ki-1,:));  avp(1,7:9)=avp(end,7:9);  % just for plot dpos
     if nargin<4, isfig=1; end
     if isfig==1,
         insplot(avp);
+        dxyz = pos2dxyz(avp,avp(end,7:9)');
+        subplot(325), hold off, plot(dxyz(:,end),dxyz(:,[2,1,3]));
+        xygo('DP'); legend('\DeltaLat','\DeltaLon','\DeltaHgt');
     end

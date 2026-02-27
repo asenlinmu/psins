@@ -1,11 +1,11 @@
-function [blh, Cen] = xyz2blh(xyz)
+function [blh, Cen, N, M] = xyz2blh(xyz)
 % Convert ECEF Cartesian coordinate [x;y;z] to geographic
 % coordinate [lat;lon;height].
 %
-% Prototype: [blh, Cen] = xyz2blh(xyz)
+% Prototype: [blh, Cen, N, M] = xyz2blh(xyz)
 % Input: xyz - ECEF Cartesian coordinate vector, in meters 
 % Outputs: blh - geographic coordinate blh=[lat;lon;height],
-%               where lat & lon in radians and hegtht in meter
+%               where lat & lon in radians and height in meter
 %          Cen - transformation matrix from e-frame to n-frame
 %
 % See also  blh2xyz, xyz2blhBatch, pos2cen, xyz2blhN, xyz2llh.
@@ -24,7 +24,10 @@ global glv
     N = glv.Re/sqrt(1-glv.e2*sB^2);
     H = s/cB-N;
     blh = [B; L; H];
-    if nargout==2
+    if nargout>=2
         sL = sin(L); cL = cos(L);
         Cen = [-sL, -sB*cL, cB*cL; cL, -sB*sL, cB*sL; 0, cB, sB];
+    end
+    if nargout>=4
+        M = N*(1-glv.e2)/(1-glv.e2*sB^2);
     end

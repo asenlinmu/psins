@@ -29,3 +29,4 @@ function qnb = a2qua(att)
             cp*sr*cy + sp*cr*sy;
             cp*cr*sy + sp*sr*cy ];
     if qnb(1)<0, qnb=-qnb; end   % 29/11/2024
+    

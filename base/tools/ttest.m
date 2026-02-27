@@ -5,7 +5,7 @@ function ttest(t, xist)
 % Inputs: t - time stamp
 %         xist - x-axis is t, default 0
 %
-% See also  sortt, tsetflag, tshift, tsyn, igsplot.
+% See also  fctest, sortt, tsetflag, tshift, tsyn, igsplot.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -12,7 +12,7 @@ function att = q2attBatch(qnb)
 % 08/11/2021
 
 %     att = m2att(q2mat(qnb));
-
+    if size(qnb,2)==3, qnb=q32q4(qnb); end
     q11 = qnb(:,1).*qnb(:,1); q12 = qnb(:,1).*qnb(:,2); q13 = qnb(:,1).*qnb(:,3); q14 = qnb(:,1).*qnb(:,4); 
     q22 = qnb(:,2).*qnb(:,2); q23 = qnb(:,2).*qnb(:,3); q24 = qnb(:,2).*qnb(:,4);     
     q33 = qnb(:,3).*qnb(:,3); q34 = qnb(:,3).*qnb(:,4);  

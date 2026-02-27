@@ -28,7 +28,7 @@ for k=1:nn:len-nn+1
     zkk(ki,:) = [zk', t]; ki = ki+1;
     if mod(tbi,tbstep)==0, timebar; end;  tbi = tbi+1;
 end
-avperr = avpcmp(avp, trj.avp);
+avperr = avpcmp(avp, trj.avp);  % avpcmpplot(avperr, xkk(:,[1:9,end]));
 insplot(avp);
 inserrplot(avperr);
 subplot(221), hold on, plot(xkk(:,end), xkk(:,1:2)/glv.sec, 'm:');

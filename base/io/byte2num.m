@@ -2,12 +2,12 @@ function num = byte2num(bytes, type, littleEndian)
 % Convert bytes to double number.
 %
 % Prototype: num = byte2num(bytes, type, littleEndian)
-% Input: bytes - uint8 type column bytes input
-%        type - int, uint, or float data output type.
-%        littleEndian - =1 for little-endian, =0 for big-endian
-% Outputs: num - double output data array
+% Inputs: bytes - uint8 type column bytes input
+%         type - int, uint, or float data output type.
+%         littleEndian - =1 for little-endian, =0 for big-endian
+% Output: num - double output data array
 %
-% See also  binfrmfile, hexbinfile, dec2num, typecast.
+% See also  bytecast, binfrmfile, hexbinfile, dec2num, typecast.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

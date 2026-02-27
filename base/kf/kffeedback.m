@@ -60,6 +60,8 @@ function [kf, ins, xfb] = kffeedback(kf, ins, T_fb, fbstr)
             case 'C',
                 idx = 29:34; dKa = xfb_tmp(idx);  dKa = [dKa(1:3),[0;dKa(4:5)],[0;0;dKa(6)]];
                 ins.Ka = (eye(3)-dKa)*ins.Ka;
+            case 'h',
+                idx = 9;  ins.pos(3) = ins.pos(3) - xfb_tmp(9);
             case 'H',
                 idx = [6,9,15];                         ins.vn(3) = ins.vn(3) - xfb_tmp(6);
                 ins.pos(3) = ins.pos(3) - xfb_tmp(9);	ins.db(3) = ins.db(3) + xfb_tmp(15);

@@ -4,7 +4,10 @@ function inserrcov(ap, avperr, imuerr)
 %
 % Example
 %    trj = trjfile('trj10ms.mat');
-%    inscovanalysis(trj.avp(:,[1:3,7:10]));
+%    inserrcov(trj.avp(:,[1:3,7:10]));
+%
+%    ts=0.01; yaw=0:10*glv.dps*ts:360*glv.deg; ap=appendt(zeros(length(yaw),6),ts); ap(:,3)=yaw; 
+%    inserrcov(ap);  % insplot(ap,'ap');
 %
 % See also  insupdate, kfupdate, sinsgps, kfstat.
 
@@ -76,13 +79,13 @@ global glv;
     t1 = t(1:nn:end);
     zlb={'phiE','phiN','phiU','dVE','dVN','dVU','dLat','dLon','dH'};
     zlb1={'phiE / \prime','phiN / \prime','phiU / \prime','dVE / m/s','dVN / m/s','dVU / m/s','\delta\itL\rm / m','\delta\it\lambda\rm / m','\delta\itH\rm / m'};
-    hNull = figure; set(hNull,'Visible','off');
+    hNull = figure; % set(hNull,'Visible','off');
     for k=1:9
-        sPki = sqrt(Pki(:,:,k));
+        sPki = sqrt(Pki(:,:,k)+eps);
         if k<4, sPki = sPki/glv.min;  % 1,2,3 /glv.min
         elseif k==7 || k==8, sPki = sPki*glv.Re;  end % 7,8 *glv.Re
         z = interp2(1:39, t1, sPki(1:nn:end,:), 1:0.1:39, t1);
-        h=figure(k+10); set(h, 'WindowStyle','docked','NumberTitle','off','Name',zlb{k});
+        h=figure(k+100); set(h, 'WindowStyle','docked','NumberTitle','off','Name',zlb{k});
         mesh(1:0.1:39, t1, z); view(59,53);
         xtl = {'phiE/N/U', 'dVE/N/U', 'dLat/Lon/Hgt', 'ebx/y/z', 'dbx/y/z', 'dkgx/y/zx', 'dkgx/y/zy', 'dkgx/y/zz', 'dkax/y/zx', 'dkay/zy,zz', 'KA2x/y/z', 'wgx/y/z', 'wax/y/z'};
         set(gca, 'xtick', [2:3:N+L], 'XTicklabel', xtl);

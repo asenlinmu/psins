@@ -9,7 +9,7 @@ function [sigma, tau, Err] = avars(y0, tau0)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 16/12/2019
 global glv
-    str = ['-+b'; '-xk'; '-*m'; '-oy'];
+    str = ['-+b'; '-xk'; '-*m'; '-oy'; ':*m'; ':oy'];
     myfig;
     sigma = []; tau = []; Err = [];
     sstr = [];

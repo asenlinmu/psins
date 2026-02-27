@@ -1,11 +1,11 @@
-function [f, ge, gn, err] = gravj4(re, Ji)
+function [G, ge, gn, err] = gravj4(re, Ji)
 % Calculate gravity by using J0~J6 model.
 %
 % Prototype: [f, ge, gn, err] = gravj4(re, Ji)
 % Inputs: re - [x; y; z] in ECEF frame
 %         Ji - using Ji model flag, i=0,2,4,6, default=4
 %              =0 for J0 model, =2 for J2, =3 for J4, =6 for J6
-% Outputs: f - universal gravitation
+% Outputs: G - universal gravitation in i-frame
 %          ge - gravity in ECEF frame
 %          gn - gravity in ENU frame
 %          err - error between Somigliana model & Ji model
@@ -32,10 +32,10 @@ global glv
         zr6 = zr4*zr2;  Rr6 = Rr4*Rr2;
         f6 = 7/16*glv.J6*gmr*Rr6 * ((429*zr6-495*zr4+135*zr2-5)*re-[0;0;6*z*(33*zr4-30*zr2+5)]);
     end
-    f = f0+f2+f4+f6;
+    G = f0+f2+f4+f6;
     if nargout>1
         wr = glv.wie^2*[re(1:2);0];
-        ge = f+wr;
+        ge = G+wr;
     end
     if nargout>2
         [pos, Cen] = xyz2blh(re);
@@ -53,7 +53,7 @@ global glv
 
    %% Example
    glvs; errk=[]; % glv.wie=0;
-   for k=1:89.999, [f,ge,gn,err]=gravj4(blh2xyz([k*glv.deg;0*glv.deg;0]),6); errk(k,:)=[err;k]'; end
+   for k=1:89.999, [G,ge,gn,err]=gravj4(blh2xyz([k*glv.deg;0*glv.deg;0]),6); errk(k,:)=[err;k]'; end
    myfig, plot(errk(:,end), errk(:,1:3)/glv.ug);  xygo('L / \circ', 'err / ug');
 
     %% diff verify - debug

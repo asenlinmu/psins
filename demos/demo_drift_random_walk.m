@@ -6,14 +6,14 @@ glvs
 ts = 0.1;
 t = 1*3600;
 len = fix(t/ts);
-imuerr = imuerrset(0, 0, 0.01, 100);
+imuerr = imuerrset(0, 0, 0.001, 1);  % inertial-grade IMU
 imu = imuadderr([zeros(len,6),(1:len)'*ts], imuerr);
 imu = cumsum(imu, 1);  % accumulate
 myfigure;
 tt = (1:len)'*ts; 
 gg = imuerr.web(1)*sqrt(tt); aa = imuerr.wdb(1)*sqrt(tt);  % reference values
-subplot(211), plot(tt,imu(:,1:3)/glv.deg, tt,gg/glv.deg,'m--', tt,-gg/glv.deg,'m-.')
-title('Angular Random Walk'); xygo('\Sigma \Delta\it\theta\rm / \circ');
+subplot(211), plot(tt,imu(:,1:3)/glv.sec, tt,gg/glv.sec,'m--', tt,-gg/glv.sec,'m-.')
+title('Angular Random Walk'); xygo('\Sigma \Delta\it\theta\rm / \prime\prime');
 legend('X', 'Y', 'Z', '1\sigma upper bound', '1\sigma lower bound')
 subplot(212), plot(tt,imu(:,4:6), tt,aa,'m--', tt,-aa,'m-.')
 title('Velocity Random Walk'); xygo('\Sigma \Delta\itV\rm / m/s');

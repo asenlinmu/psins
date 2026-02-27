@@ -95,6 +95,8 @@ global glv
     %% acc inner-lever-arm error
     if exist('rxyz', 'var')
         if length(rxyz)==1, rxyz(1:6)=rxyz; end
+        if length(rxyz)==2, rxyz=diag([rxyz;0]); rxyz=rxyz(:); end
+        if length(rxyz)==3, rxyz=diag(rxyz); rxyz=rxyz(:); end
         if length(rxyz)==6, rxyz(7:9)=[0;0;0]; end 
         imuerr.rx = rxyz(1:3)/100; imuerr.ry = rxyz(4:6)/100; imuerr.rz = rxyz(7:9)/100;
     end

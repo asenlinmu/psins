@@ -15,22 +15,21 @@ global glv
         for k=1:kf.l, kfs.Qjk{k} = zeros(kf.n); end
         for k=1:kf.m, kfs.Rsk{k} = zeros(kf.n); end
     elseif nargin>=3,  % update,   kfs = kfstat(kfs, kf, 'B/T/M')
-        if nargin==2, flag='B'; end
         Kk = kf.Kk;
         if flag=='T', kf.Kk=kf.Kk*0; end
-        IKH = kf.I-kf.Kk*kf.Hk;  Akk_1 = IKH*kf.Phikk_1;  Bkk_1 = IKH*kf.Gammak;
+        IKH = kf.I-kf.Kk*kf.Hk;  Akk_1 = IKH*kf.Phikk_1;  Bkk_1 = IKH*kf.Gammak;  % (6.11.3)
         if flag=='B'
-            kfs.Ak0 = Akk_1*kfs.Ak0;
-            kfs.Pk1 = kfs.Ak0*kfs.P0*kfs.Ak0';
+            kfs.Ak0 = Akk_1*kfs.Ak0;   % (6.11.10a)
+            kfs.Pk1 = kfs.Ak0*kfs.P0*kfs.Ak0';    % (6.11.8) 1-item
             for j=1:kf.l
-                kfs.Qjk{j} = Akk_1*kfs.Qjk{j}*Akk_1' + kf.Qk(j,j)*Bkk_1(:,j)*Bkk_1(:,j)';
-                kfs.Pk1 = kfs.Pk1 + kfs.Qjk{j};
+                kfs.Qjk{j} = Akk_1*kfs.Qjk{j}*Akk_1' + kf.Qk(j,j)*Bkk_1(:,j)*Bkk_1(:,j)';   % (6.11.10b)
+                kfs.Pk1 = kfs.Pk1 + kfs.Qjk{j};   % (6.11.8) 2-item
             end
             for s=1:kf.m
-                kfs.Rsk{s} = Akk_1*kfs.Rsk{s}*Akk_1' + kf.Rk(s,s)*kf.Kk(:,s)*kf.Kk(:,s)';
-                kfs.Pk1 = kfs.Pk1 + kfs.Rsk{s};
+                kfs.Rsk{s} = Akk_1*kfs.Rsk{s}*Akk_1' + kf.Rk(s,s)*kf.Kk(:,s)*kf.Kk(:,s)';   % (6.11.11c)
+                kfs.Pk1 = kfs.Pk1 + kfs.Rsk{s};   % (6.11.8) 3-item
             end
-            kfs.Pk = IKH*(kf.Phikk_1*kfs.Pk*kf.Phikk_1'+kf.Gammak*kf.Qk*kf.Gammak')*IKH'+kf.Kk*kf.Rk*kf.Kk';
+            kfs.Pk = IKH*(kf.Phikk_1*kfs.Pk*kf.Phikk_1'+kf.Gammak*kf.Qk*kf.Gammak')*IKH'+kf.Kk*kf.Rk*kf.Kk';  % (6.11.2)
         elseif flag=='T'
             kfs.Ak0 = Akk_1*kfs.Ak0;
             kfs.Pk1 = kfs.Ak0*kfs.P0*kfs.Ak0';
@@ -39,10 +38,11 @@ global glv
                 kfs.Pk1 = kfs.Pk1 + kfs.Qjk{j};
             end
             kfs.Pk = kf.Phikk_1*kfs.Pk*kf.Phikk_1'+kf.Gammak*kf.Qk*kf.Gammak';
-%             b=[kfs.Pk-kfs.Pk1]; max(max(abs(b)))
+%             err=[kfs.Pk-kfs.Pk1]; max(max(abs(err)))
         elseif flag=='M'
-            kfs.Ak0 = Akk_1*kfs.Ak0;
-            kfs.Pk1 = kfs.Ak0*kfs.P0*kfs.Ak0';
+            % kfs.Ak0 = Akk_1*kfs.Ak0;
+            % kfs.Pk1 = kfs.Ak0*kfs.P0*kfs.Ak0';
+            kfs.Pk1 = IKH*kfs.Pk1*IKH';  % 20250902
             for s=1:kf.m
                 kfs.Rsk{s} = Akk_1*kfs.Rsk{s}*Akk_1' + kf.Rk(s,s)*kf.Kk(:,s)*kf.Kk(:,s)';
                 kfs.Pk1 = kfs.Pk1 + kfs.Rsk{s};

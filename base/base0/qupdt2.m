@@ -1,4 +1,4 @@
-function qnb1 = qupdt2(qnb0, rv_ib, rv_in)
+function [qnb1, Cnb, Att] = qupdt2(qnb0, rv_ib, rv_in)
 % Attitude quaternion updating using rotation vector.
 % 
 % Prototype: qnb1 = qupdt2(qnb0, rv_ib, rv_in)
@@ -49,5 +49,7 @@ function qnb1 = qupdt2(qnb0, rv_ib, rv_in)
         nq = 1/sqrt(n2); 
         qnb1(1) = qnb1(1)*nq; qnb1(2) = qnb1(2)*nq; qnb1(3) = qnb1(3)*nq; qnb1(4) = qnb1(4)*nq;
     end
+    if nargout>1, Cnb=q2mat(qnb1); end  % 20250625
+    if nargout>2, Att=m2att(Cnb); end
 
 

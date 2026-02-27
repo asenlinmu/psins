@@ -1,4 +1,4 @@
-function q = qupdt(q1, rv)
+function [q, C, A] = qupdt(q1, rv)
 % Attitude quaternion updating using rotation vector.
 % 
 % Prototype: q = qupdt(q1, rv)
@@ -30,4 +30,5 @@ function q = qupdt(q1, rv)
     if (nq2>1.000001 || nq2<0.999999)
         q = q/sqrt(nq2);
     end
-
+    if nargout>1, C=q2mat(q); end  % 20250625
+    if nargout>2, A=m2att(C); end

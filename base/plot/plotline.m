@@ -8,7 +8,7 @@ function plotline(x1, y1, x2, y2)
 % Examples
 %    myfig, plotline([1,2], [2;3], 5, [5,6]); plotline(5, [15,16]);
 % 
-% See also  plotn.
+% See also  plotn, hline.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

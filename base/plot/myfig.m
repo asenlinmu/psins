@@ -10,6 +10,9 @@ function h = myfig(namestr, ylb)
         h0 = myfigure;
     else
         if ~ischar(namestr)  % myfig(data, ylabel);
+            if numel(namestr)==1
+                myfig; subplot(namestr); return;  % myfig, subplot(ijk);
+            end
             if nargin<2, ylb='val'; end
             myfig; plot(namestr); xygo(ylb);
             return;

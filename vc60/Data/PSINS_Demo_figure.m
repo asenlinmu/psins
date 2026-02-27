@@ -1,7 +1,7 @@
 % Figure for C++ processing results
 % Make sure Matlab/PSINS Toolbox have been initialized!
 glvs
-PSINSDemo = 7;
+PSINSDemo = 801;
 switch PSINSDemo
     case -1, %% Demo_SINS/GNSS
         ins = binfile('ins.bin', 16+3);
@@ -52,6 +52,13 @@ switch PSINSDemo
         subplot(211), plot(att(1:T1,end), att(1:T1,1:2)/glv.deg, 'r');
         subplot(212), plot(att(1:T1,end), att(1:T1,3)/glv.deg, 'r');
         legend('Fine align', 'Coarse align');
+    case 801, %% Demo_CAlignNoLat
+        att = binfile('aln.bin', 8);
+        myfig;
+        subplot(221), plot(att(:,end), att(:,[1,4])/glv.deg), xygo('p'); legend('L-know','L-unknow');
+        subplot(222), plot(att(:,end), att(:,[2,5])/glv.deg), xygo('r');
+        subplot(223), plot(att(:,end), att(:,[3,6])/glv.deg), xygo('y');
+        subplot(224), plot(att(:,end), att(:,7)/glv.deg), xygo('lat'); hline(34.246048); legend('L-estimate','L-true');
     case 9, %% Demo_CAligntf
         dd = binfile('aln.bin', 25);
         avp = dd(:,1:16); avpr = dd(:,[17:end,16]);

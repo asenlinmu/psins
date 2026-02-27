@@ -18,5 +18,9 @@ function qnb = a2quaBatch(att)
     qnb = [ cp.*cr.*cy - sp.*sr.*sy, ...
             sp.*cr.*cy - cp.*sr.*sy, ...
             cp.*sr.*cy + sp.*cr.*sy, ...
-            cp.*cr.*sy + sp.*sr.*cy ];
-%     idx = qnb(:,1)<0;   qnb(idx,:) = -qnb(idx,:);  % q0>=0
+            sp.*sr.*cy + cp.*cr.*sy ];
+%     idx = qnb(:,1)<0;   qnb(idx,:) = -qnb(idx,:);  % q0>=0  lead to qi no continous
+
+% syms sp cp sr cr sy cy
+% q = qmul([cy;0;0;sy],[cp;sp;0;0])
+% q = qmul(q,[cr;0;sr;0])

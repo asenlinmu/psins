@@ -40,4 +40,14 @@ function yaw = yawcvt(yaw, cvstr)
             yaw(~idx) = -yaw(~idx);
         case 'cc180cc360',  % counter-clockwise -180->180deg to counter-clockwise 0->360deg
             yaw = 2*pi-yawcvt(yaw, 'cc180c360');
+        % inf -> 180/360
+        case '180'  % counter-clockwise (-inf,inf) to counter-clockwise -180->180deg
+            % myaw = min(yaw);
+            % if myaw<0, n=fix(-myaw/(2*pi)); yaw=yaw+(n+1)*(2*pi); end
+            % yaw = mod(yaw, 2*pi)-pi;
+            yaw = atan2(sin(yaw),cos(yaw));
+        case '360',  % clockwise (-inf,inf) to clockwise 0->360deg
+            myaw = min(yaw);
+            if myaw<0, n=fix(-myaw/(2*pi)); yaw=yaw+(n+1)*(2*pi); end
+            yaw = mod(yaw, 2*pi);
     end

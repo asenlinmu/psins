@@ -1,10 +1,11 @@
 function [A, w, phi, b1, b0, data1] = wavefit(data, ts)
-% Waveform fitting for model: 'x(t)=A*sin(w*t+phi)+b'.
+% Waveform fitting for model: 'x(t)=A*sin(w*t+phi)+b1*t+b0'.
 %
-% Prototype: [A, w, phi, wdf] = wff(data)
+% Prototype: [A, w, phi, b1, b0, data1] = wavefit(data, ts)
 % Input: data - data to be fitted.
 % Outputs: A,w,phi - waveform amplitude, frequency(in rad/s), init phase
-%          wdf - waveform distortion factor
+%          b1,b0 - linear terms
+%          data1 - fitted data
 % Example:
 %   t = (0:0.01:10)';
 %   x = 1*sin(6*t+0.1)+0.2*t+0.3 + randn(size(t))*0.01;
@@ -18,7 +19,7 @@ function [A, w, phi, b1, b0, data1] = wavefit(data, ts)
 % 07/09/2014
     [m,n] = size(data);
     if n==2,  
-        t=data(:,1); data = data(:,2);
+        t=data(:,2); data = data(:,1);
     else
         t=(1:m)';  
         if nargin==2, t=t*ts; end
@@ -33,7 +34,7 @@ function [A, w, phi, b1, b0, data1] = wavefit(data, ts)
     err = data-data_est;
     [~, A, w, phi, b1, b0] = lsfit(data, data_est, t, A, w, phi);  % least squre fitting
     data = data-b0; b = b+b0;
-    data_est = A*sin(w*t+phi) + b1*(t-t(1));  data1 = [A*sin(w*t+phi), data_est, t];
+    data_est = A*sin(w*t+phi) + b1*(t-t(1));  data1 = [data_est+b, A*sin(w*t+phi)+b, t];
     err1 = data-data_est;
     wdf = sqrt(err1'*(data+data_est)/(data'*data)); % waveform distortion factor
     figure,

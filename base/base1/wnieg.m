@@ -1,4 +1,4 @@
-function [wnie, g, gn] = wnieg(pos)
+function [wnie, g, gn, wN, wU] = wnieg(pos)
 % Calculate the Earth related parameters, wnie & g_Lh.
 %
 % Prototype: [wnie, g, gn] = wnieg(pos)
@@ -15,3 +15,4 @@ function [wnie, g, gn] = wnieg(pos)
     eth = earth(pos);
     wnie = eth.wnie;   g = eth.g;
     gn = [0;0;-g];
+    wN = wnie(2);  wU = wnie(3);

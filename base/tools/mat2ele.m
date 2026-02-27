@@ -7,6 +7,7 @@ function varargout = mat2ele(m)
 %
 % Example
 %   [a11,a12,a21,a22] = mat2ele([1,2;3,4]);
+%   [C11,C12,C13, C21,C22,C23, C31,C32,C33] = mat2ele(Cnb);
 %
 % See also  setvals.
 

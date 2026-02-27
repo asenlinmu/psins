@@ -45,10 +45,11 @@ global glv
         kf.Phikk_1(4:6,1:3) = askew(dvn);
             kf.Phikk_1(1:3,7:9) = -Cnbts; kf.Phikk_1(4:6,10:12) = Cnbts;
         kf.Gammak = [-Cnb,zeros(3); zeros(3),Cnb; zeros(6)];
-        if norm(phim)<100*glv.dps*nts
+        if mod(k-1,4)==0 && norm(phim)<100*glv.dps*nts
             kf = kfupdate(kf, vn);
-%             kfs = kfstat(kfs, kf, 'B');
-            kfs = kfstat(kfs, kf, 'T');   kfs = kfstat(kfs, kf, 'M');
+            kfs = kfstat(kfs, kf, 'B');
+%             kfs = kfstat(kfs, kf, 'T');
+%            kfs = kfstat(kfs, kf, 'M');
         else
             kf = kfupdate(kf);
             kfs = kfstat(kfs, kf, 'T');
@@ -60,6 +61,7 @@ global glv
         xkpk(ki,:) = [kf.xk; diag(kf.Pxk); t]';
         ki = timebar;
     end
+    % err=[kfs.Pk-kfs.Pk1]; max(max(abs(err))),
     attk(ki:end,:) = []; xkpk(ki:end,:) = [];
     att0 = attk(end,1:3)';
     resdisp('Initial align attitudes (arcdeg)', att0/glv.deg);
@@ -97,7 +99,7 @@ global glv
 	subplot(425); plot(t, xkpk(:,7:9)/glv.dph); xygo('eb'); 
 	subplot(427); plot(t, xkpk(:,10:12)/glv.ug); xygo('db'); 
 	subplot(422); plot(t, sqrt(xkpk(:,13:15))/glv.min); xygo('phi');
-	subplot(424); plot(t, sqrt(xkpk(:,16:18))); xygo('dV');
+	subplot(424); plot(t, sqrt(xkpk(:,16:18))); xygo('dv');
 	subplot(426); plot(t, sqrt(xkpk(:,19:21))/glv.dph); xygo('eb');
  	subplot(428); plot(t, sqrt(xkpk(:,22:24))/glv.ug); xygo('db');   
     
@@ -114,7 +116,7 @@ global glv
         pqr = sqrt([kfs.p, kfs.q, kfs.r]); Pii = diag(kfs.Pk);  % 12+6+3
         for k=1:length(pqr), pqr(:,k)=sqrt(pqr(:,k).*Pii); end
         subplot(221), bar(pqr(1:3,:)'/glv.min); xygo('j', 'phi');  legend('\phi_E', '\phi_N', '\phi_U')
-        subplot(222), bar(pqr(4:6,:)'); xygo('j', 'dV'); legend('\deltav^n_E', '\deltav^n_N', '\deltav^n_U')
+        subplot(222), bar(pqr(4:6,:)'); xygo('j', 'dv'); legend('\deltav^n_E', '\deltav^n_N', '\deltav^n_U')
         subplot(223), bar(pqr(7:9,:)'/glv.dph); xygo('j', 'eb'); legend('\epsilon^b_x', '\epsilon^b_y', '\epsilon^b_z')
         subplot(224), bar(pqr(10:12,:)'/glv.ug); xygo('j', 'db'); legend('\nabla^b_x', '\nabla^b_y', '\nabla^b_z')
     end

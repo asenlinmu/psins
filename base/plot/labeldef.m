@@ -5,19 +5,21 @@ function stext = labeldef(stext)
 % Input: stext - a short text input
 % Output: stext - corresponding fully formated text output
 %
-% See also  xygo, myfig.
+% See also  xygo, ptitle, myfig.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 08/03/2014, 07/07/2021
     global glv
     global specl_string
-    if isempty(specl_string) || nargin<1  % reload
+    if isempty(specl_string) || nargin<1  % reload label strings, labeldef();
     specl_string = {...  % string cell
+        't0'     '\itt\rm_0 / s';
         't/s'    '\itt \rm / s';
         't/m'    '\itt \rm / min';
         't/h'    '\itt \rm / h';
         't/d'    '\itt \rm / d';
+        'k'      '\itk \rm / count';
         'phi',   '\it\phi\rm / ( \prime )';
         'phi-sec',   '\it\phi\rm / ( \prime\prime )';
         'phiE',  '\it\phi\rm_E / ( \prime\prime )';
@@ -34,11 +36,11 @@ function stext = labeldef(stext)
         'muy',   '\it\mu_y \rm / ( \prime )';
         'muz',   '\it\mu_z \rm / ( \prime )';
         'theta', '\it\theta \rm / ( \prime )';
-        'dVEN',  '\it\delta V \rm_{E,N} / ( m/s )';
-        'dVE',   '\delta\it V \rm_E / ( m/s )';
-        'dVN',   '\delta\it V \rm_N / ( m/s )';
-        'dVU',   '\delta\it V \rm_U / ( m/s )';
-        'dV',    '\delta\it V\rm / ( m/s )';
+        'dvEN',  '\it\delta v\rm_{E,N} / ( m/s )';
+        'dvE',   '\delta\it v\rm_E / ( m/s )';
+        'dvN',   '\delta\it v\rm_N / ( m/s )';
+        'dvU',   '\delta\it v\rm_U / ( m/s )';
+        'dv',    '\delta\it v\rm / ( m/s )';
         'pr',    '\it\theta , \gamma\rm / ( \circ )';
         'ry',    '\it\gamma , \psi\rm / ( \circ )';
         'p',     '\it\theta\rm / ( \circ )';
@@ -72,11 +74,22 @@ function stext = labeldef(stext)
         'nth',   'North\rm / m';
         'H',     '\itH\rm / m';
         'DP',    '\Delta\it P\rm / m';
+        'ebxy',  '\it\epsilon _{x,y}\rm / ( (\circ)/h )';
         'ebyz',  '\it\epsilon _{y,z}\rm / ( (\circ)/h )';
+        'ebx',  '\it\epsilon _x\rm / ( (\circ)/h )';
+        'eby',  '\it\epsilon _y\rm / ( (\circ)/h )';
+        'ebz',  '\it\epsilon _z\rm / ( (\circ)/h )';
         'eb',    '\it\epsilon\rm / ( (\circ)/h )';
         'en',    '\it\epsilon\rm / ( (\circ)/h )';
+        'enE',    '\it\epsilon\rm_E / ( (\circ)/h )';
+        'enN',    '\it\epsilon\rm_N / ( (\circ)/h )';
+        'enU',    '\it\epsilon\rm_U / ( (\circ)/h )';
         'gS',    'gSens / ( (\circ)/h/g )';
         'db',    '\it\nabla\rm / \mu\itg';
+        'dbxy',   '\it\nabla_{x,y}\rm / \mu\itg';
+        'dbx',   '\it\nabla_x\rm / \mu\itg';
+        'dby',   '\it\nabla_y\rm / \mu\itg';
+        'dbz',   '\it\nabla_z\rm / \mu\itg';
         'dKij',  '\delta\itKij\rm / (\prime\prime)';
         'dKii',  '\delta\itKii\rm / ppm';
         'Ka2',   'Ka2 / ug/g^2';
@@ -105,6 +118,10 @@ function stext = labeldef(stext)
 		'fyug',    '\itf_y\rm / u\itg';
 		'fzug',    '\itf_z\rm / u\itg';
 		'fug',     '\itf\rm / u\itg';
+		'fxmg',    '\itf_x\rm / m\itg';
+		'fymg',    '\itf_y\rm / m\itg';
+		'fzmg',    '\itf_z\rm / m\itg';
+		'fmg',     '\itf\rm / m\itg';
         'Temp',  '\itT\rm / \circC';
         'frq',  '\itf\rm / Hz';
 		'dinst', '\delta\it\theta , \rm\delta\it\psi\rm / ( \prime )';

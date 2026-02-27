@@ -42,6 +42,14 @@ global glv
             myfig;
             subplot(211), plot(t, avp(:,1:2)/glv.deg), xygo('pr');
             subplot(212), plot(t, avp(:,3)/glv.deg), xygo('y');
+        case 'q',
+            quat = q32q4(avp(:,1:3));
+            avp(:,1:3) = q2attBatch(quat);
+            insplot(avp, 'a');
+        case 'q1',
+            quat = q32q4(avp(:,1:3));
+            avp(:,1:3) = q2att1Batch(quat);
+            insplot(avp, 'a');
         case 'v',
             myfig;
             plot(t, avp(:,1:3)), xygo('vn');
@@ -80,6 +88,14 @@ global glv
                 hold on, plot(dxyz(:,1), dxyz(:,2)); xygo('est', 'nth');
 %                 hold on, plot((avp(:,8)-avp(1,8))*glv.Re*cos(avp(1,7)), (avp(:,7)-avp(1,7))*glv.Re); xygo('est', 'nth');
             legend(sprintf('LON0:%.2f, LAT0:%.2f (DMS), H0:%.1f (m)', r2dms(avp(1,8)),r2dms(avp(1,7)),avp(1,9)));
+        case 'avp-h',  % no vU&hgt
+            if size(avp,2)==9, t=1:length(t); end
+            myfig;
+            subplot(221), plot(t, avp(:,1:2)/glv.deg); xygo('pr'); legend('Pitch','Roll');
+            subplot(223), plot(t, avp(:,3)/glv.deg); xygo('y'); legend('Yaw');
+            subplot(222), plot(t, [avp(:,4:5)]); xygo('V'); legend('V_E','V_N');
+            dxyz = pos2dxyz(avp(:,7:9));
+            subplot(224), plot(t, dxyz(:,[2,1])); xygo('DP'); legend('\DeltaLat','\DeltaLon');
         case 'Avp',
             if size(avp,2)==9, t=1:length(t); end
             myfig;
@@ -106,6 +122,12 @@ global glv
             subplot(222), plot(avp(:,end), avp(:,2:3)/glv.deg), xygo('ry');
             subplot(223), plot(avp(:,end), avp(:,4:6)), xygo('V');  title('LCI  F/U/R')
             subplot(224), plot(avp(:,end), avp(:,7:9)), xygo('DP');
+        case 'qvpi', % for launch vehicle
+            quat = q32q4(avp(:,1:3));  avp(:,1:3) = q2attBatch(quat);
+            insplot(avp,'avpi');
+        case 'qvpi1', % for launch vehicle
+            quat = q32q4(avp(:,1:3));  avp(:,1:3) = q2att1Batch(quat);
+            insplot(avp,'avpi');
         case {'t/m', 't/h', 't/d'},  % AVP-plot where t-axis in day
             tscalepush(ptype);
             insplot([avp(:,1:9),avp(:,end)/tscaleget()],'avp');

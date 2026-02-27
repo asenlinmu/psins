@@ -1,12 +1,13 @@
-function [clbt, av] = sysclbt(imu, pos0, g0, Cba, itertion)
+function [clbt, av, obsd] = sysclbt(imu, pos0, g0, Cba, itertion, pk0)
 % SIMU systemtic calibration processing under specific rotating operation.
 %
-% Prototype: [clbt, av] = sysclbt(imu, pos0, g0, Cba, itertion)
+% Prototype: [clbt, av, obsd] = sysclbt(imu, pos0, g0, Cba, itertion, pk0)
 % Inputs: imu - SIMU data after coarse calibration
 %         pos0 - geographical position = [latitude; longitude; height]
 %         g0  - local gravity magnitude
 %         Cba - accelerometer installation direction matrix, always I3x3.
 %         itertion - calibration processing itertion times.
+%         pk0 - set initial P0(k,k)=0 for no estimation for the k^th-state 
 % Output: clbt - SIMU fine calibration result array after this porcessing,
 %               inculde fields:
 %                 'Kg, Ka, eb, db, Ka2, rx, ry, rz, tGA', such that
@@ -14,21 +15,27 @@ function [clbt, av] = sysclbt(imu, pos0, g0, Cba, itertion)
 %                 vm = Ka*vm - (db+Ka2.*fb.^2+fL+tGA*wbXfb)*ts
 %                where wb=wm/ts, fb=vm/ts, and fL is accelerometer inner
 %                lever arm effect (refer to the following code). 
+%         av - att & vel output for the last itertion
+%         obsd - observability degree
 %
-% See also  sysclbtKap, sysclbtMEMS, imuscale, imudpdrift, lsclbt, clbtfile, clbtdiff, imuclbt, imuerrset, kfupdate.
+% See also  sysclbtKap, sysclbtMEMS, imuscale, imudpdrift, lsclbt, clbtfile, clbtdiff, imuclbt.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 17/08/2016
 global glv
+    if nargin<6, pk0=[]; end
     if nargin<5, itertion=5; end
-    if nargin<4, Cba=eye(3); end
-    if nargin<3, eth=earth(pos0); g0=eth.g; end
+    if nargin<4, Cba=[]; end
+    if isempty(Cba), Cba=eye(3); end
+    if nargin<3, g0=[]; end
+    if isempty(g0), eth=earth(pos0); g0=eth.g; end
     [nn,ts,nts] = nnts(2, diff(imu(1:2,end)));  frq2 = fix(1/ts/2)-1;
     for k=(frq2+1):(2*frq2):(5*60*2*frq2)
         ww = mean(imu(k-frq2:k+frq2,1:3),1); ww = norm(ww)/ts;
         if ww>20*glv.dph, break; end
     end
+    % k = 600*frq2; % force to this length
     if k<10*frq2,  error('Not find static state in the first 10 second to make valid INS alignment.'); end
     kstatic = k-3*frq2;
     wnie = glv.wie*[0;cos(pos0(1));sin(pos0(1))]; gn = [0;0;-g0];
@@ -44,6 +51,7 @@ global glv
 %         att = q2att(qnb); att0 = q2att(qnb0); qnb = a2qua([att(1:2);att0(3)]);
         dotwf = imudot(imu1, 5.0);
         if iter~=itertion,  kf = clbtkfinit(nts);  else, kf.Pxk = kf.Pxk*100; kf.Pxk(:,3)=0; kf.Pxk(3,:)=0; kf.xk = kf.xk*0; end
+        kf.Pxk(pk0,pk0) = 0;  P0 = kf.Pxk;  % 2025-6-13 
 %         if iter~=itertion,  kf = clbtkfinit(nts);  else, kf.Pxk = diag(diag(kf.Pxk))*100; kf.xk = kf.xk*0; end
 % kf = clbtkfinit(nts);
         t1s = 0; vn1s = zeros(fix(len*ts), 4);  kkv = 1;
@@ -80,6 +88,7 @@ global glv
         clbtkfplot(av, xkpk, vn1s, imu, dotwf, iter);
     end
     clbtkfplot(av, xkpk, vn1s, imu, dotwf, 100);
+    obsd = sqrt(diag(P0)./(diag(kf.Pxk)+eps));
     
 function kf = clbtkfinit(ts)
 global glv

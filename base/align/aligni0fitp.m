@@ -30,7 +30,7 @@ global glv
     eth = earth(pos);  lat = pos(1);
     qib0b = [1; 0; 0; 0];  qni00 = m2qua(pos2cen(pos(1))'); 
     [vib0, pib0, vib0_1] = setvals(zeros(3,1));
-    [pib0k, pi0k, vi0k, vib0k, fi0k, fib0k, attk, attkv, vn0, vnk, posk, phik] = prealloc(len/nn, 3);  tk = vib0k(:,1);  timu = tk;
+    [pib0k, pi0k, vi0k, vib0k, fi0k, fib0k, attk, attkp, vn0, vnk, posk, phik] = prealloc(len/nn, 3);  tk = vib0k(:,1);  timu = tk;
     k0 = fix(5/ts); % exculde the first 5s
     ki = timebar(nn, len, 'Initial align based on inertial frame & curve-fit.');
     G = glv.g0*eth.cl/glv.wie^2;
@@ -62,7 +62,7 @@ global glv
             qi0ib0 = dv2atti(pi0k(k1,:)', pi0, pib01, pib02);  % 30/01/2023
             qnib0 = qmul(qni0,qi0ib0);
             qnb = qmul(qnib0,qib0b);
-            attkv(ki,:) = q2att(qnb)';    % using pib0 fit
+            attkp(ki,:) = q2att(qnb)';    % using pib0 fit
             vn0(ki,:) = -qmulv(qmul(qni00,qi0ib0),glv.wie*xk(end-1,:)');
             vnk(ki,:) = qmulv(qnib0,vib0-(glv.wie*[sin(wt)-wt,1-cos(wt),wt,1,0]*xk)');
             posk(ki,:) = qmulv(qnib0,rk)'; % posk(ki,:) = qmulv(qnib0,xk(end,:)')';
@@ -81,19 +81,19 @@ global glv
     Cni0 = [0,1,0; -eth.sl,0,eth.cl;  eth.cl,0,eth.sl];
     att0 = q2att(qmul(m2qua(Cni0),qi0ib0));
     attk(1:k0,:) = repmat(att0',k0,1);
-    attkv(1:k0,:) = repmat(attkv(k0+1,:),k0,1);
-    attk(:,4) = timu; attkv(:,4) = timu;
-    res = varpack(lat, nts, vib0k, pib0k, fib0k, vi0k, pi0k, fi0k, attk, attkv, att0, vn0, vnk, posk, phik); 
-    att0 = attkv(end,1:3)';
+    attkp(1:k0,:) = repmat(attkp(k0+1,:),k0,1);
+    attk(:,4) = timu; attkp(:,4) = timu;
+    res = varpack(lat, nts, vib0k, pib0k, fib0k, vi0k, pi0k, fi0k, attk, attkp, att0, vn0, vnk, posk, phik); 
+    att0 = attkp(end,1:3)';
     resdisp('Initial align attitudes (arcdeg)', att0/glv.deg);
-    if isfig, ai0plot(timu, attk, attkv, vn0, vnk, posk); end
+    if isfig, ai0plot(timu, attk, attkp, vn0, vnk, posk); end
     
 function ai0plot(t, attk, attkv, vn0, vnk, posk)
 global glv
     myfigure;
     subplot(221), plot(t, attk(:,1:2)/glv.deg), xygo('pr');
         hold on,  plot(t, attkv(:,1:2)/glv.deg, 'm:'),
-    subplot(223), plot(t, attk(:,3)/glv.deg), xygo('y');
+    subplot(223), plot(t, attk(:,3)/glv.deg), xygo('y');  title(sprintf('%.4f',attk(end,3)/glv.deg));
         hold on,  plot(t, attkv(:,3)/glv.deg, 'm:'), legend('i0 pos', 'i0fit pos');
     subplot(322), plot(t, vn0), xygo('vn0 / m/s');
     subplot(324), plot(t, vnk), xygo('vnt / m/s');

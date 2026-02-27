@@ -10,12 +10,13 @@ function avpi = lcipure(imu, ap0, A0)
 %                          FUR pitch-yaw-roll for att, 
 %                          x-forward, y-upward, z-rightward for vel&pos
 %
-% See also  lciavp2imu, lciavp2avp, atttrans, q2att1, inspure.
+% See also  lcefpure, ecipure, lciavp2imu, lciavp2avp, atttrans, q2att1, inspure.
 
 % Copyright(c) 2009-2025, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 01/05/2025
 global glv
+    if size(ap0,1)>7, ap0=ap0([1:3,7:9]); end
     [nn,ts,nts,nts2] = nnts(2,diff(imu(1:2,end)));
     Cn0a = a2mat([0;A0;0]); % [F;U;R]
     [re0,Ce0n0] = blh2xyz(ap0(4:6));  Ce0n0 = CenNUE(Ce0n0);  Ce0a = Ce0n0*Cn0a;  ra0 = Ce0a'*re0;

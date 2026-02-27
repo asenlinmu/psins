@@ -5,9 +5,9 @@ function pos = posset(pos0, lon, hgt, isdeg)
 % Input: pos0=[lat; lon; height], where lat and lon are always in arcdeg,
 %             & height is in m.
 %           or pos0=[lat; lon; hgt].
-% Output: pos=[pos0(1)*arcdeg; pos0*arcdeg; dpos0(3)]
+% Output: pos=[pos0(1)*arcdeg; pos0*arcdeg; hgt]
 % 
-% See also  avpset, llh, poserrset.
+% See also  avpset, llh, poserrset, initp.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -20,7 +20,9 @@ global glv
     if     abs(pos0(1))>15959.999, isdeg=3;         % dms.sss
     elseif abs(pos0(1))>  159.999, isdeg=2;         % dm.mmm
     elseif abs(pos0(1))>     pi/2, isdeg=1; end     % d.ddd
-    if isdeg==1
+    if isdeg==0
+        pos = pos0;
+    elseif isdeg==1
         pos = [pos0(1:2)*glv.deg; pos0(3)];
     elseif isdeg==2
         pos = [dm2r(pos0(1)); dm2r(pos0(2)); pos0(3)];

@@ -8,7 +8,7 @@ function [att, Cnb] = q2att1(qnb, yaw0)
 %        yaw0 - launching yaw angle
 % Output: att - Euler angles att=[pitch; roll; yaw] in radians
 %
-% See also  a2qua1, q2att.
+% See also  a2qua1, q2att, atttrans.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

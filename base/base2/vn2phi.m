@@ -17,7 +17,7 @@ function [phi, eN, dU] = vn2phi(vn, lti, ts, isfig)
 %   avp = inspure(imu, [q2att(qaddphi(a2qua(ap0(1:3)),[.1;.1;10]*glv.min));glv.pos0], 'f');
 %   phi = vn2phi(avp(:,[4:6,end]), glv.pos0);
 %
-% See also  vn2phiu, vn2phistd, phiu2vn, aa2phi, vn2att.
+% See also  vn2phiu, vn2phistd, vn2phil, vn2philo, phiu2vn, aa2phi, vn2att.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -38,13 +38,14 @@ global glv
         A = [ones(length(kts),1), kts, kts.^2];  % 2024-07-30
         aEN = invbc(A'*A)*A'*vn(1:k,1:2);
         [phit, phi0, eN] = prls([aEN(2:3,1);0;aEN(2:3,2);0], lti, kts(end));
-        phi(k,1:3) = phit';
+        % phi(k,1:3) = phit';
+        phi(k,1:3) = phi0';
         ki = timebar;
     end
     phi(1:k0,1:3) = repmat(phi0', k0, 1);
     pz = polyfit(vn(:,end), vn(:,3), 1);  dU = pz(end-1);
     if isfig==1
-        myfigure, 
+        myfig, 
         subplot(211), plot(phi(:,4), phi(:,1:2)/glv.sec); xygo('phiEN');
         subplot(212), plot(phi(:,4), phi(:,3)/glv.min); xygo('phiU');
     end

@@ -6,7 +6,7 @@ function [avp, lv] = avplever(avp, lever, tDelay)
 %         lever - lever arms [lx^b; ly^b; lz^b];
 %         tDelay - time delay;
 % Outputs: avp - AVP parameter array after lever arm compensation
-%          lv - =[lx;ly;0] levar arms estimate under static base 
+%          lv - =[lx;ly;0] levar arms estimation under static base 
 %                & by up-axis rotation
 %
 % Example:
@@ -45,3 +45,4 @@ function [avp, lv] = avplever(avp, lever, tDelay)
         legend('V_{Eraw}', 'V_{Enew}', 'V_{Elinear}', 'V_{Nraw}', 'V_{Nnew}', 'V_{Nlinear}');
         title(sprintf('Lv=%.4f, %.4f(m)',lv(1),lv(2)));  xygo('V');
     end
+    avp(:,4:5) = [vE-He(:,3:4)*lever(1:2), vN-Hn(:,3:4)*lever(1:2)];

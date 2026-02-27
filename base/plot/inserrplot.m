@@ -39,6 +39,12 @@ global glv
             myfigure;
             subplot(211), plot(t,err(:,1:2)/glv.sec), xygo('phiEN');
             subplot(212), plot(t,err(:,3)/glv.min), xygo('phiU');
+        case 'adkgzz',
+            myfigure;
+            subplot(221), plot(t,err(:,1)/glv.sec), xygo('phiE');
+            subplot(223), plot(t,err(:,2)/glv.sec), xygo('phiN');
+            subplot(222), plot(t,err(:,3)/glv.min), xygo('phiU');
+            subplot(224), plot(t,err(:,4)/glv.ppm), xygo('dKgzz');
         case 'av',
             myfigure;
             subplot(221), plot(t, err(:,1:2)/glv.sec); xygo('phiEN');
@@ -51,6 +57,12 @@ global glv
             subplot(222), plot(t, err(:,3)/glv.min); xygo('phiU'); mylegend('phiU');
             subplot(223), plot(t, err(:,4:6)); xygo('dV'); mylegend('dVE','dVN','dVU');
             subplot(224), plot(t, [err(:,7:8)*glv.Re,err(:,9)]); xygo('dP'); mylegend('dlat','dlon','dH');
+        case 'avpNoV',  % no plot vertical channel dVU & dH
+            myfigure;
+            subplot(221), plot(t, err(:,1:2)/glv.sec); xygo('phiEN'); mylegend('phiE','phiN');
+            subplot(222), plot(t, err(:,3)/glv.min); xygo('phiU'); mylegend('phiU');
+            subplot(223), plot(t, err(:,4:5)); xygo('dV'); mylegend('dVE','dVN');
+            subplot(224), plot(t, [err(:,7:8)*glv.Re]); xygo('dP'); mylegend('dlat','dlon');
         case 'avped'
             myfigure;
             subplot(321), plot(t, err(:,1:2)/glv.sec); xygo('phiEN');

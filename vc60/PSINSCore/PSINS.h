@@ -1094,6 +1094,7 @@ public:
 	CAligni0fit(const CVect3 &pos0);
 	void Init(const CVect3 &pos0);
 	CQuat Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts);
+	CQuat UpdateNoL(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts);
 	CVect3 pi0t(double t);
 	CVect3 pib0t(double t);
 };

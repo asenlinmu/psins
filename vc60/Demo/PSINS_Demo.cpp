@@ -161,6 +161,21 @@ void Demo_CAlignsv(void)
 #endif
 }
 
+void Demo_CAlignNoLat(void)
+{
+	CFileRdWt::Dir("..\\Data\\", ".\\Data\\");
+	CFileIMU6 fimu("lasergyro.imu"); CFileRdWt faln("aln.bin");
+	CAligni0fit aln0(fimu.pos0), aln(O31);
+	for(int i=0; i<600*100; i++)
+	{
+		if(!fimu.load(1)) break;
+		aln0.Update(fimu.pwm, fimu.pvm, 1, fimu.ts);
+		aln.UpdateNoL(fimu.pwm, fimu.pvm, 1, fimu.ts);
+		faln<<q2att(aln0.qnb)<<q2att(aln.qnb)<<aln.eth.pos.i<<aln.tk;
+		disp(i, 100, 100);
+	}
+}
+
 void Demo_CAligntf(void)
 {
 	CFileRdWt::Dir("..\\Data\\", ".\\Data\\");
@@ -627,10 +642,11 @@ void Demo_Extract_Txt_File(void)
 
 void Demo_Extract_Txt_File_bin(void)
 {
-	int txtclm=61, binclm[]={1,2,3,4,5,6,1000};  double data;
-	FILE *fIn =fopen("D:\\ygm2025\\16\\lyh\\4-Õý5¶È²âÊÔ\\¸ú×Ù\\10ms.dat","rt"), 
-		 *fOut=fopen("D:\\ygm2025\\16\\lyh\\4-Õý5¶È²âÊÔ\\¸ú×Ù\\10ms.bin","wb");
-	for(int i=0; i<10000*100; i++) {
+#define FSFS 200
+	int txtclm=33, binclm[]={22,23,24,25,26,27,29, txtclm};  double data;
+	FILE *fIn =fopen("D:\\ygm2025\\717\\mins_rawData.txt","rt"), 
+		 *fOut=fopen("D:\\ygm2025\\717\\mins_rawData.bin","wb");
+	for(int i=0; i<40*3600*FSFS; i++) {
 		for(int j=0, bcj=0; j<txtclm; j++) {
 			fscanf(fIn, "%lf", &data);
 			if(j==binclm[bcj]) {
@@ -638,7 +654,7 @@ void Demo_Extract_Txt_File_bin(void)
 			}
 		}
 		if(feof(fIn)) break;
-		if(i%10000) printf("%d\n", i/100);
+		if(i%(1000*FSFS)==0) printf("%d\n", i/FSFS);
 	}
 	fclose(fIn); fclose(fOut);
 }

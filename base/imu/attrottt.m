@@ -19,7 +19,7 @@ function att = attrottt(att0, rotparas, ts, isfig)
 %   imu = avp2imu(ap2avp(ap));
 %   imuplot(imu);
 %
-% See also  imustatic.
+% See also  rot2ang, trjattrot, imustatic.
 
 % Copyright(c) 2009-2019, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

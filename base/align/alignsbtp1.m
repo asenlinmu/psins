@@ -25,7 +25,7 @@ function [att2, att1, eb, db, phi, dyaw] = alignsbtp1(imu, pos, T1T2, Y1Y2)
     if length(pos)==1,  pos = [pos; 0; 0];   end
     eth = earth(pos);
     imu1 = datacut(imu,-inf,T1T2(1));    imu12 = datacut(imu,T1T2(1),T1T2(2));    imu2 = datacut(imu,T1T2(2),inf);
-    att1 = alignsb(imu1, pos, 0);
+    att1 = alignsb(imu1, pos, []);
 	avp = inspure(imu12, [att1; pos], 'v', 0);  % insplot(avp);
 	att2 = avp(end,1:3)';  dyaw = att2(3)-att1(3);
     if abs(Y1Y2)>pi/2, att2(3)=att1(3)+Y1Y2; end 

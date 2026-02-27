@@ -7429,6 +7429,33 @@ CQuat CAligni0fit::Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, do
 	return qnb;
 }
 
+CQuat CAligni0fit::UpdateNoL(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts)
+{
+	tk = imu.Update(pwm, pvm, nSamples, ts);
+	// vib0/pib0 update
+	CVect3 vib0tmp = vib0 + qib0b*imu.dvbm;
+	pib0 += (vib0+vib0tmp)*imu.nts/2.0;  vib0 = vib0tmp;
+	double wt=glv.wie*tk;
+	pfit4.SetHk(1.0, wt, wt*wt/2.0, wt-sin(wt), 1.0-cos(wt)-wt*wt/2.0);  pfit4.Update(pib0);
+	// qib0b update
+	qib0b = qib0b*rv2q(imu.phim);
+	// qnb=qni0*qiib0*qib0b
+	qnbsb = a2qua(Alignsb(imu.swmm, imu.svmm, eth.pos.i));
+	if(tk<1.0)			{	qnb0 = qnb = CQuat(1.0); }
+	else if(tk<10.0)	{	qnb0 = qnb = qnbsb; }
+	else {
+		double tk1=tk/2.0;
+		CVect3 pt=pib0t(tk), p1=pib0t(tk1);
+		CVect3 b2=pfit4.Xkv[2], b3=pfit4.Xkv[3], b4=pfit4.Xkv[4];
+		eth.pos.i = atan2(norm(b2-b4), norm(b3));  if(dot(b4*b3,b2)<0) eth.pos.i=-eth.pos.i;
+		eth.sl = sin(eth.pos.i);  eth.cl = cos(eth.pos.i);  eth.tl = eth.sl/eth.cl;
+		CQuat qi0ib0 = a2qua(dv2att(pi0t(tk), pi0t(tk1), pt-pfit4.Xkv[1]*glv.wie*tk-pfit4.Xkv[0], p1-pfit4.Xkv[1]*glv.wie*tk1-pfit4.Xkv[0]));		
+		CMat3 Ci0n = pos2Cen(CVect3(eth.pos.i,eth.wie*tk,0.0));  CQuat qnib0=(~m2qua(Ci0n))*qi0ib0;
+		qnb = qnib0*qib0b;
+	}
+	return qnb;
+}
+
 CVect3 CAligni0fit::pi0t(double t)
 {
     double wt = glv.wie*t;

@@ -17,7 +17,7 @@ function [avpi, avpn] = ecipure(imu, ap0, t0)
 %   avpcmpplot(trj.avp, avpn); 
 %   avp1=inspure(trj.imu,trj.avp0,'f'); avpcmpplot(trj.avp,avp1);
 %
-% See also  lcipure, inspure.
+% See also  lcipure, lcefpure, inspure.
 
 % Copyright(c) 2009-2025, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -3,8 +3,8 @@
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 2/03/2018, 16/05/2021
 glvs
-avp0 = avpset([0;0;0], [30;108;380]);  % init AVP
-ts = 0.1; T = 600;
+avp0 = avpset([0;0;-2], [30;108;380]);  % init AVP
+ts = 0.01; T = 300;
 %%
 twopos = 2;  % =1 for single-position; =2 for two-position alignment
 if twopos==1
@@ -20,9 +20,10 @@ elseif twopos==2
 end
 %%
 phi = [.1;.1;1]*glv.deg;
-imuerr = imuerrset(0.03, 100, 0.001, 10);
-wvn = [0.01;0.01;0.01];
+imuerr = imuerrset(0.0024, 10, 0.0001, 2);
+wvn = [0.01;0.01;0.01]/100;
 [att0v, attkv, xkpk, kfs] = alignvn_kfs(imuadderr(imu,imuerr), qaddphi(a2qua(avp0(1:3)),phi), avp0(7:9), phi, imuerr, wvn);
+err=[kfs.Pk-kfs.Pk1]; max(max(abs(err)))
 myfig;  %  Observability plot
 spk = sqrt(xkpk(:,13:end-1));  t = xkpk(:,end);
 for k=1:12, spk(:,k)=spk(1,k)./spk(:,k); end

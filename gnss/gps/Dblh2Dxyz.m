@@ -9,7 +9,11 @@ function [T, Dxyz] = Dblh2Dxyz(blh, Dblh)
 % Outputs: T - transformation matrix from nav-frame to Earth-frame, T=C^e_n*M_pv
 %          Dxyz - position perturbation in Earth-frame in meters
 %
-% See also  blh2xyz, pos2cen.
+% Example:
+%   [T, Dxyz] = Dblh2Dxyz(glv.pos0, [[1;1]*glv.min;100])
+%   [T1, Dblh] = Dxyz2Dblh(glv.pos0, Dxyz)
+%
+% See also  Dxyz2Dblh, blh2xyz, pos2cen.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
