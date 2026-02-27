@@ -1,5 +1,6 @@
 function [satpv, satClkCorr, TGD, orbitp] = satPosVelBatch(transmitTime, eph)
-% Calculate satellite position(s), velocity(s) and clock error(s) from ephemeris data.
+% Calculate satellite position(s), velocity(s) and clock error(s) from
+% ephemeris data.
 %
 % Prototype: [satpv, satClkCorr, TGD, orbitp] = satPosVelBatch(transmitTime, eph)
 % Inputs: transmitTime - satellite signal transmission time

@@ -47,6 +47,7 @@ global glv
     glv.dps = pi/180/1;             % arcdeg / second
     glv.mdps = glv.dps/1000;        % milli dps
     glv.rps = 360*glv.dps;          % revolutions per second
+    glv.rpm = 360*glv.dps/60;       % revolutions per min
     glv.dph = glv.deg/glv.hur;      % arcdeg / hour
     glv.dpss = glv.deg/sqrt(1);     % arcdeg / sqrt(second)
     glv.dpsh = glv.deg/sqrt(glv.hur);  % arcdeg / sqrt(hour)
@@ -60,9 +61,11 @@ global glv
     glv.dphpg = glv.dph/glv.g0;     % (arcdeg/hour) / g
     glv.dphpg2 = glv.dphpg/glv.g0;  % (arcdeg/hour) / g^2
     glv.ugpsHz = glv.ug/sqrt(glv.Hz);  % ug / sqrt(Hz)
+    glv.mpsph = 1/sqrt(glv.hur);          % m/s/sqrt(hour)
     glv.ugpsh = glv.ug/sqrt(glv.hur); % ug / sqrt(hour)
     glv.ugph = glv.ug/glv.hur;      % ug / hour
-    glv.ugphpsh = glv.ugph/sqrt(glv.hur);  % ug / hour
+    glv.ugphpsh = glv.ugph/sqrt(glv.hur);  % ug / hour /sqrt(hur)
+    glv.gxs = glv.g0*1;             % g0*s
     glv.mpsh = 1/sqrt(glv.hur);     % m / sqrt(hour)
     glv.mpspsh = 1/1/sqrt(glv.hur); % (m/s) / sqrt(hour), 1*mpspsh~=1700*ugpsHz
     glv.ppmpsh = glv.ppm/sqrt(glv.hur); % ppm / sqrt(hour)

@@ -6,7 +6,7 @@ function rv = qq2rv(q1, q0)
 %         q0 - attitude quaternion at previous step
 % Output: rv - rotation vector from q0 to q1
 %
-% See also  q2rv, qq2phi, qq2afa.
+% See also  q2rv, qq2phi, qq2afa, qq2rvBatch.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -1,5 +1,6 @@
 glvs;
 exedir = 'D:\ygm2018(已备份)\惯导与滤波\egm\重力场模型计算软件\';
+% download from: https://www.psins.org.cn/kyxm
 
 %% (1) get pos
 pos = ins(1:100:end,[7:9,16]);  pos0=pos(1,1:3)';

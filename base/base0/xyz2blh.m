@@ -8,7 +8,7 @@ function [blh, Cen] = xyz2blh(xyz)
 %               where lat & lon in radians and hegtht in meter
 %          Cen - transformation matrix from e-frame to n-frame
 %
-% See also  blh2xyz, pos2cen, xyz2blhN.
+% See also  blh2xyz, xyz2blhBatch, pos2cen, xyz2blhN, xyz2llh.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

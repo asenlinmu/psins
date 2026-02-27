@@ -5,7 +5,7 @@ function qnb = m2qua(Cnb)
 % Input: Cnb - DCM from navigation-frame to body-frame
 % Output: qnb - attitude quaternion
 %
-% See also  a2mat, a2qua, m2att, q2att, q2mat, attsyn, m2rv.
+% See also  a2mat, a2qua, m2att, q2att, q2mat, attsyn, m2rv, m2quaBatch.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -30,7 +30,8 @@ function qnb = m2qua(Cnb)
         q0 = 0.5*sqrt(1+C11+C22+C33);  qq4 = 4*q0;
         q1 = (C32-C23)/qq4; q2 = (C13-C31)/qq4; q3 = (C21-C12)/qq4;
     end
-    qnb = [q0; q1; q2; q3];
+    if q0<0, qnb = [-q0; -q1; -q2; -q3];    % 29/11/2024
+    else,    qnb = [q0; q1; q2; q3];  end
     
 %     qnb = [ 1.0 + Cnb(1,1) + Cnb(2,2) + Cnb(3,3);   % if Cnb~=I33, low accuracy !
 %             1.0 + Cnb(1,1) - Cnb(2,2) - Cnb(3,3);

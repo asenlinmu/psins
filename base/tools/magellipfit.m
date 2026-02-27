@@ -19,9 +19,9 @@ function [mag1, K, b, K1, b1, K0, b0, err] = magellipfit(mag0, isfig)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 13/05/2024 
     % [x, idx, idxs] = findpeak([mag0,normv(mag0)], 10, 10);  mag0(idx,:)=[];
-    mmax = max(mag0); mmin = min(mag0);
+    mmax = max(mag0(:,1:3)); mmin = min(mag0(:,1:3));
     K0 = 2./(mmax-mmin)';  b0 = (mmax+mmin)'/2;
-    mag = delbias(mag0,b0)*diag(K0)';    % coarse calibrate
+    mag = delbias(mag0(:,1:3),b0)*diag(K0)';    % coarse calibrate
     %%
     K1 = eye(3);  b1 = zeros(3,1);
     for iter=1:5
@@ -40,8 +40,8 @@ function [mag1, K, b, K1, b1, K0, b0, err] = magellipfit(mag0, isfig)
     if nargin<2, isfig=1; end
     if isfig==1
         myfig
-        subplot(321), plot(mag0), xygo('k', 'mag raw');
-        subplot(323), plot(mag1), xygo('k', 'mag scaled & fitted'); plot(mag,':');
+        subplot(321), plot([mag0(:,1:3),normv(mag0(:,1:3))]), xygo('k', 'mag raw');
+        subplot(323), plot([mag1,normv(mag1(:,1:3))]), xygo('k', 'mag scaled & fitted'); plot(mag,':');
         subplot(325), plot(err); xygo('k', 'norm fitted error');
         subplot(3,2,[2,4,6])
         r=0.95; [x, y, z] = ellipsoid(0,0,0,r,r,r,20); 
@@ -50,6 +50,7 @@ function [mag1, K, b, K1, b1, K0, b0, err] = magellipfit(mag0, isfig)
         xlabel('X'), ylabel('Y'), zlabel('Z');
         axis equal;
     end
+    if size(mag0,2)==4, mag1(:,4)=mag0(:,4); end
     
 function v1 = vv2(v)
     [m,n] = size(v); kk=1;

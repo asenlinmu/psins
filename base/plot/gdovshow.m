@@ -1,5 +1,5 @@
-function dgn = dovshow(data)
-% Gravity abnomal & Deflection of vertical (DOV) display.
+function dgn = gdovshow(data)
+% Gravity abnormal & Deflection of vertical (DOV) display.
 %
 % Prototype: egmshow(data)
 % Input: data - 'gndata.txt' data

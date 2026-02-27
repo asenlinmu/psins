@@ -8,7 +8,7 @@ function [xyz, Cen] = blh2xyz(blh)
 % Outputs: xyz - ECEF Cartesian coordinate vector, in meters
 %          Cen - transformation matrix from Earth-frame to nav-frame
 %
-% See also  xyz2blh, Dblh2Dxyz, pos2cen.
+% See also  xyz2blh, Dblh2Dxyz, pos2cen, blh2xyzBatch.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

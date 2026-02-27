@@ -10,6 +10,7 @@ function Cnb = q2mat(qnb)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 05/02/2008
+    if length(qnb)==3, qnb = [1-sqrt(qnb'*qnb); qnb]; end  % 29/11/2024
     q11 = qnb(1)*qnb(1); q12 = qnb(1)*qnb(2); q13 = qnb(1)*qnb(3); q14 = qnb(1)*qnb(4); 
     q22 = qnb(2)*qnb(2); q23 = qnb(2)*qnb(3); q24 = qnb(2)*qnb(4);     
     q33 = qnb(3)*qnb(3); q34 = qnb(3)*qnb(4);  

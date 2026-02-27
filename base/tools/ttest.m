@@ -1,9 +1,9 @@
 function ttest(t, xist)
-% Continuity test for time flag.
+% Continuity test for time flag, or some data.
 %
 % Prototype: ttest(t)
 % Inputs: t - time stamp
-%         xist - x-axis is t
+%         xist - x-axis is t, default 0
 %
 % See also  sortt, tsetflag, tshift, tsyn, igsplot.
 

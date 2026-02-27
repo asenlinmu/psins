@@ -9,7 +9,7 @@ function imu = imuidx(data, idx, gunit, aunit, ts, dir)
 %         dir - IMU direction string
 % Output: imu - =[gyro,acc,t] angular- & velocity- increment & time tag
 %
-% See also: imurfu, gpsidx, avpidx, ddidx, imumean.
+% See also: imurfu, imuaxis, gpsidx, avpidx, ddidx, imumean.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

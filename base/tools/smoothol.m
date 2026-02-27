@@ -10,9 +10,9 @@ function [data, sdata] = smoothol(data, n, iter, isfig)
 %          sdata - smooth data
 %
 % Example:
-%   data = smoothol( abnomaladd(10*sin((1:100)'*0.1)+randn(100,1),0.2,10), 5);
+%   data = smoothol( abnormaladd(10*sin((1:100)'*0.1)+randn(100,1),0.2,10), 5);
 %
-% See also  deloutlier, smoothn, medianp, interp1n, abnomaladd, POSSmooth.
+% See also  deloutlier, smoothn, medianp, interp1n, abnormaladd, POSSmooth.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -21,11 +21,11 @@ global glv
     elseif length(avp)==7, avp=[avp(1:3); a2mat(avp(1:3))*[0;avp(4);0]; avp(5:7)]; % att,vby & pos
     elseif length(avp)>=9, avp=avp(1:9);  % att,vn & pos
     else err=1; end
-    if err==0
-        absavp = abs(avp);
-        if absavp(1)>pi/2 || absavp(2)>pi || absavp(3)>pi || norm(avp(4:6))>10*1000 ||...
-                absavp(7)>pi/2 || absavp(8)>pi || absavp(9)>100*1000  % boundary check
-            err = 1;
-        end
-    end
+%     if err==0
+%         absavp = abs(avp);
+%         if absavp(1)>pi/2 || absavp(2)>pi || absavp(3)>pi || norm(avp(4:6))>10*1000 ||...
+%                 absavp(7)>pi/2 || absavp(8)>pi || absavp(9)>100*1000  % boundary check
+%             err = 1;
+%         end
+%     end
     if err==1, error('avp setting error.'); end

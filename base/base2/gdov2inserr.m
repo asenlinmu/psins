@@ -1,9 +1,9 @@
 function davp = gdov2inserr(avp, dgn, isfig)
-% Gravity abnomal & Deflection of vertical (DOV) to INS error evaluation.
+% Gravity abnormal & Deflection of vertical (DOV) to INS error evaluation.
 %
 % Prototype: dpos = dov2inserr(avp, dgn)
 % Inputs: avp - INS AVP, always att=0
-%         dgn - Deflection of vertical (DOV) & gravity abnomal array
+%         dgn - Deflection of vertical (DOV) & gravity abnormal array
 %         isfig - figure flag
 % Output: davp - INS error
 %

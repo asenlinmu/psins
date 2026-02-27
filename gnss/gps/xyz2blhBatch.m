@@ -1,6 +1,6 @@
 function [blh, Cen] = xyz2blhBatch(xyz)
-% Convert ECEF Cartesian coordinate [x;y;z] to geographic
-% coordinate [lat;lon;height].
+% Convert ECEF Cartesian coordinate [x,y,z] to geographic coordinate
+% [lat,lon,height].
 %
 % Prototype: [blh, Cen] = xyz2blh(xyz)
 % Input: xyz - ECEF Cartesian coordinate vector, in meters 
@@ -8,7 +8,7 @@ function [blh, Cen] = xyz2blhBatch(xyz)
 %               where lat & lon in radians and hegtht in meter
 %          Cen - transformation matrix from e-frame to n-frame
 %
-% See also  blh2xyz, pos2cen.
+% See also  blh2xyz, pos2cen, xyz2llhBatch.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

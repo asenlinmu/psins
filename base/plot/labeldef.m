@@ -59,12 +59,15 @@ function stext = labeldef(stext)
         'Vz',    '\itVz\rm / ( m/s )';
         'dlat',  '\delta\it L\rm / m';
         'dlon',  '\delta\it \lambda\rm / m';
+        'dll',   '\delta\it L,\rm\delta\it \lambda\rm / ( \prime )';
         'dH',    '\delta\it H\rm / m';
         'dP',    '\delta\it P\rm / m';
+        'dR',    '\delta\it R\rm / m';
         'lat',   '\itL\rm / ( \circ )';
         'lon',   '\it\lambda\rm / ( \circ )';
         'hgt',   '\ith\rm / ( m )';
         'xyz',   'XYZ / ( m )';
+        'dxyz',  'dXYZ / ( m )';
         'est',   'East\rm / m';
         'nth',   'North\rm / m';
         'H',     '\itH\rm / m';

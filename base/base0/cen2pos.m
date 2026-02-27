@@ -1,7 +1,7 @@
-function pos = cen2pos(Cen)
-% Convert transformation matrix Cen to geographic pos = [lat; lon; *].
+function pos = cen2pos(Cen, h)
+% Convert transformation matrix Cen to geographic pos = [lat; lon; hgt].
 %
-% Prototype: pos = cen2pos(Cen)
+% Prototype: pos = cen2pos(Cen, h)
 % Input: Cen - transformation matrix from Earth-frame to nav-frame
 % Output: pos - geographic position
 %
@@ -10,4 +10,5 @@ function pos = cen2pos(Cen)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 05/05/2010
-    pos = [asin(Cen(3,3)); atan2(Cen(2,3), Cen(1,3)); 0];
+    if nargin<2, h=0; end
+    pos = [asin(Cen(3,3)); atan2(Cen(2,3), Cen(1,3)); h];

@@ -6,7 +6,7 @@ function avp = avpset(att, vn, pos, isdeg)
 %        vn - velocity in m/s
 %        pos - postion=[lat;lon;height] with lat and lon in deg,
 %              while heigth in m. see posset.
-%        isdeg - unit deg flag
+%        isdeg - unit degree flag, default =1 for degree unit, =0 for rad
 % Output: avp=[attitude; velocity; position]
 % 
 % See also  posset, pry, llh, avpchk, avperrset, avpadderr, insupdate.

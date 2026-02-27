@@ -1,7 +1,7 @@
 function res = accstatic(vm, n)
 % VG attitude test.
 %
-% Prototype: res = vgtest(imu, att, T)
+% Prototype: res = accstatic(vm, n)
 % Inputs: vm - acc velocity increment
 %         n - FIR filter length
 % Output: res - acc norm filtering out
@@ -14,6 +14,7 @@ function res = accstatic(vm, n)
     ts = diff(vm(1:2,end));
     acc = vm(:,1:3)/ts;
     x = normv(acc(:,1:3));
+%     x = sum(abs(acc(:,1:3)),2);
     b = ones(n,1)/n;
     y = filter(b,1,[acc(:,1:3),x]);
     m = y;

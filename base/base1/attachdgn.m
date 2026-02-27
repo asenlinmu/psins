@@ -3,7 +3,7 @@ function eth = attachdgn(eth, dgn)
 %
 % Prototype: eth = ethupdate(eth, pos, vn)
 % Inputs: eth - input earth structure array
-%         dgn - Gravity abnomal & Deflection of vertical, [dgE;dgN;dgU,t]
+%         dgn - Gravity abnormal & Deflection of vertical, [dgE;dgN;dgU,t]
 % Output: eth - parameter structure array
 %
 % See also  ethupdate.

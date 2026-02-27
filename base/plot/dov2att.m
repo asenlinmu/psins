@@ -1,5 +1,5 @@
 function [att1, datt] = dov2att(dgn, att)
-% Gravity abnomal & Deflection of vertical (DOV) display.
+% Gravity abnormal & Deflection of vertical (DOV) display.
 %
 % Prototype: egmshow(data)
 % Input1: dgn - Deflection of vertical (DOV)

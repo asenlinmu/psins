@@ -9,7 +9,7 @@ function [avp, ierr] = rsinsst(imu, avp0, T, isfig)
 %         isfig - figure flag
 % Output: avp - navigation results, avp = [att,vn,pos,t]
 %
-% See also  inspure.
+% See also  inspure, inspurest.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -32,6 +32,8 @@ global glv
     end
     if nargin<4, isfig=1; end
     if isfig==1
+        tscalepush('t/h');
         insplot(avp);
+        tscalepop();
     end
 

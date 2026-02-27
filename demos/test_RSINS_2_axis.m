@@ -4,7 +4,7 @@
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 07/09/2024
 glvs
-ts = 0.1; RT = 20; ST = 10;  % sampling, rotational & static interval
+ts = 0.1; s=6*1.315*2; RT = 20*s; ST = 10*s;  % sampling, rotational & static interval
 att0 = pry(0.1, 0.1, -0.1);  pos0 = posset(34,0,0);
 paras = [
     1    0,0,1,  180, RT, ST, ST

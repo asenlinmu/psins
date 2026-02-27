@@ -4,7 +4,7 @@ function  avp = ap2avp(ap, ts)
 
 % Prototype: avp = ap2avp(ap, ts)
 % Inputs: ap = [att, pos, t]
-%         ts - sampling time
+%         ts - sampling time interval
 % Output: avp = [att, vn, pos, t]
 %
 % See also  att2c, avp2imu, ap2imu, apmove, apscale, trjsimu, insupdate.

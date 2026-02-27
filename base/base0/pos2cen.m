@@ -1,4 +1,4 @@
-function Cen = pos2cen(pos)
+function [Cen, slat, clat, slon, clon] = pos2cen(pos)
 % Convert geographic pos = [lat; lon; *] to transformation matrix Cen (
 % from Earth-frame to nav-frame £©.
 %

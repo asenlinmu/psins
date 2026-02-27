@@ -21,13 +21,16 @@ function [qnb, att, Cnb, c] = mv2atti(vns, vbs, weight)
     end
     [u, s, v] = svd3(A);  s = diag(s);
 	cmax = 1000; Cnb = eye(3);
-    if det(A)>1e-6 
+    dA = det(A);
+    if dA>1e-6 
         c = max(s)/min(s);
         if c>cmax   % cond too large, reject
             c=cmax;
         else
             Cnb = u*v';
         end
+    elseif dA<-1e-6
+        Cnb = u*diag([1,1,-1])*v';
     else  % negative det(A), fail
         c = -cmax;
     end

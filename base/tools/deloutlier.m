@@ -10,7 +10,7 @@ function [x, outlierIdx] = deloutlier(x, bound, clm, nSmooth)
 %          outlierIdx - outlier index found
 %
 % Example:
-%   x = addclmt(abnomaladd(10*sin((1:100)'*0.1)+randn(100,1),0.2,10));
+%   x = addclmt(abnormaladd(10*sin((1:100)'*0.1)+randn(100,1),0.2,10));
 %   y = deloutlier(x, 5, 1, 5);  myfig; plot(x(:,2),x(:,1), y(:,2),y(:,1));
 %
 % See also  smoothol, deltrend, imudeldrift, findpeak.
