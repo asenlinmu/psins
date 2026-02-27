@@ -22,14 +22,14 @@ function [att0, attk, xkpk] = alignvn(imu, qnb, pos, phi0, imuerr, wvn, isfig)
 %	wvn = [0.01; 0.01; 0.01];
 %	[att0, attk, xkpk] = alignvn(imu, avp0(1:3)', avp0(7:9)', phi, imuerr, wvn);
 %
-% See also  alignfn, alignfn9, aligncmps, aligni0, alignWahba, alignsb, insupdate, etm.
+% See also  alignfn, aligngps, alignfn9, aligncmps, aligni0, alignWahba, alignsb, insupdate, etm.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 17/06/2011
 global glv
     if nargin<4,  phi0 = [1.5; 1.5; 3]*glv.deg;  end
-    if nargin<5,  imuerrset(0.01, 100, 0.001, 1);  end
+    if nargin<5,  imuerr = imuerrset(0.01, 100, 0.001, 1);  end
     if nargin<6,  wvn = 0.01;  end;  if length(wvn)==1, wvn=repmat(wvn,3,1); end
     if nargin<7,  isfig = 1; end
     if length(qnb)==3, qnb=a2qua(qnb); end  %if input qnb is Eular angles.

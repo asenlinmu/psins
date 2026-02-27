@@ -66,6 +66,9 @@ global glv
             if sz>4, sz=4; data=data(:,[7:9,end]); end
             data = pos2dxyz(data); data(:,1:2) = data(:,[2,1]);
             sz1=3;
+        case 'hgt',
+            if sz>2, sz=2; data = data(:,end-1:end); end
+            sz1=1;
         case 'phi',
             if sz>4, sz=4; data=data(:,[1:3,end]); end
             sz1=3; data(:,1:sz1)=data(:,1:sz1)/glv.min;

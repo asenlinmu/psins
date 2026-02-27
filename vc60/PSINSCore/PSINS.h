@@ -3,7 +3,7 @@
 
 Copyright(c) 2015-2021, by YanGongmin, All rights reserved.
 Northwestern Polytechnical University, Xi'an, P.R.China.
-Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 28/10/2021
+Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 22/11/2021, 27/01/2022
 */
 
 #ifndef _PSINS_H
@@ -24,7 +24,7 @@ Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 28/10/2021
 #define PSINS_MATRIX_MAX_DIM	34
 #define PSINS_IO_FILE
 #define PSINS_RMEMORY
-#define PSINS_AHRS_MEMS
+//#define PSINS_AHRS_MEMS
 //#define PSINS_psinsassert
 //#define MAT_COUNT_STATISTIC
 //#define PSINS_STACK
@@ -191,7 +191,7 @@ class CAlignsv;		class CAligntrkang;	class CCAM;			class CCALLH;		class CVGHook;
 class CRAvar;		class CVAR;			class CVARn;		class CIIR;			class CIIRV3;
 class CMaxMin;		class CMaxMinn;		class CRMemory;		class CSmooth;		class CFileRdWt;
 class CDR;			class CVAutoPOS;	class CPOS618;		class CAutoDrive;	class CSINSGNSSOD;
-class CSGOClbt;		class CSmooth;		class CWzhold;		class CUartPP;
+class CSGOClbt;		class CWzhold;		class CUartPP;
 class CVCFileFind;	class PSINSBoard;	class ConUart;		class CContLarge;
 		
 // function define
@@ -316,8 +316,12 @@ public:
 	friend CVect3 dotmul(const CVect3 &v1, const CVect3 &v2);	// vector dot multiplication '.*'
 	friend CMat3 a2mat(const CVect3 &att);					// Euler angles to DCM 
 	friend CVect3 m2att(const CMat3 &Cnb);					// DCM to Euler angles 
+	friend CVect3 m2attr(const CMat3 &Cnb);					// DCM to reversed Euler angles (in 3-2-1 rotation sequence)
+	friend CVect3 q2attr(const CQuat &qnb);					// Qnb to reversed Euler angles (in 3-2-1 rotation sequence)
 	friend CQuat a2qua(double pitch, double roll, double yaw);	// Euler angles to quaternion
 	friend CQuat a2qua(const CVect3 &att);					// Euler angles to quaternion
+	friend CMat3 ar2mat(const CVect3 &attr);				// reversed Euler angles to DCM
+	friend CQuat ar2qua(const CVect3 &attr);				// reversed Euler angles to Qnb
 	friend CVect3 q2att(const CQuat &qnb);					// quaternion to Euler angles 
 	friend CQuat rv2q(const CVect3 &rv);					// rotation vector to quaternion
 	friend CVect3 q2rv(const CQuat &q);						// quaternion to rotation vector
@@ -370,6 +374,8 @@ public:
 
 	CMat3(void);
 	CMat3(double xyz);
+	CMat3(const double *pxyz);
+	CMat3(const float *pxyz);
 	CMat3(double xx, double yy, double zz);
 	CMat3(double xx, double xy, double xz,
 		  double yx, double yy, double yz,
@@ -388,6 +394,7 @@ public:
 	void SetClm(int i, CVect3 &v);							// set i-column from vector
 	CVect3 GetRow(int i) const;								// get i-row from matrix
 	CVect3 GetClm(int i) const;								// get i-column from matrix
+	friend CMat3 Rot(double angle, char axis);				// rotation by x/y/z axis with angle
 	friend CMat3 rcijk(const CMat3 &m, int ijk);			// re-arrange row/clm indexed by ijk
 	friend CMat3 operator-(const CMat3 &m);					// minus
 	friend CMat3 operator~(const CMat3 &m);					// matrix transposition
@@ -690,6 +697,23 @@ public:
 	void Update(const CVect3 &wm, double dS, double ts);
 };
 
+class CCNS
+{
+public:
+	double dUT1, dTAI, dTT, TT, era, gmst, gast, eps, dpsi, deps;
+	CMat3 CP, CN, CW, Cie, Cns;
+	CCNS(void);
+	void SetdT(double dUT1=-0.5, double dTAI=37);
+	void Setxyp(double xp=0.0, double yp=0.0);				// polar motion
+	double JD(int year=2000, int month=1, int day=1, double hour=0.0);	// JulianDate calculation
+	void Equinox(double TT);
+	CMat3 Precmat(double TT);								// Luni-solar precession
+	CMat3 Nutmat(double TT);								// Luni-solar nutation
+	double GAST(double jd, double s);						// Greenwich Apparent Sidereal Time
+	CMat3 GetCie(double jd, double s);
+	CMat3 GetCns(const CQuat &qis, const CVect3 &pos, double t, const CMat3 &Cbs=I33);
+};
+
 class CAVPInterp
 {
 #define AVPINUM 50
@@ -754,7 +778,7 @@ public:
 	int nq, nr;
 	unsigned int kfcount, measflag, measflaglog, measmask;
 	CMat Ft, Pk, Hk, Fading;
-	CVect Xk, Zk, Qt, Rt, rts, RtTau, measstop, measlost, Xmax, Pmax, Pmin, Pset, Zfd, Zfd0,
+	CVect Xk, Zk, Qt, Rt, rts, RtTau, measstop, measlost, Xmax, Pmax, Pmin, Pset, Zfd, Zfd0, Zmax,
 		Rmax, Rmin, Rbeta, Rb, Rstop,			// measurement noise R adaptive
 		FBTau, FBMax, FBOne, FBOne1, FBXk, FBTotal;	// feedback control
 	int Rmaxcount[MMD], Rmaxcount0[MMD];
@@ -864,6 +888,21 @@ public:
 };
 #endif  // PSINS_RMEMORY
 #endif  // PSINS_IO_FILE
+
+class CSINSGNSSCNS:public CSINSGNSS	// SINS/GNSS/CNS
+{
+public:
+	CMat3 Cbs;
+	CCNS cns;
+	CSINSGNSSCNS(void);
+	CSINSGNSSCNS(double ts);
+	void SetCNS(int year, int month, int day, double s0=0.0, double dUT1=-0.5, double dTAI=37);
+	void CSINSGNSSCNS::Init(const CSINS &sins0, int grade=-1);
+	virtual void SetHk(int nnq);
+	virtual void Feedback(int nnq, double fbts);
+	void SetMeasCNS(CQuat &qCis);
+	void SetMeasCNS(CVect3 &vqis);
+};
 
 class CAlignkf:public CSINSGNSS
 {
@@ -1142,13 +1181,14 @@ public:
 	long memLen, dataLen;
 	BYTE *pMemPush, *pMemPop, pushBuf[MAX_RECORD_BYTES], popBuf[MAX_RECORD_BYTES];
 
+	CRMemory(void);
 	CRMemory(long recordNum, int recordLen0);
 	CRMemory(BYTE *pMem, long memLen0, int recordLen0=0);
 	~CRMemory();
 	BOOL push(const BYTE *p=(const BYTE*)NULL);
 	BYTE pop(BYTE *p=(BYTE*)NULL);
 	BYTE* get(int iframe);
-	BYTE* Set(int iframe, const BYTE *p);
+	BYTE* set(int iframe, const BYTE *p);
 };
 
 class CSmooth
@@ -1160,6 +1200,18 @@ public:
 	CSmooth(int clm=MMD, int row=100);
 	~CSmooth();
 	CVect Update(const double *p, double *pmean=NULL);
+};
+
+class CInterp		// linear interpolation
+{
+public:
+	CRMemory *pmem, mem;
+	int irow, row, clm;
+	double mint, maxt;
+	CInterp(double **table, int row, int clm=2);
+	CInterp(const char *fname, int clm=2);
+	~CInterp();
+	double Interp(double t, double *data=NULL);
 };
 
 #endif // PSINS_RMEMORY

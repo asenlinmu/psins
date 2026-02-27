@@ -3,7 +3,7 @@
 
 Copyright(c) 2015-2021, by YanGongmin, All rights reserved.
 Northwestern Polytechnical University, Xi'an, P.R.China.
-Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 28/10/2021
+Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 22/11/2021, 27/01/2022
 */
 
 #include "PSINS.h"
@@ -471,7 +471,7 @@ double MagYaw(const CVect3 &mag, const CVect3 &att, double declination)
 	CVect3 attH(att.i, att.j, 0.0);
 	CVect3 magH = a2mat(attH)*mag;
 	double yaw = 0.0;
-	if(attH.i<(80.0*DEG)&&attH.i>-(80.0*DEG))
+//	if(attH.i<(80.0*DEG)&&attH.i>-(80.0*DEG))
 	{
 		yaw = atan2Ex(magH.i, magH.j) + declination;
 		if(yaw>PI)       yaw -= _2PI;
@@ -662,6 +662,20 @@ CMat3::CMat3(double xyz)
 	e00=e01=e02 =e10=e11=e12 =e20=e21=e22 =xyz;
 }
 
+CMat3::CMat3(const double *pxyz)
+{
+	e00=*pxyz++,e01=*pxyz++,e02=*pxyz++,
+	e10=*pxyz++,e11=*pxyz++,e12=*pxyz++,
+	e20=*pxyz++,e21=*pxyz++,e22=*pxyz  ;
+}
+
+CMat3::CMat3(const float *pxyz)
+{
+	e00=*pxyz++,e01=*pxyz++,e02=*pxyz++,
+	e10=*pxyz++,e11=*pxyz++,e12=*pxyz++,
+	e20=*pxyz++,e21=*pxyz++,e22=*pxyz  ;
+}
+
 CMat3::CMat3(double xx, double yy, double zz)
 {
 	e00=xx, e11=yy, e22=zz;
@@ -805,6 +819,14 @@ CVect3 CMat3::GetClm(int i) const
 	return CVect3(*p,*(p+3),*(p+6));
 }
 
+CMat3 Rot(double angle, char axis)
+{
+	double s=sin(angle), c=cos(angle);
+	if(axis=='x'||axis=='X')		return CMat3(1,  0, 0,   0, c, -s,   0, s, c);
+	else if(axis=='y'||axis=='Y')	return CMat3(c,  0, s,   0, 1,  0,  -s, 0, c);
+	else							return CMat3(c, -s, 0,   s, c,  0,   0, 0, 1);
+}
+
 CMat3 rcijk(const CMat3 &m, int ijk)
 {
 	switch(ijk)
@@ -884,6 +906,23 @@ CMat3 a2mat(const CVect3 &att)
 	return Cnb;
 }
 
+CMat3 ar2mat(const CVect3 &attr)  // reversed Euler angles to DCM
+{
+	double	si = sin(attr.i), ci = cos(attr.i),
+			sj = sin(attr.j), cj = cos(attr.j),
+			sk = sin(attr.k), ck = cos(attr.k);
+	CMat3 Cnb;
+	Cnb.e00 =  cj*ck;	Cnb.e01 =  si*sj*ck-ci*sk;	Cnb.e02 = ci*sj*ck + si*sk;
+	Cnb.e10 =  cj*sk;	Cnb.e11 =  si*sj*sk+ci*ck;	Cnb.e12 = ci*sj*sk - si*ck;
+	Cnb.e20 = -sj;		Cnb.e21 =  si*cj;			Cnb.e22 = ci*cj;
+	return Cnb;
+}
+
+CQuat ar2qua(const CVect3 &attr)
+{
+	return m2qua(ar2mat(attr));
+}
+
 CVect3 m2att(const CMat3 &Cnb)
 {
 	CVect3 att;
@@ -891,6 +930,20 @@ CVect3 m2att(const CMat3 &Cnb)
 	att.j = atan2Ex(-Cnb.e20, Cnb.e22);
 	att.k = atan2Ex(-Cnb.e01, Cnb.e11);
 	return att;
+}
+
+CVect3 m2attr(const CMat3 &Cnb)
+{
+	CVect3 attr;
+	attr.i = atan2Ex(Cnb.e21, Cnb.e22);
+	attr.j = asinEx(-Cnb.e20);
+	attr.k = atan2Ex(Cnb.e10, Cnb.e00);
+	return attr;
+}
+
+CVect3 q2attr(const CQuat &qnb)
+{
+	return m2attr(q2mat(qnb));
 }
 
 CQuat m2qua(const CMat3 &Cnb)
@@ -2168,7 +2221,7 @@ void CKalman::Init(int nq0, int nr0)
 	Ft = Pk = CMat(nq,nq,0.0);
 	Hk = CMat(nr,nq,0.0);  Fading = CMat(nr,nq,1.0); zfdafa = 0.1;
 	Qt = Pmin = Xk = CVect(nq,0.0);  Xmax = Pmax = CVect(nq,INF);  Pset = CVect(nq,-INF);
-	Zk = CVect(nr,0.0);  Rt = CVect(nr,INF); rts = CVect(nr,1.0);  Zfd = CVect(nr,0.0); Zfd0 = CVect(nr,INF);
+	Zk = CVect(nr,0.0);  Rt = CVect(nr,INF); rts = CVect(nr,1.0);  Zfd = CVect(nr,0.0); Zfd0 = Zmax = CVect(nr,INF);
 	RtTau = Rmax = CVect(nr,INF); measstop = measlost = Rmin = Rb = Rstop = CVect(nr,0.0); Rbeta = CVect(nr,1.0);
 	SetRmaxcount(5);
 	FBTau = FBMax = FBOne = FBOne1 = CVect(nq,INF); FBXk = FBTotal = CVect(nq,0.0);
@@ -2507,7 +2560,7 @@ int CSINSTDKF::TDUpdate(const CVect3 *pwm, const CVect3 *pvm, int nSamples, doub
 				else
 				{
 					measflag ^= flag;
-					if(adptOKi && measstop.dd[row]<EPS)
+					if(adptOKi && measstop.dd[row]<EPS && (innovation>-Zmax.dd[row]&&innovation<Zmax.dd[row]))
 					{
 						measRes |= flag;
 						Xk += Kk*innovation;
@@ -2783,7 +2836,7 @@ void CSINSGNSS::operator<<(CFileRdWt &f)
 
 #ifdef PSINS_IO_FILE
 #ifdef PSINS_RMEMORY
-//***************************  class CPOS  *********************************/
+//***************************  class CPOS618  *********************************/
 CPOS618::CPOS618(void)
 {
 	pmemImuGnss = pmemFusion = NULL;  psmth = NULL; fins = fkf = NULL;
@@ -2863,7 +2916,7 @@ void CPOS618::Forward(void)
 		for(int i=0; i<9; i++,p++,p1+=nq+1) *p = *p1;
 		double *pp = iter>psmth->maxrow/2 ? &pXP->Patt.i-(psmth->maxrow/2*dbsize(FXPT)) : NULL;
 		psmth->Update(&pXP->Patt.i, pp);  // Pk smooth
-		pXP->t = sins.tk;
+		pXP->t = sins.tk = this->kftk = pIG->t;
 		if(iter%10==0&&fins) { *this<<*fins;  *fkf<<*this; }
 		disp(iter,frq,100);
 	}
@@ -2926,6 +2979,61 @@ void CPOS618::Process(char *fname, int step)
 }
 #endif  // PSINS_RMEMORY
 #endif  // PSINS_IO_FILE
+
+//***************************  class CSINSGNSSCNS  *********************************/
+CSINSGNSSCNS::CSINSGNSSCNS(void)
+{
+}
+
+CSINSGNSSCNS::CSINSGNSSCNS(double ts):CSINSGNSS(18, 9, ts)
+{
+	// 0-14: phi,dvn,dpos,eb,db;  15-17: mu^b_s
+	Hk.SetMat3(6, 0, I33);  Hk(6,6)=1.0;	// SINS/CNS: Hk(7,7)=-sins.eth.cl; Hk(8,7)=-sins.eth.sl; Hk.SetMat3(6,15,sins.Cnb);
+	Cbs = I33;
+	SetMeasMask(1, 0777);
+}
+
+void CSINSGNSSCNS::SetCNS(int year, int month, int day, double s0, double dUT1, double dTAI)
+{
+	cns.SetdT(dUT1, dTAI);
+	cns.GetCie(cns.JD(year, month, day), s0);
+}
+
+void CSINSGNSSCNS::Init(const CSINS &sins0, int grade)
+{
+	CSINSGNSS::Init(sins0);
+	Pmin.Set2(fPHI(0.01,0.01),  fXXX(0.001),  fdPOS(.1),  fDPH3(0.0001),  fUG3(1.0),  fXYZU(1,1,3,SEC));
+	Pk.SetDiag2(fPHI(10,60),  fXXX(0.001),  fdPOS(10.0),  fDPH3(0.01),  fUG3(100.0),  fXYZU(10,10,30,MIN));
+	Qt.Set2(fDPSH3(0.001),  fUGPSHZ3(1.0),  fOO9,  fOOO);
+	Rt.Set2(fXXZ(0.5,1.0),   fdLLH(10.0,30.0), fXYZU(10,10,30,SEC));
+	Rmax = Rt*100;  Rmin = Rt*0.01;  //Rb = 0.6;
+	FBTau.Set(fXYZ(0.1,0.1,0.1),  fXX6(0.1),  fXX6(1.0),  fXXX(INF));
+}
+
+void CSINSGNSSCNS::SetHk(int nnq)
+{
+	Hk(7,7)=-sins.eth.cl; Hk(8,7)=-sins.eth.sl; Hk.SetMat3(6,15,sins.Cnb);
+}
+
+void CSINSGNSSCNS::Feedback(int nnq, double fbts)
+{
+	CSINSGNSS::Feedback(15, fbts);
+	Cbs = Cbs*a2mat(*(CVect3*)&FBXk.dd[15]);
+}
+
+void CSINSGNSSCNS::SetMeasCNS(CQuat &qis)
+{
+	if(qis.q0<=0) return;
+	*(CVect3*)&Zk.dd[6] = sins.qnb - m2qua(cns.GetCns(qis, sins.pos, sins.tk, Cbs));
+	SetMeasFlag(00700);
+}
+
+void CSINSGNSSCNS::SetMeasCNS(CVect3 &vqis)
+{
+	double q0=1.0-dot(vqis,vqis);
+	q0 = q0>0 ? sqrt(q0) : 0.0;
+	SetMeasCNS(CQuat(q0, vqis));
+}
 
 //***************************  class CSINSGNSSDR  *********************************/
 CSINSGNSSDR::CSINSGNSSDR(void)
@@ -3128,6 +3236,7 @@ void CAutoDrive::Init(const CSINS &sins0, int grade)
 	Rt.Set2(fXXZ(0.2,0.6), fdLLH(10.0,30.0), 
 		fXXZ(0.1,0.1), fXXZ(0.1,0.1), fXYZ(0.1,10.0,0.1), 1.0*DEG, 10.0*DPH);
 	Rmax = Rt*100;  Rmin = Rt*0.01;  Rb.SetBit(0100077, 0.5);
+	*(CVect3*)&Zmax.dd[0] = CVect3(2.0,2.0,0.5);
 	FBTau = 1.0;
 }
 
@@ -3768,6 +3877,99 @@ void CDR::Update(const CVect3 &wm, double dS, double ts)
 	Cnb = q2mat(qnb); att = m2att(Cnb);
 }
 
+//***************************  class CCNS  *********************************/
+CCNS::CCNS(void)
+{
+	SetdT();
+	Setxyp(0.0, 0.0);
+	TT = era = gmst = gast = eps = dpsi = deps = 0.0;  CP = CN = CW = Cie = I33;
+}
+
+void CCNS::SetdT(double dUT1, double dTAI)
+{
+	this->dUT1 = dUT1,  this->dTAI = dTAI;  // dUT1=UT1-UTC, dTAI=TAI-UTC
+	dTT = dTAI+32.184;
+}
+
+void CCNS::Setxyp(double xp, double yp)
+{
+	xp *= glv.sec;  yp *= glv.sec;		// inputs xp,yp are in arcsec
+	double xyp=xp-yp;
+	CW = CMat3( 1-xp*xp/2,	0.0,			xp,			// polar motion matrix, C^e0_e
+				0.0,		1-yp*yp/2,		-yp, 
+				-xp,		yp,				1-xyp*xyp/2 );
+//	CW = Rot(xp,'y')*Rot(yp,'x');
+}
+
+double CCNS::JD(int year, int month, int day, double hour)
+{
+    if(month>2) { month=month+1; }  else { year=year-1; month=month+13; }
+    double d = (int)(365.25*(year+4716))+(int)(30.6001*month)+day - 1524.5;
+    int ja = (int)(0.01*year);
+    d += (2-ja+(int)(0.25*ja));
+	return d+hour/24.0;
+}
+
+CMat3 CCNS::Precmat(double TT)
+{
+	double T2 = TT*TT;  // TT ~= TDB
+    double zeta  = 2306.2181*TT+0.301880*T2;
+    double theta = 2004.3109*TT-0.426650*T2;
+    double z     = 2306.2181*TT+1.094687*T2;
+    return CP = Rot(z*glv.sec,'z') * Rot(-theta*glv.sec,'y') * Rot(zeta*glv.sec,'z');
+}
+
+void CCNS::Equinox(double TT)
+{
+	double T2 = TT*TT;  // TT ~= TDB
+    eps  = (84381.448-46.8150*TT)*glv.sec;
+    double lp = (1287104.79305+129596581.0481*TT-0.5532*T2)*glv.sec;
+    double F  = (335779.526232+1739527262.8478*TT-12.7512*T2)*glv.sec;
+    double D  = (1072260.70369+1602961601.2090*TT-6.3706*T2)*glv.sec;
+    double Om = (450160.398036-6962890.5431*TT+7.4722*T2 )*glv.sec;
+    dpsi = ( -17.1996*sin(Om)  -1.3187*sin(2*F-2*D+2*Om)  -0.2274*sin(2*F+2*Om)
+               +0.2062*sin(2*Om)  +0.1426*sin(lp)   )*glv.sec;
+    deps = ( 9.2025*cos(Om)  +0.5736*cos(2*F-2*D+2*Om) )*glv.sec;
+}
+
+CMat3 CCNS::Nutmat(double TT)
+{
+	Equinox(TT);  // TT ~= TDB
+    return CN = Rot(eps+deps,'x') * Rot(dpsi,'z') * Rot(-eps,'x');
+}
+
+double CCNS::GAST(double jd, double s)
+{
+	// ERA
+	double UT1 = jd-2451545.0 + (s+dUT1)/86400.0;  // 's' is UTC seconds within a day
+	era = 4.894961212823756 + 6.300387486754831*UT1; //	era = _2PI*(0.7790572732640 + 1.00273781191135448*UT1);
+//	era = fmod(era, _2PI);	if(era<0) era+=_2PI;
+	// GMST
+	TT = ((jd-2451545.0) + (s+dTT)/86400.0)/36525;
+    gmst = era + (4612.15739966*TT+1.39667721*TT*TT)*glv.sec;
+//	gmst = fmod(gmst, _2PI);  if(gmst<0) gmst+=_2PI;
+	// GAST
+	Equinox(TT);
+	gast = gmst + dpsi*cos(eps+deps);
+	gast = fmod(gast, _2PI);	if(gast<0) gast+=_2PI;
+	return gast;
+}
+
+CMat3 CCNS::GetCie(double jd, double s)
+{
+    GAST(jd, s);  // 's' is UTC seconds within a day
+	CN = Rot(eps+deps,'x') * Rot(dpsi,'z') * Rot(-eps,'x');
+    return Cie = (~(CN*Precmat(TT))) * Rot(gast,'z');
+}
+
+CMat3 CCNS::GetCns(const CQuat &qis, const CVect3 &pos, double t, const CMat3 &Cbs)
+{
+	CMat3 Cie1 = Cie * Rot(glv.wie*t, 'Z');
+	Cns = ~(q2mat(~qis) * Cie1 * pos2Cen(pos));
+	if(&Cbs!=&I33) Cns = Cns*(~Cbs);
+	return Cns;
+}
+
 //***************************  class CAVPInterp  *********************************/
 CAVPInterp::CAVPInterp(void)
 {
@@ -4360,6 +4562,11 @@ CFileRdWt& CFileRdWt::operator>>(CMat &m)
 #ifdef PSINS_RMEMORY
 #pragma message("  PSINS_RMEMORY")
 
+CRMemory::CRMemory(void)
+{
+	pMemStart0 = NULL;
+}
+
 CRMemory::CRMemory(long recordNum, int recordLen0)
 {
 	BYTE *pb = (BYTE*)malloc(recordNum*recordLen0);
@@ -4402,7 +4609,7 @@ BYTE* CRMemory::get(int iframe)
 	return &pMemStart[popLen*iframe];
 }
 
-BYTE* CRMemory::Set(int iframe, const BYTE *p)
+BYTE* CRMemory::set(int iframe, const BYTE *p)
 {
 	BYTE *p0 = &pMemStart[pushLen*iframe];
 	BYTE i;
@@ -4428,9 +4635,6 @@ BOOL CRMemory::push(const BYTE *p)
 	}
 	return res;
 }
-
-#endif // PSINS_RMEMORY
-
 
 //******************************  CSmooth *********************************/
 CSmooth::CSmooth(int clm, int row)
@@ -4462,6 +4666,80 @@ CVect CSmooth::Update(const double *p, double *pmean)
 	if(pmean) memcpy(pmean, mean.dd, mean.rc*sizeof(double));
 	return mean;
 }
+
+//******************************  CInterp *********************************/
+CInterp::CInterp(double **table, int row, int clm)
+{
+	this->row = row; this->clm = clm;
+	mem = CRMemory((BYTE*)table, row*clm*sizeof(double), clm*sizeof(double));
+	pmem = &mem;
+	mint = table[0][0];  maxt = table[row-1][0];  irow = 0;
+}
+
+CInterp::CInterp(const char *fname, int clm)
+{
+	this->clm = clm;
+	CFileRdWt f(fname, -clm);
+	long sz = f.filesize();  this->row = sz/(clm*sizeof(double))+2;
+	pmem = new CRMemory(row, clm*sizeof(double));
+	fread(pmem->get(1), sz, 1, f.rwf);
+	double *p = (double*)pmem->set(0, pmem->get(1)); *p=mint=-INF;
+	p = (double*)pmem->set(row-1, pmem->get(row-2)); *p=maxt=INF;
+	irow = 0;
+}
+
+CInterp::~CInterp()
+{
+	if(pmem->pMemStart0) Delete(pmem);
+}
+
+double CInterp::Interp(double t, double *data)
+{
+	double *p0, *p1;
+	p0 = (double*)pmem->get(irow);
+	int OK_t=0;
+	if(p0[0]<t) {
+		p1 = p0+clm;
+		if(t<=p1[0]) OK_t=1;     // p0[0] < t <= p1[0],  cur interval
+		else if(p1[0]<t) {
+			p0 = p1;
+			p1 = p0+clm;  irow++;
+			if(t<=p1[0]) OK_t=1;     // p1[0] < t <= p2[0], next interval
+		}
+	}
+	else if(t<=p0[0]) {
+		p1 = p0;
+		p0 = p1-clm;  irow--;
+		if(p0[0]<t) OK_t=1;     // p_1[0] < t <= p0[0], pre interval
+	}
+	if(!OK_t) {
+		if(t<=mint) t=mint; else if(t>=maxt) t=maxt;
+		p0 = (double*)pmem->pMemStart;
+//		for(irow=0; irow<row; irow++,p0+=clm) {  // re-find from beginning
+//			if(p0[0]<t && t<=p0[clm]) break;
+//		}
+//		if(irow>=row-1) return INF;  // no find, error
+		for(int row1=0,row2=row,i=0; i<row; i++) {  // binary search
+			irow = (row1+row2)/2;
+			if(irow==row1) break;
+			if(t<=p0[irow*clm])	row2 = irow;
+			else row1 = irow;
+		}
+		p0 = (double*)pmem->get(irow);  p1 = p0+clm;
+	}
+	double k=(t-p0[0])/(p1[0]-p0[0]);
+	if(data) {
+		for(int i=1; i<clm; i++) {
+			data[i-1] = p0[i] + (p1[i]-p0[i])*k;
+		}
+//data[0]=data[1]=data[2]=0.0;
+		return data[0];
+	}
+	else
+		return p0[1] + (p1[1]-p0[1])*k;
+};
+
+#endif // PSINS_RMEMORY
 
 //******************************  CVCFileFind *********************************/
 #ifdef PSINS_VC_AFX_HEADER
@@ -5185,9 +5463,9 @@ static double ssgm = sqrt(NSUM/12.0);
 		x += (double)rand();
 	}
 	x /= RAND_MAX;
-	x -= NSUM/2.0;  x += mu;
+	x -= NSUM/2.0;
 	x /= ssgm;		x *= sigma;
-	return x;
+	return x+mu;
 }
 
 CVect3 randn(const CVect3 &mu, const CVect3 &sigma)

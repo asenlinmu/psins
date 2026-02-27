@@ -1,11 +1,11 @@
-function [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, lever, dT, rk, Pmin, Rmin, fbstr)
-% 19-state SINS/GPS integrated navigation Kalman filter.
+function [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, lever, dT, rk, Pmin, Rmin, fbstr, isfig)
+% 19-state SINS/GNSS integrated navigation Kalman filter.
 % The 19-state includes:
 %       [phi(3); dvn(3); dpos(3); eb(3); db(3); lever(3); dT(1)]
 % The 3- or 6- measurements are:
 %       [dvn(3)] or [dvn(3); dpos(3)]
 %
-% Prototype: [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, lever, dT, rk, Pmin, Rmin, fbstr)
+% Prototype: [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, lever, dT, rk, Pmin, Rmin, fbstr, isfig)
 % Inputs: imu - IMU array [wm, vm, t]
 %         gps - GNSS array [vn, pos, t] or [pos, t];
 %         ins - ins array, set by function 'insinit'
@@ -17,6 +17,7 @@ function [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, l
 %         Pmin - Pmin setting, Pmin<=0 for no Pmin constrain
 %         Rmin - Rmin setting, Rmin<=0 for no adaptive KF, Rmin=0~1 scale for adaptive KF and Rmin = Rk*Rmin
 %         fbstr - KF feedback string from 'avpedLT'
+%         isfig - figure flag
 %
 % Example 1:
 %   [avp1, xkpk, zkrk, sk, ins1, kf1] = sinsgps(imu, gps, 300);
@@ -52,7 +53,7 @@ function [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, l
     end
     if ~exist('dT', 'var'), dT = 0.01; end;   if length(dT)==1, dT(2,1)=1; end
     if ~exist('lever', 'var'), lever = rep3(1); else, lever=rep3(lever); end;   if length(lever)==3, lever(4)=1; end
-    if ~exist('imuerr', 'var'), imuerr = imuerrset(0.01, 100, 0.001, [10;10;100]); end
+    if ~exist('imuerr', 'var'), imuerr = imuerrset(0.05, 500, 0.001, [10;10;100]); end
     if ~exist('davp', 'var'), davp = avperrset([10;300], 1, [10;30]); end
     if ~exist('ins', 'var'), ins=100; end
     if ~isstruct(ins)  % sinsgps(imu, gps, T);  T=ins align time
@@ -82,10 +83,10 @@ function [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, l
     end
     if exist('fbstr', 'var'), kf.fbstr=fbstr; end
     kf.xtau = [ [1;1;1]; [1;1;1]; [1;1;1]; [1;1;1]; [1;1;1]; [1;1;1]; 1]*1;
-    imugpssyn(imu(:,7), gps(:,end));
+    imugpssyn(imu(:,end), gps(:,end));
     len = length(imu); [avp, xkpk, zkrk, sk] = prealloc(fix(len/nn), 16, 2*kf.n+1, 2*kf.m+1, 2);
     if len<101, return; end;  % return kf struct
-    timebar(nn, len, '19-state SINS/GPS simulation.'); ki = 1; kiz = 1;
+    timebar(nn, len, '19-state SINS/GNSS simulation.'); ki = 1; kiz = 1;
     for k=1:nn:len-nn+1
         k1 = k+nn-1; 
         wvm = imu(k:k1,1:6); t = imu(k1,end);
@@ -116,8 +117,10 @@ function [avp, xkpk, zkrk, sk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, l
         timebar;
     end
     avp(ki:end,:) = []; xkpk(ki:end,:) = [];  zkrk(kiz:end,:) = []; sk(ki:end,:) = [];
-    insplot(avp);
-    kfplot(xkpk);
-    rvpplot(zkrk);
-    stateplot(sk,length(zk)/3);
-
+    if ~exist('isfig', 'var'), isfig=1; end
+    if isfig==1
+        insplot(avp);
+        kfplot(xkpk);
+        rvpplot(zkrk);
+        stateplot(sk,length(zk)/3);
+    end
