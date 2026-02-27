@@ -20,6 +20,8 @@ function dr = drupdate(dr, wm, dS)
     else
         dSn = qmulv(qnb12, dr.prj*dS);
     end
+%     dSn = rotv([0;0;-dr.aos*norm(dS)/nts*phim(3)/nts], dSn);
+    dSn = rotv([0;0;-dr.aos*phim(3)/nts], dSn);
     dr.vn = dSn/nts;
     dr.eth = earth(dr.pos, dr.vn);
     dr.web = phim/nts-dr.Cnb'*dr.eth.wnie;

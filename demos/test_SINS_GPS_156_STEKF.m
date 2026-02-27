@@ -13,7 +13,7 @@ trj = trjfile('trj10ms.mat');  % insplot(trj.avp)
 %% init
 imuerr = imuerrset(0.03, 100, 0.001, 10);
 imu = imuadderr(trj.imu, imuerr);
-davp0 = avperrset([60;-60;12.0*60], [0.1;0.1;0.1], [1;1;3]);
+davp0 = avperrset([60;-60;60.0*60], [0.1;0.1;0.1], [1;1;3]);
 gps = gpssimu(trj.avp, davp0(4:6), davp0(7:9), 1);
 imugpssyn(imu(:,7), gps(:,7));
 ins = insinit(trj.avp0(1:9), ts, davp0);
@@ -23,6 +23,7 @@ kf = kfinit(ins, davp0, imuerr, r0);
 len = length(imu); [avp, xkpk] = prealloc(fix(len/nn), 10, 2*kf.n+1);
 timebar(nn, len, '15-state SINS/GPS EKF & STEKF comparision simulation.'); ki = 1;
 ins_st = ins; kf_st = kf; avp_st = avp; xkpk_st = xkpk;  % ST
+A = eye(kf_st.n); A(4:6,1:3)=-askew(ins_st.vn);  kf_st.Pxk=A*kf_st.Pxk*A';
 for k=1:nn:len-nn+1
     k1 = k+nn-1; 
     wvm = imu(k:k1,1:6); t = imu(k1,end);

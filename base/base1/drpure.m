@@ -5,12 +5,13 @@ function avp = drpure(imuod, avp0, inst, kod)
 % Inputs: imuod = [gx, gy, gz, dS, t] where gx/gy/gz for gyro angular increment,
 %                 dS for OD distance increment, t for time tag
 %         avp0 - initial [att0, vn0, pos0]
-%         inst - ints=[dpitch;0;dyaw], where dpitch and dyaw are
+%         inst - ints=[dpitch;aos;dyaw], where dpitch and dyaw are
 %            installation error angles(in rad) from odometer to SIMU
+%            aos is Angle Of Slide coefficient
 %         kod - odometer scale factor in meter/pulse.
 % Output: avp - [att, vn, pos] output array
 %
-% See also  dratt, drinit, drupdate, inspure.
+% See also  dratt, drinit, drupdate, drcalibrate, inspure.
 
 % Copyright(c) 2009-2019, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

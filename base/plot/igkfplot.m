@@ -106,9 +106,9 @@ global glv
                     subplot(224), plot(t, sqrt(rk(:,10))/glv.deg); xygo('dyaw');
                 end
             end
-        case 37,  % CSysClbt
+        case {37,46}  % CSysClbt
             myfig
-            t = xk(:,end);
+            t = xk(:,end)/tscaleget;
             subplot(331), plot(t, xk(:,1:3)/glv.min); xygo('phi');
             subplot(332), plot(t, xk(:,4:6)); xygo('dV')
             subplot(333), plot(t, xk(:,7:9)/glv.dph); xygo('eb');
@@ -117,12 +117,13 @@ global glv
                 hold on,  plot(t, xk(:,[22,25,27])/glv.ppm, '--');
             subplot(336), plot(t, xk(:,[14:16,18:20])/glv.sec); xygo('dKij');
                 hold on,  plot(t, xk(:,[23,24,26])/glv.sec, '--');
-            subplot(337), plot(t, xk(:,28:30)/glv.ugpg2); xygo('Ka2');
+%             subplot(337), plot(t, xk(:,28:30)/glv.ugpg2); xygo('Ka2');
+            subplot(337), plot(t, xk(:,28:30)/glv.ppm); xygo('Kapn / ppm');
             subplot(338), plot(t, xk(:,31:33)*100); xygo('lever arm / cm');
                 hold on,  plot(t, xk(:,34:36)*100,'--');
             subplot(339), plot(t, xk(:,37)*1000); xygo('\tau_{GA} / ms');
             myfig
-            t = pk(:,end); sp=sqrt(pk(:,1:end-1));
+            t = pk(:,end)/tscaleget; sp=sqrt(pk(:,1:end-1));
             subplot(331), plot(t, sp(:,1:3)/glv.min); xygo('phi');
             subplot(332), plot(t, sp(:,4:6)); xygo('dV')
             subplot(333), plot(t, sp(:,7:9)/glv.dph); xygo('eb');
@@ -131,10 +132,20 @@ global glv
                 hold on,  plot(t, sp(:,[22,25,27])/glv.ppm, '--');
             subplot(336), plot(t, sp(:,[14:16,18:20])/glv.sec); xygo('dKij');
                 hold on,  plot(t, sp(:,[23,24,26])/glv.sec, '--');
-            subplot(337), plot(t, sp(:,28:30)/glv.ugpg2); xygo('Ka2');
+%             subplot(337), plot(t, sp(:,28:30)/glv.ugpg2); xygo('Ka2');
+            subplot(337), plot(t, sp(:,28:30)/glv.ppm); xygo('Kapn / ppm');
             subplot(338), plot(t, sp(:,31:33)*100); xygo('lever arm / cm');
                 hold on,  plot(t, sp(:,34:36)*100,'--');
             subplot(339), plot(t, sp(:,37)*1000); xygo('\tau_{GA} / ms');
+            if nq==46
+                myfig
+                subplot(321), plot(t, xk(:,38:40)/glv.secpg); xygo('Xxyz / (\prime\prime/g)')
+                subplot(323), plot(t, xk(:,41:43)/glv.secpg); xygo('Yxyz / (\prime\prime/g)')
+                subplot(325), plot(t, xk(:,44:46)/glv.secpg); xygo('Zxyz / (\prime\prime/g)')
+                subplot(322), plot(t, sp(:,38:40)/glv.secpg); xygo('Xxyz / (\prime\prime/g)')
+                subplot(324), plot(t, sp(:,41:43)/glv.secpg); xygo('Yxyz / (\prime\prime/g)')
+                subplot(326), plot(t, sp(:,44:46)/glv.secpg); xygo('Zxyz / (\prime\prime/g)')
+            end
     end
     if type==0 || type ==3
         stateplot(sk);

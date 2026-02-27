@@ -22,7 +22,8 @@ function stext = labeldef(stext)
         'phiE',  '\it\phi\rm_E / ( \prime\prime )';
         'phiN',  '\it\phi\rm_N / ( \prime\prime )';
         'phiU',  '\it\phi\rm_U / ( \prime )';
-        'phiEN', '\it\phi \rm_{E,N} / ( \prime\prime )';
+        'phiUsec',  '\it\phi\rm_U / ( \prime\prime )';
+        'phiEN', '\it\phi\rm_E,\it\phi\rm_N / ( \prime\prime )';
         'phix',  '\it\phi_x\rm / ( \circ )';
         'phiy',  '\it\phi_y\rm / ( \circ )';
         'phiz',  '\it\phi_z\rm / ( \circ )';
@@ -73,7 +74,7 @@ function stext = labeldef(stext)
         'Ka2',   'Ka2 / ug/g^2';
         'dbU',   '\it\nabla \rm_U / \mu\itg';
         'L',     '\itLever\rm / m';
-        'dT',    '\delta\it T_{asyn}\rm / s';
+        'dT',    '\delta\it T_{asyn}\rm / ms';
         'dKgzz',   '\delta\it Kgzz\rm / ppm';
         'dKg',   '\delta\it Kg\rm / ppm';
         'dAg',   '\delta\it Ag\rm / ( \prime\prime )';
