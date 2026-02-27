@@ -28,7 +28,8 @@ global glv
     glv.wie = wie;                  % the Earth's angular rate
     glv.meru = glv.wie/1000;        % milli earth rate unit
     glv.g0 = 9.7803267715;          % gravitational force
-    m = Re*glv.wie^2/glv.g0;  glv.beta = 5/2*m-f-17/14*m*f;  glv.beta1 = (5*m*f-f^2)/8;
+    m = Re*glv.wie^2/glv.g0;  glv.beta = 5/2*m-f-17/14*m*f;
+    glv.beta1 = (5*m*f-f^2)/8; glv.beta2 = 3.086e-6; glv.beta3 = 8.08e-9;
     glv.mg = 1.0e-3*glv.g0;         % milli g
     glv.ug = 1.0e-6*glv.g0;         % micro g
     glv.mGal = 1.0e-3*0.01;         % milli Gal = 1cm/s^2 ~= 1.0E-6*g0
@@ -60,6 +61,8 @@ global glv
     glv.dphpg2 = glv.dphpg/glv.g0;  % (arcdeg/hour) / g^2
     glv.ugpsHz = glv.ug/sqrt(glv.Hz);  % ug / sqrt(Hz)
     glv.ugpsh = glv.ug/sqrt(glv.hur); % ug / sqrt(hour)
+    glv.ugph = glv.ug/glv.hur;      % ug / hour
+    glv.ugphpsh = glv.ugph/sqrt(glv.hur);  % ug / hour
     glv.mpsh = 1/sqrt(glv.hur);     % m / sqrt(hour)
     glv.mpspsh = 1/1/sqrt(glv.hur); % (m/s) / sqrt(hour), 1*mpspsh~=1700*ugpsHz
     glv.ppmpsh = glv.ppm/sqrt(glv.hur); % ppm / sqrt(hour)

@@ -10,7 +10,7 @@ function [Kg, eb, Ka, db] = lsclbt(wbib, yw, fbsf, yf)
 % Outputs: Kg, eb, Ka, db - calibration results, or Kg=clbt structure.
 %                NOTE: gyro bias 'eb' may be inaccurate under rotation condition
 %
-% See also  sysclbt, imuclbt, clbtdiff, qrclbt, Ka2dKphi, agdir, cumwie.
+% See also  sysclbt, imuclbt, clbtdiff, qrclbt, Ka2dKphi, agdir, cumwie, lsgsen.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

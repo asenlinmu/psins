@@ -1,14 +1,16 @@
-function demop(n, n1)
-% Demo-PSINS list.
+function pdemo(n, n1)
+% PSINS-Demo list.
 %
-% Prototype: demop(n, n1)
+% Prototype: pdemo(n, n1)
 % Inputs: n, n1 - n or filenames wildcards
 %
 % Examples
-%    demop;          % display all demo files
-%    demop(10);      % open 10th demo file
-%    demop('ekf');   % display demo files with wildcards '*ekf*.m'
-%    demop('ekf',3); % open 3rd 'ekf'-demo file
+%    pdemo;          % display all demo files
+%    pdemo(10);      % open the 10th demo file
+%    pdemo('ekf');   % display demo files with wildcards '*ekf*.m'
+%    pdemo('ekf',3); % open the 3rd 'ekf'-demo file
+%
+% See also pfind.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -18,6 +20,10 @@ global glv
     if nargin<1, n=0; end
     if ischar(n), name=['\demos\*',n,'*.m']; n=n1; else, name='\demos\*.m'; end
     [fnames,m] = dirfile([glv.rootpath,name]);
+    if m<1
+        fprintf('\tNo demo file found.\n');
+        return;
+    end
     if n==0
         for k=1:m
             fnames{k}=sprintf('%3d  %s',k,fnames{k});

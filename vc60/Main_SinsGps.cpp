@@ -3,8 +3,22 @@
 
 void main(void)
 {
+	CFileRdWt::Dir("E:\\ygm2024\\FAST\\1FAST现场标定0826\\");
+	CFileRdWt fwvm("wvm.bin");
+	CIMUInc inc;
+	double ts=0.01;
+	for(int ii=0; ii<100*100; ii++)
+	{
+		double t = ii*ts;
+		CVect3 wm(0.1*DPS*ts, 1*DPS*ts, 10*DPS*ts), vm(0.1*ts, 1*ts, 10*ts); 
+		wm = wm*t/1.0;  vm = vm*t/1.0;
+		inc.Update(wm, vm);
+		fwvm<<CVect3(inc.diGx, inc.diGy, inc.diGz)*inc.gScale<<CVect3(inc.diAx, inc.diAy, inc.diAz)*inc.aScale<<t;
+	}
+	return;
+
 //	ClassSizeDisp();
-	psinsdemo(0);
+	psinsdemo(25);
 
 	CFileRdWt::Dir("D:\\ygm2020\\PSINS网站\\惯导数据\\", "D:\\psins210207\\VC60\\Data\\");
 	CFileRdWt fins("ins.bin"), fkf("kf.bin");

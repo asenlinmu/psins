@@ -1,5 +1,5 @@
 function data1 = binfile(fname, data, row0, row1)
-% Save or load double format binary file, it can be exchange with C
+% Save or load double format binary file, it can be exchanged with C
 % language. When loaded, be sure of the acurate number of data columns.
 %
 % Prototype: data1 = binfile(fname, data)
@@ -13,7 +13,7 @@ function data1 = binfile(fname, data, row0, row1)
 %
 % See also  binfile32, imufile, avpfile, kffile, matbinfile, importdata, ld2528.
 
-% Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
+% Copyright(c) 2009-2015, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 20/02/2013, 30/03/2015
     %fname = fnamechk(fname, 'bin');

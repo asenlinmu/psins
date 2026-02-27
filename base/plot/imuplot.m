@@ -41,6 +41,12 @@ global glv
         return;
     end
     if length(type)>=7  % err = imuplot(imu1, imu2);
+        if nargin==3, % err = imuplot(imu1, imu2, nn);
+            nn = t0;
+            if length(nn)==1, nn=[nn;nn]; end
+            imu = imumeanplot(imu, nn(1)); close(gcf);
+            type = imumeanplot(type, nn(2)); close(gcf);
+        end
         imuplot(imu);
         imu2 = type;   t = imu2(:,end);  ts = diff(imu2(1:2,end));
         subplot(321), plot(t, imu2(:,1)/ts/dps, 'r'); legend('IMU1','IMU2');  title('X_R Y_F Z_U');
@@ -160,5 +166,9 @@ global glv
             subplot(326), plot(t, imu(:,6)/g0,  tlost,imu(lost,6)/g0,'ro');  xygo('fz');
         end
         lost = find(lost)+1;
+        if ~isempty(lost)  % 2024-09-22
+            ang = sum(abs(imu(lost,1:3)),1)*ts;  subplot(321), title(['|lost angles|(arcmin): ', sprintf('%.3f ',ang/glv.min)]);
+            myfig, plot(tlost, imu(lost,1:3)*ts/glv.sec, 'o--');  xygo('lost angles / arcsec');
+        end
     end
 

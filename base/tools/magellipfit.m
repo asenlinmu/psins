@@ -1,5 +1,5 @@
 function [mag1, K, b, K1, b1, K0, b0, err] = magellipfit(mag0, isfig)
-% Magnetic ellipsoid/circle fitting by nonlinear LS.
+% Magnetic ellipsoid/circle fitting by nonlinear LS. Magnetic calibration.
 %
 % Prototype:  [mag1, K, b, K1, b1, K0, b0, err] = magellipfit(mag0, isfig)
 % Inputs: mag0 - =[magX, magY, magZ], 3-column magnetic data
@@ -13,7 +13,7 @@ function [mag1, K, b, K1, b1, K0, b0, err] = magellipfit(mag0, isfig)
 %          K, b, K1, b1, K0, b0, calibration parameters (scale matrix & bias);
 %          err - calibration error
 %
-% See also  magplot, findpeak, lsclbt.
+% See also  magplot, findpeak, lsclbt, lsqcurvefit.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

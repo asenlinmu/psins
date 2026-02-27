@@ -16,6 +16,7 @@ global glv
     ts = diff(imu(1:2,end));
     if nargin<3, dph=0; end
     if nargin<2, n=fix(1.0/diff(imu(1:2,end))); end
+    if n<1, dph=n; n=fix(1.0/diff(imu(1:2,end))); end  % imumeanplot(imu, dph);
     imu = [meann(imu(:,1:end-1),n)*n,imu(n:n:end,end)];
     if glv.isfig==0, return; end
     imuplot(imu,dph);
@@ -25,6 +26,6 @@ global glv
     end
     subplot(321); title(sprintf('mean time = %.3f (s)', n*ts));
     if dph~=glv.dph, dph=glv.dps; end
-    subplot(325); plot(imu(:,end), normv(imu(:,1:3))/(n*ts)/dph, 'm');
-    subplot(326); plot(imu(:,end), normv(imu(:,4:6))/(n*ts)/glv.g0, 'm');
+    subplot(325); plot(imu(:,end)/tscaleget(), normv(imu(:,1:3))/(n*ts)/dph, 'm');
+    subplot(326); plot(imu(:,end)/tscaleget(), normv(imu(:,4:6))/(n*ts)/glv.g0, 'm');
 

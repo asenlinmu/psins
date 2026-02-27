@@ -19,6 +19,7 @@ function stext = labeldef(stext)
         't/h'    '\itt \rm / h';
         't/d'    '\itt \rm / d';
         'phi',   '\it\phi\rm / ( \prime )';
+        'phi-sec',   '\it\phi\rm / ( \prime\prime )';
         'phiE',  '\it\phi\rm_E / ( \prime\prime )';
         'phiN',  '\it\phi\rm_N / ( \prime\prime )';
         'phiU',  '\it\phi\rm_U / ( \prime )';
