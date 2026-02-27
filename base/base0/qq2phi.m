@@ -7,7 +7,7 @@ function phi = qq2phi(qpb, qnb)
 % Inputs: qpb - attitude quaternion from body-frame to computed nav-frame
 %         qnb - attitude quaternion from body-frame to ideal nav-frame
 % Output: phi - platform misalignment angles from ideal nav-frame to
-%               computed nav-frame: Cpn = I - (phiX)
+%               computed nav-frame: Cnp = I + (phiX)
 %
 % See also  qaddphi, qdelphi, aa2phi, qaddafa, qdelafa, qq2afa, qq2rv.
 

@@ -10,7 +10,7 @@ switch tag
         kf.Hk = zeros(3,22); kf.Hk(:,7:9) = eye(3); kf.Hk(:,16:18) = -eye(3);
         out = kf;
     case psinsdef.kffktag,
-        % SINS/DR: 15+dposD(3)+dpitch/dyaw(2)+dKod(1)+dT(1)=22
+        % SINS/DR: INS(15)+dposD(3)+dpitch/dyaw(2)+dKod(1)+dT(1)=22
         ins = varargin{1}{1};
         Ft = etm(ins);   Ft(22,22) = 0;
         Mpp = Ft(7:9,7:9);

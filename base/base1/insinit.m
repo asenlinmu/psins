@@ -18,6 +18,7 @@ function ins = insinit(avp0, ts, var1, var2)
 % 22/03/2008, 12/01/2013, 18/03/2014
 global glv
     avp0 = avp0(:);
+    if length(avp0)==1, avp0=zeros(9,1); end  % ins = insinit(0, ts);
     if nargin==2      % ins = insinit(avp0, ts);
         [qnb0, vn0, pos0] = setvals(a2qua(avp0(1:3)), avp0(4:6), avp0(7:9));
     elseif nargin==3  % ins = insinit(avp0, ts, avperr);

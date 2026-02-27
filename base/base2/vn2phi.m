@@ -16,12 +16,14 @@ function phi = vn2phi(vn, lti, ts)
 global glv
     if nargin<3, ts = diff(vn(1:2,end)); end
     phi = vn;
-    for k=10:length(vn)
+    ki = timebar(1, length(vn)-fix(10/ts), 'vn2phi processing.');
+    for k=fix(10/ts):length(vn)
         kts = (1:k)'*ts;
         A = [ones(length(kts),1), kts, kts.^2, kts.^3];
         aEN = invbc(A'*A)*A'*vn(1:k,1:2);
         [phit, phi0] = prls([aEN(2:4,1);aEN(2:4,2)], lti, kts(end));
         phi(k,1:3) = phit';
+        ki = timebar;
     end
     phi(1:30,1:3) = repmat(phi0', 30, 1);
     figure, 

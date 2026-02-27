@@ -28,8 +28,8 @@ global glv
     for k=1:nn:len-nn+1
         wvm = imu(k:k+nn-1, 1:6);
         [phim, dvbm] = cnscl(wvm);
-        qnb = qupdt(qnb, phim-qmulv(qconj(qnb),eth.wnie)*nts);  % att updating
         fn = Cnn*qmulv(qnb, dvbm/nts);
+        qnb = qupdt(qnb, phim-qmulv(qconj(qnb),eth.wnie)*nts);  % att updating
         kf = kfupdate(kf, fn(1:2));
         qnb = qdelphi(qnb, 0.1*kf.xk(1:3)); kf.xk(1:3) = 0.9*kf.xk(1:3); % feedback
         attk(ki,:) = q2att(qnb)';
@@ -60,6 +60,9 @@ function kf = afnkfinit(nts, pos, phi0, imuerr)
     kf.xk = zeros(kf.n, 1);
     kf.adaptive = 0;
     kf.fading = 1;
+    kf.Gammak = 1;
+    kf.xconstrain = 0;
+    kf.pconstrain = 0;
 
 function afnplot(ts, attk, xkpk)
 global glv

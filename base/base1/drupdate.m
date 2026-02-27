@@ -22,7 +22,7 @@ function dr = drupdate(dr, wm, dS)
     end
     dr.vn = dSn/nts;
     dr.eth = earth(dr.pos, dr.vn);
-    dr.web = phim/nts-dr.Cnb'*dr.eth.wnie*nts;
+    dr.web = phim/nts-dr.Cnb'*dr.eth.wnie;
     dr.Mpv = [0, 1/dr.eth.RMh, 0; 1/dr.eth.clRNh, 0, 0; 0, 0, 1];
     dr.pos = dr.pos + dr.Mpv*dSn; % see my PhD thesis Eq.(4.1.1)
     dr.qnb = qupdt(dr.qnb, phim-dr.Cnb'*dr.eth.wnin*nts);

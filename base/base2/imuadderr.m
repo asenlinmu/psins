@@ -7,7 +7,7 @@ function imu = imuadderr(imu, imuerr, ts)
 %         imuerr - SIMU error struture array
 % Output: imu - output SIMU data added errors
 %
-% See also  imuerrset, avpseterr, trjsimu, insupdate.
+% See also  imuerrset, imudeldrift, avpseterr, trjsimu, insupdate.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

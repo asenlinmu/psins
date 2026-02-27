@@ -8,10 +8,13 @@ glvs
 ts = 0.1;   % sampling interval
 T = 1000;
 avp0 = avpset([0;0;0], [0;0;0], [30;108;380]);
-imuerr = imuerrset(0.01, 50, 0.0001, 0.10);
+imuerr = imuerrset(0.01, 100, 0.001, 1);
 imu = imustatic(avp0, ts, T, imuerr);   % IMU simulation
 davp = avpseterr([-30;30;30], [0.01;0.01;0.01]*0, [1;1;1]*0);
 avp = avpadderr(avp0, davp);
+%% static-base analysis method
+attsb = alignsb(imu, avp(7:9));
+phi = [aa2phi(attsb,[0;0;0]), [[-imuerr.db(2);imuerr.db(1)]/glv.g0;-imuerr.eb(1)/(cos(avp(7))*glv.wie)]]
 %% i0 method
 [atti0, resi0] = aligni0(imu, avp(7:9));
 % resfit = aligni0fit(resi0, resi0.lat, resi0.nts);

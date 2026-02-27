@@ -2,7 +2,7 @@ function imuerr = imuerrset(eb, db, web, wdb, sqrtR0G, TauG, sqrtR0A, TauA, dKGi
 % SIMU errors setting, including gyro & acc bias, noise and installation errors, etc.
 %
 % Prototype: imuerr = imuerrset(eb, db, web, wdb, sqrtR0G, TauG, sqrtR0A, TauA, dKGii, dKAii, dKGij, dKAij)
-% Inputs: including infomation as follows
+% Inputs: including information as follows
 %     eb - gyro constant bias (deg/h)
 %     db - acc constant bias (ug)
 %     web - angular random walk (deg/sqrt(h))

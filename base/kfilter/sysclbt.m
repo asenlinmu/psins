@@ -33,15 +33,17 @@ global glv
     clbt.Kg = eye(3); clbt.Ka = eye(3); clbt.Ka2 = zeros(3,1); clbt.eb = zeros(3,1); clbt.db = zeros(3,1);
     clbt.rx = zeros(3,1); clbt.ry = zeros(3,1); clbt.rz = zeros(3,1); clbt.tGA = 0;
     len = length(imu);
-    itertion = 7;
+    itertion = 5;
     for iter=1:itertion
         imu1 = imu;
         imu1(:,1:6) = [imu(:,1:3)*clbt.Kg', imu(:,4:6)*clbt.Ka'];    % IMU calibration for alignment
         imu1(:,1:6) = [imu(:,1)-clbt.eb(1)*ts,imu(:,2)-clbt.eb(2)*ts,imu(:,3)-clbt.eb(3)*ts, ...
                        imu(:,4)-clbt.db(1)*ts,imu(:,5)-clbt.db(2)*ts,imu(:,6)-clbt.db(3)*ts];
         [~, qnb] = alignsb(imu1(frq2:kstatic,:), pos); vn = zeros(3,1);  % align
+        if iter==1, qnb0 = qnb;  else, qnb0 = qdelphi(qnb0, kf.xk(1:3)); end
+        att = q2att(qnb); att0 = q2att(qnb0); qnb = a2qua([att(1:2);att0(3)]);
         dotwf = imudot(imu1, 5.0);
-        if iter~=itertion,  kf = clbtkfinit(nts);  end
+        if iter~=itertion,  kf = clbtkfinit(nts);  else, kf.Pxk = kf.Pxk*100; kf.Pxk(:,3)=0; kf.Pxk(3,:)=0; kf.xk = kf.xk*0; end
         t1s = 0; vn1s = zeros(fix(len*ts), 4);  kkv = 1;
         av = zeros(fix(len*ts),7); xkpk = zeros(fix(len*ts), kf.n*2+1);  kk = 1;
         timebar(nn, len-2*frq2, sprintf('System Calibration of SIUM( iter=%d ).',iter));
@@ -71,7 +73,7 @@ global glv
             end
             timebar;
         end
-        clbt = clbtkffeedback(kf, clbt);
+        if iter~=itertion,  clbt = clbtkffeedback(kf, clbt);  end
         vn1s(kkv:end,:) = []; av(kk:end,:) = []; xkpk(kk:end,:) = [];
         clbtkfplot(av, xkpk, vn1s, imu, dotwf, iter);
     end

@@ -2,10 +2,10 @@ function imuplot(imu, type)
 % SIMU data plot.
 %
 % Prototype: imuplot(imu, type)
-% Input: imu - SIMU data, the last column is time tag
-%        type - figure type
+% Inputs: imu - SIMU data, the last column is time tag
+%         type - figure type
 %          
-% See also  insplot, inserrplot, kfplot, gpsplot.
+% See also  imumeanplot, insplot, inserrplot, kfplot, gpsplot.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -20,8 +20,10 @@ global glv
     end
     myfigure,
     if type==1
-        subplot(121), plot(t, imu(:,1:3)/dps); xygo('w');
-        subplot(122), plot(t, imu(:,4:6)/g0);  xygo('f');
+%         subplot(121), plot(t, [imu(:,1:3)]/dps); xygo('w');
+%         subplot(122), plot(t, [imu(:,4:6)]/g0);  xygo('f');
+        subplot(121), plot(t, [imu(:,1:3),normv(imu(:,1:3))]/dps); xygo('w'); legend('Wx','Wy','Wz','|W|');
+        subplot(122), plot(t, [imu(:,4:6),normv(imu(:,4:6))]/g0);  xygo('f'); legend('Ax','Ay','Az','|A|');
     elseif type==2
         ax = plotyy(t, imu(:,1:3)/dps, t, imu(:,4:6)/g0); xyygo(ax, 'w', 'f');
     elseif type==3

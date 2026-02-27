@@ -34,6 +34,9 @@ global glv
         alt.Pxk = diag([glv.mg; 1; 100])^2;
         alt.adaptive = 0;
         alt.fading = 1;
+        alt.xconstrain = 0;
+        alt.pconstrain = 0;
+        alt.Gammak = 1;
     elseif nargin==2 % measurement update
         alt = kfupdate(alt, dh, 'M');
     else             % time update

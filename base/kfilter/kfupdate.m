@@ -26,7 +26,7 @@ function kf = kfupdate(kf, yk, TimeMeasBoth)
 
 % Copyright(c) 2009-2015, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
-% 08/12/2012, 29/08/2013, 16/04/2015, 01/06/2017
+% 08/12/2012, 29/08/2013, 16/04/2015, 01/06/2017, 11/03/2018
     if nargin==1;
         TimeMeasBoth = 'T';
     elseif nargin==2
@@ -35,14 +35,14 @@ function kf = kfupdate(kf, yk, TimeMeasBoth)
     
     if TimeMeasBoth=='T'            % Time Updating
         kf.xk = kf.Phikk_1*kf.xk;    
-        kf.Pxk = kf.Phikk_1*kf.Pxk*kf.Phikk_1' + kf.Qk;
+        kf.Pxk = kf.Phikk_1*kf.Pxk*kf.Phikk_1' + kf.Gammak*kf.Qk*kf.Gammak';
     else
         if TimeMeasBoth=='M'        % Meas Updating
             kf.xkk_1 = kf.xk;    
             kf.Pxkk_1 = kf.Pxk; 
         elseif TimeMeasBoth=='B'    % Time & Meas Updating
             kf.xkk_1 = kf.Phikk_1*kf.xk;    
-            kf.Pxkk_1 = kf.Phikk_1*kf.Pxk*kf.Phikk_1' + kf.Qk;
+            kf.Pxkk_1 = kf.Phikk_1*kf.Pxk*kf.Phikk_1' + kf.Gammak*kf.Qk*kf.Gammak';
         else
             error('TimeMeasBoth input error!');
         end
@@ -75,6 +75,15 @@ function kf = kfupdate(kf, yk, TimeMeasBoth)
 %                 end
 %             end
 %         end
+        if kf.xconstrain==1  % 16/3/2018
+            for k=1:kf.n
+                if kf.xk(k)<kf.xmin(k)
+                    kf.xk(k)=kf.xmin(k);
+                elseif kf.xk(k)>kf.xmax(k)
+                    kf.xk(k)=kf.xmax(k);
+                end
+            end
+        end
         if kf.pconstrain==1  % 1/6/2017
             for k=1:kf.n
                 if kf.Pxk(k,k)<kf.Pmin(k)

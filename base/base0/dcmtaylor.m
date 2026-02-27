@@ -6,7 +6,7 @@ function [Ct0, iter] = dcmtaylor(Wt, T, tol)
 %                 descending powers
 %         T - one step forward for time 0 to T
 %         tol - error tolerance
-% Outputs: Ct0 - output DCM at time ts
+% Outputs: Ct0 - output DCM at time T
 %          iter - iteration count
 % 
 % See also  qtaylor, qpicard, wm2wtcoef.
@@ -31,7 +31,7 @@ function [Ct0, iter] = dcmtaylor(Wt, T, tol)
         end
         tsn1 = tsn1*T/iter;   % ts^iter/factorial(iter)
         Ct0 = Ct0 + tsn1*DCM(:,:,end);
-        if tsn1*max(max(abs(DCM(:,:,end))))<tol,  break;  end   % error control
+        if iter>sz2 && tsn1*max(max(abs(DCM(:,:,end))))<tol,  break;  end   % error control
         yh = [yh(2:end),0] + yh;  % Yanghui coefficients
         DCM(:,:,1:end-1) = DCM(:,:,2:end); DCM(:,:,end) = zeros(3); % move left
     end

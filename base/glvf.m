@@ -47,7 +47,7 @@ global glv
     glv.ugpsHz = glv.ug/sqrt(glv.Hz);  % ug / sqrt(Hz)
     glv.ugpsh = glv.ug/sqrt(glv.hur); % ug / sqrt(hour)
     glv.mpsh = 1/sqrt(glv.hur);     % m / sqrt(hour)
-    glv.mpspsh = 1/1/sqrt(glv.hur); % (m/s) / sqrt(hour), 1*mpspsh=1667*ugpsHz
+    glv.mpspsh = 1/1/sqrt(glv.hur); % (m/s) / sqrt(hour), 1*mpspsh~=1700*ugpsHz
     glv.ppmpsh = glv.ppm/sqrt(glv.hur); % ppm / sqrt(hour)
     glv.mil = 2*pi/6000;            % mil
     glv.nm = 1853;                  % nautical mile

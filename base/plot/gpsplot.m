@@ -11,7 +11,10 @@ function gpsplot(vpGPS)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 19/02/2014
 global glv
-    t = vpGPS(:,end)+(vpGPS(2,end)-2*vpGPS(1,end));
+    t = vpGPS(:,end);
+    if vpGPS(1,end)>1000
+        t = vpGPS(:,end)+(vpGPS(2,end)-2*vpGPS(1,end));
+    end
     [m,n] = size(vpGPS);
     if mod(n,3)==1  % if not exist tag, then add 1
         vpGPS=[vpGPS(:,1:end-1),ones(m,1),vpGPS(:,end)];  
@@ -30,6 +33,7 @@ global glv
         posS = vpGPS(:,1:3);
         subplot(121), plot(t, [[posS(:,1)-posS(1,1),(posS(:,2)-posS(1,2))*cos(posS(1,1))]*glv.Re,posS(:,3)]); xygo('DP');
             hold on, plot(t(idx), [[posS(idx,1)-posS(1,1),(posS(idx,2)-posS(1,2))*cos(posS(1,1))]*glv.Re,posS(idx,3)], 'c*');
+        title(sprintf('pos0=[%.6f, %.6f, %.3f]', posS(1,1)/glv.deg, posS(1,2)/glv.deg, posS(1,3)));
         subplot(122), plot3(r2d(posS(:,2)), r2d(posS(:,1)), posS(:,3)); xygo('lon', 'lat'); zlabel(labeldef('H'));
             hold on, plot3(r2d(posS(idx,2)), r2d(posS(idx,1)), posS(idx,3), 'c*'), plot3(r2d(posS(1,2)), r2d(posS(1,1)), posS(1,3), 'rp');
     end

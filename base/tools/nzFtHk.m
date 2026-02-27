@@ -1,7 +1,7 @@
 function [Ft,Hk] = nzFtHk(n)
 % Generate nonzero elements in Ft (SINS Error Transition Matrix).
 %
-% Prototype: Ft = nzFt(n)
+% Prototype: [Ft,Hk] = nzFtHk(n)
 % Input: n - dimension for Ft, default for 15x15
 % Output: Ft - nxn error transition matrix
 %

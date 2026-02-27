@@ -1,5 +1,5 @@
 function Vq = interplim(X, V, Xq)
-% Linear interpolation with limitation Vq@[V(1), V(2)].
+% Linear interpolation with limitation Vq @ [V(1), V(2)].
 %             V(2)-V(1)
 % Vq = V(1) + ---------  *  (Xq-X(1))
 %             X(2)-X(1)

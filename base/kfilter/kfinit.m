@@ -23,10 +23,17 @@ end
 switch(psinsdef.kfinit)
     case psinsdef.kfinit153,
         psinsdef.kffk = 15;  psinsdef.kfhk = 153;  psinsdef.kfplot = 15;
-        [davp, imuerr] = setvals(varargin);
+        [davp, imuerr, rk] = setvals(varargin);
         kf.Qt = diag([imuerr.web; imuerr.wdb; zeros(9,1)])^2;
-        kf.Rk = diag(davp(7:9))^2;
-        kf.Pxk = diag([davp; imuerr.eb; imuerr.db]*10)^2;
+        kf.Rk = diag(rk)^2;
+        kf.Pxk = diag([davp; imuerr.eb; imuerr.db]*1.0)^2;
+        kf.Hk = kfhk(0);
+    case psinsdef.kfinit156,
+        psinsdef.kffk = 15;  psinsdef.kfhk = 156;  psinsdef.kfplot = 15;
+        [davp, imuerr, rk] = setvals(varargin);
+        kf.Qt = diag([imuerr.web; imuerr.wdb; zeros(9,1)])^2;
+        kf.Rk = diag(rk)^2;
+        kf.Pxk = diag([davp; imuerr.eb; imuerr.db]*1.0)^2;
         kf.Hk = kfhk(0);
     case psinsdef.kfinit183,
         psinsdef.kffk = 18;  psinsdef.kfhk = 183;  psinsdef.kfplot = 18;

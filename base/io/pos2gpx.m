@@ -14,7 +14,7 @@ function pos2gpx(fname, pos)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 10/08/2011, 14/03/2014
-    fname = fnamechk(fname, 'gpx');
+    % fname = fnamechk(fname, 'gpx');
     pos = [r2d(pos(:,1:2)), pos(:,3)];
     t = (1:length(pos))';
     t = datestr(datenum(2014,3,14,0,0,t),13);

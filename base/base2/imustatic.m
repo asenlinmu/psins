@@ -14,6 +14,7 @@ function [imu, eth] = imustatic(avp0, ts, T, imuerr)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 28/08/2013, 10/01/2014
+    if ~exist('imuerr', 'var'), imuerr = imuerrset(0,0,0,0); end
     Cbn = a2mat(avp0(1:3))';
     eth = earth(avp0(7:9), avp0(4:6));
     imu = [Cbn*eth.wnie; -Cbn*eth.gn]';

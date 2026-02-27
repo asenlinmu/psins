@@ -8,7 +8,7 @@ function [avperr, i1, i0] = avpcmp(avp1, avp0, eb_db_Etc0)
 %              becomes [avp0, eb_db_Etc0]
 % Outputs: avperr - error result
 %
-% See also  avpadderr, insupdate, inserrplot.
+% See also  avpcmpplot, avpadderr, insupdate, inserrplot.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

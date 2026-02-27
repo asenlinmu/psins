@@ -7,6 +7,9 @@ function [nn, ts, nts] = nnts(nn, ts)
 % Outputs: ss, ts - the same as above
 %         nts - nts = nn*ts
 %
+% Example:
+%        [nn, ts, nts] = nnts(2, 0.01);
+%
 % See also  setvals.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.

@@ -11,6 +11,7 @@ function h = myfigure(namestr)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 15/02/2014
     scrsz = get(0,'ScreenSize');  % scrsz = [left, bottom, width, height]
+    scrsz = [0.01*scrsz(3), 0.05*scrsz(4), 0.95*scrsz(3), 0.93*scrsz(4)];
 % 	figure('Position',scrsz);
     if ~exist('namestr','var')
         namestr = 'PSINS Toolbox';

@@ -1,14 +1,14 @@
-function [blh, Cne] = xyz2blh(xyz)
+function [blh, Cen] = xyz2blh(xyz)
 % Convert ECEF Cartesian coordinate [x;y;z] to geographic
 % coordinate [lat;lon;height].
 %
-% Prototype: [blh, Cne] = xyz2blh(xyz)
+% Prototype: [blh, Cen] = xyz2blh(xyz)
 % Input: xyz - ECEF Cartesian coordinate vector, in meters 
 % Outputs: blh - geographic coordinate blh=[lat;lon;height],
 %               where lat & lon in radians and hegtht in meter
-%          Cne - transformation matrix from e-frame to n-frame
+%          Cen - transformation matrix from e-frame to n-frame
 %
-% See also  blh2xyz, p2cne.
+% See also  blh2xyz, pos2cen.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -16,6 +16,7 @@ function [blh, Cne] = xyz2blh(xyz)
 global glv
     X = xyz(1); Y = xyz(2); Z = xyz(3);
     s = sqrt(X^2+Y^2);
+    if s<0.01, X=0.01; Y=0; s = sqrt(X^2+Y^2); end % 30/08/18
     theta = atan2(Z*glv.Re,s*glv.Rp);
     L = atan2(Y,X);
     B = atan2(Z+glv.ep2*glv.Rp*sin(theta)^3, s-glv.e2*glv.Re*cos(theta)^3);
@@ -25,5 +26,5 @@ global glv
     blh = [B; L; H];
     if nargout==2
         sL = sin(L); cL = cos(L);
-        Cne = [-sL, cL, 0; -sB*cL, -sB*sL, cB; cB*cL, cB*sL, sB];
+        Cen = [-sL, -sB*cL, cB*cL; cL, -sB*sL, cB*sL; 0, cB, sB];
     end

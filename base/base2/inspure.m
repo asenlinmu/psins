@@ -14,13 +14,13 @@ function avp = inspure(imu, avp0, href)
 %                   'f' - height free.
 % Output: avp - navigation results, avp = [att,vn,pos,t]
 %
-% See also  trjsimu, insupdate.
+% See also  insinstant, trjsimu, insupdate.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 12/01/2013, 04/09/2014
 global glv
-    [nn, ts, nts] = nnts(4, imu(2,7)-imu(1,7));
+    [nn, ts, nts] = nnts(2, imu(2,7)-imu(1,7));
     ins = insinit(avp0, ts);  vn0 = avp0(4:6); pos0 = avp0(7:9);
     if nargin<3,  href = avp0(9);  end
     vp_fix = 'n';
@@ -51,7 +51,7 @@ global glv
             alt = altfilt(alt);
             [khref, dt] = imugpssyn(k, k1, 'F');
             if khref>0
-                dh = ins.pos(3)+ins.vn(3)*dt - href(khref,1);
+                dh = ins.pos(3)-ins.vn(3)*dt - href(khref,1);
                 alt = altfilt(alt, dh);
                 ins.pos(3) = ins.pos(3) - alt.xk(3);  % vertical vn&pos feedback
                 ins.vn(3) = ins.vn(3) - alt.xk(2);    alt.xk(2:3) = 0;

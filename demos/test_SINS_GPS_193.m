@@ -18,7 +18,7 @@ davp0 = avpseterr([30;-30;30], [0.1;0.1;0.1], [1;1;3]);
 lever = [1; 2; 3]; dT = 0.1;
 gps = gpssimu(trj.avp, davp0(4:6), davp0(7:9), 1, lever);
 imugpssyn(imu(:,7), gps(:,end));
-ins = insinit(trj.avp0(1:9), ts, davp0);
+ins = insinit(trj.avp0(1:9), ts, davp0);  ins.nts = nts;
 %% kf
 r0 = posseterr([1; 1; 1]);
 kf = kfinit(ins, davp0, imuerr, lever, dT, r0);

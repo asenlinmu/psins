@@ -24,6 +24,9 @@ for k=1:nn:len-nn+1
 %     q6 = qmul(q6, qtaylor(wmi'*coef, nts));
     q6 = qmul(q6, m2qua(dcmtaylor(wmi'*coef, nts)));
 	res(ki,:) = [qq2phi(q1,q0); qq2phi(q2,q0); qq2phi(q3,q0); qq2phi(q4,q0); qq2phi(q5,q0); qq2phi(q6,q0)]';  ki = ki+1;
+%     if k==nn*5
+%         q1=q0; q2=q0; ...
+%     end
 end
 figure
 t = (1:size(res,1))*nts;

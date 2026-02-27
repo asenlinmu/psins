@@ -47,7 +47,7 @@ global igaln
             end
         end
         tg = igaln.gpst(igaln.kgps);
-        if t0<tg && tg<=t1
+        if t0<=tg && tg<=t1
             kgps = igaln.kgps; dt = t1 - tg;
         end
     elseif ForB=='B' % Backward search

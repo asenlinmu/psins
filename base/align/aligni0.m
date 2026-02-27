@@ -15,7 +15,7 @@ function [att0, res] = aligni0(imu, pos, ts)
 % 07/12/2012, 07/03/2014, 28/08/2014
 global glv
     if nargin<3,  ts = imu(2,7)-imu(1,7);  end
-    nn = 1; nts = nn*ts;  ratio = 1; % 0.995;
+    nn = 2; nts = nn*ts;  ratio = 1; % 0.995;
     len = fix(length(imu)/nn)*nn;
     eth = earth(pos);  lat = pos(1);  g0 = -eth.gn(3);
     qib0b = [1; 0; 0; 0];

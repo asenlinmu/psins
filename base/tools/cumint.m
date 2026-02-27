@@ -12,7 +12,7 @@ function y = cumint(x, h, order)
 %     x = sin(t);
 %     figure, plot([cumint(x,ts,0), cumint(x,ts,1), cumint(x,ts,2), cumint(x,ts,3), 1-cos(t)]); grid on
 
-% See also  sumn.
+% See also  sumn, cumsum.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

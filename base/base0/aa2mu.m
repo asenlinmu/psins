@@ -12,10 +12,10 @@ function mu = aa2mu(att1, att0)
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
-% 03/11/2013
+% 03/11/2013, 21/12/2017
     [m, n] = size(att1);
     if n==1  % no batch processing
-        mu = q2rv( qmul(qconj(a2qua(att1)),a2qua(att0)) );
+        mu = -q2rv( qmul(qconj(a2qua(att1)),a2qua(att0)) );
         return;
     end
     mu = att1;
@@ -33,5 +33,5 @@ function mu = aa2mu(att1, att0)
                  cj*sk+si*sj*ck, ci*ck,   sj*sk-si*cj*ck;
                 -ci*sj,          si,      ci*cj ];
         Cbb = Cnb1'*Cnb0;
-        mu(k,:) = -[Cbb(2,3)-Cbb(3,2), Cbb(3,1)-Cbb(1,3), Cbb(1,2)-Cbb(2,1)]/2.0;
+        mu(k,:) = [Cbb(2,3)-Cbb(3,2), Cbb(3,1)-Cbb(1,3), Cbb(1,2)-Cbb(2,1)]/2.0;
     end

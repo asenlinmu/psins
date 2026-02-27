@@ -14,11 +14,12 @@ function [qnb, att, Cnb] = attsyn(attForm)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 27/08/2013
     [m, n] = size(attForm);
-    if n==3         % if the input is direct cosine matirx
+    mn = m*n;
+    if mn==9         % if the input is direct cosine matirx
         Cnb = attForm; 
         qnb = m2qua(Cnb);
         att = m2att(Cnb);
-    elseif m==4     % if the input is quaternion
+    elseif mn==4     % if the input is quaternion
         qnb = attForm;
         % Cnb = q2mat(qnb);
         q11 = qnb(1)*qnb(1); q12 = qnb(1)*qnb(2); q13 = qnb(1)*qnb(3); q14 = qnb(1)*qnb(4); 
@@ -34,7 +35,7 @@ function [qnb, att, Cnb] = attsyn(attForm)
         att(1)=asin(Cnb(3,2));  
         att(2)=atan2(-Cnb(3,1),Cnb(3,3)); 
         att(3)=atan2(-Cnb(1,2),Cnb(2,2));
-    elseif m==3     % if the input is Euler attitude angles
+    elseif mn==3     % if the input is Euler attitude angles
         att = attForm;
         Cnb = a2mat(att);
         qnb = m2qua(Cnb);

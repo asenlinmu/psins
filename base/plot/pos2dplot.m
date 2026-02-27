@@ -1,11 +1,11 @@
 function pos2dplot(pos0, varargin)
-% avp plot.
+% Multi-pos 2D trajectory plot.
 %
-% Prototype: insplot(avp, ptype)
+% Prototype: pos2dplot(pos0, varargin)
 % Inputs: pos0 - [lat, lon, hgt, t]
 %         varargin - other pos parameter
 %          
-% See also  inserrplot, kfplot, gpsplot, imuplot.
+% See also  inserrplot, kfplot, gpsplot, imuplot, pos2dxyz.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -14,8 +14,11 @@ imu = imuadderr(trj.imu, imuerr);
 davp0 = avpseterr([30;-30;20], 0.1, [1;1;3]);
 ins = insinit(avpadderr(trj.avp0,davp0), ts);  ins.nts = nts;
 % KF filter
-kf = kfinit(ins, davp0, imuerr);
-len = length(imu); [avp, xkpk] = prealloc(fix(len*ts), 10, 2*kf.n+1);
+rk = posseterr([1;1;3]);
+kf = kfinit(ins, davp0, imuerr, rk);
+kf.Pmin = diag(kf.Pxk)*0; kf.Pmin(15) = (10*glv.ug)^2;
+kf.Pmax = diag(kf.Pxk)*10000; % kf.pconstrain = 1;
+len = length(imu)/2; [avp, xkpk] = prealloc(fix(len*ts), 10, 2*kf.n+1);
 % timebar(nn, len, '15-state SINS/GPS Simulation.'); 
 ki = 1;
 tbstep = floor(len/nn/100); tbi = timebar(1, 99, 'SINS/GPS Simulation.');
@@ -23,9 +26,13 @@ profile on
 for k=1:nn:len-nn+1
     k1 = k+nn-1;  
     wvm = imu(k:k1,1:6);  t = imu(k1,end);
+    if k>200*100
+        wvm(:,6) = wvm(:,6)+50*glv.ug*ts;
+    end
     ins = insupdate(ins, wvm);
     kf.Phikk_1 = kffk(ins);
     kf = kfupdate(kf);
+%     kf.Pxk(10:12,13:15) = 0; kf.Pxk(13:15,10:12) = 0;
     if mod(t,1)==0
         posGPS = trj.avp(k1,7:9)' + davp0(7:9).*randn(3,1);  % GPS pos simulation with some white noise
         kf = kfupdate(kf, ins.pos-posGPS, 'M');

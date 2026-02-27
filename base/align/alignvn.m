@@ -62,6 +62,7 @@ function kf = avnkfinit(nts, pos, phi0, imuerr, wvn)
     kf.I = eye(kf.n);
     kf.xk = zeros(kf.n, 1);
     kf.adaptive = 0;
+    kf.pconstrain = 0;
     kf.fading = 1;
 
 function avnplot(ts, attk, xkpk)
