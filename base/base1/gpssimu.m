@@ -26,7 +26,7 @@ global glv
     if length(tau)==1,   tau=[tau;tau];   end
     if length(tau)==2,   tau=[tau(1);tau(1);tau(1);tau(2);tau(2);tau(2)];   end
     if length(dvn)==1;   dvn=[dvn;dvn;dvn];   end
-    if length(dpos)==1;   dpos=posseterr(dpos);   end
+    if length(dpos)==1;   dpos=poserrset(dpos);   end
     %% find the nearest second in avp time
     idx = zeros(size(avp(:,end))); rt = idx; kk=1;
     gt = imu_delay;
@@ -49,7 +49,7 @@ global glv
         vngps = avpi(4:6)+a2mat(avpi(1:3)')*cros(wnb,lever);
         gpsVnPos(kk,:) = [vngps; avpi(7:9)+la2dpos(avpi, lever); round(avp(ik,end))]';  kk = kk+1;
     end
-    dp = markov1([dvn;dpos], tau, 1, length(idx));  % 1st Markov error
+    dp = markov1([dvn;dpos], tau, 1, length(idx));  % 1st-order Markov error
     gpsVnPos(:,1:end-1) = gpsVnPos(:,1:end-1) + dp;
     if(isplot==1)
         gpsVnPos0 = gpsVnPos(1,1:6); gpsVnPos(1,1:6) = avp(1,4:9);

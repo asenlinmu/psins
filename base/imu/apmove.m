@@ -2,7 +2,13 @@ function  ap = apmove(ap0, pos0, yaw0)
 % Move original trajectory ap0 to a specific place, whose first point
 % is at pos0 and initial yaw is yaw0.
 %
-% See also  avp2imu, trjsimu, insupdate.
+% Prototype: ap = apmove(ap0, pos0, yaw0)
+% Inputs: ap0 - original att&pos parameters
+%         pos0 - new initial position
+%         yaw0 - new initial yaw
+% Output: ap - att&pos after linear translation % angular rotation 
+%
+% See also  ap2imu, avp2imu, posstatic, trjsimu, insupdate.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

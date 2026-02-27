@@ -10,7 +10,7 @@ T = 1000;
 avp0 = avpset([0;0;0], [0;0;0], [30;108;380]);
 imuerr = imuerrset(0.01, 100, 0.001, 1);
 imu = imustatic(avp0, ts, T, imuerr);   % IMU simulation
-davp = avpseterr([-30;30;30], [0.01;0.01;0.01]*0, [1;1;1]*0);
+davp = avperrset([-0.5;0.5;30], [0.01;0.01;0.01]*0, [1;1;1]*0);
 avp = avpadderr(avp0, davp);
 %% static-base analysis method
 attsb = alignsb(imu, avp(7:9));

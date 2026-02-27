@@ -10,7 +10,7 @@ glvs
 psinstypedef(376);
 %% init
 trj = trjfile('trjPOS10ms.mat');
-davp0 = avpseterr([30;-30;30], [0.01;0.01;0.03], [0.01;0.01;0.03]);
+davp0 = avperrset([1;-1;30], [0.01;0.01;0.03], [0.01;0.01;0.03]);
 lever = [0.5; 1.5; 2]; dT = 0.009; r0 = davp0(4:9)';
 gps = gpssimu(trj.avp, davp0(4:6), davp0(7:9), 3, lever, dT, 1); gps(:,1:3) = gps(:,1:3)+0.1;
 [nn, ts, nts] = nnts(4, trj.ts);

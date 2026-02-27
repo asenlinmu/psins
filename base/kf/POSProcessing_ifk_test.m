@@ -8,7 +8,7 @@ global glv
     %% forward navigation
     ts = 0.01;
     avp0 = avpset([1;10;30]*glv.deg, [100;200;10], [34;106;100]);
-    davp0 = avpseterr([300;-300;300], [0.1;0.1;0.3], [1;1;3]);
+    davp0 = avperrset([60;-60;300], [0.1;0.1;0.3], [1;1;3]);
     ins = insinit(avpadderr(avp0,[[30;-30;30]; [1;1;3]; [1;1;3]]), ts); ins.nts = nts;
     Ft = etm(ins);
     iins = ins;
@@ -24,7 +24,7 @@ global glv
     [ixk1,ixk2,xk]
     
     avp0 = avpset([1;10;30]*glv.deg, [0;0;0], [34;106;100]);
-    davp0 = avpseterr([30;-30;30], [0.1;0.1;0.3], [0.01;0.01;0.03]);
+    davp0 = avperrset([1;-1;30], [0.1;0.1;0.3], [0.01;0.01;0.03]);
     imuerr = imuerrset(0, 0, 0, 0);
     imu = imustatic(avp0, ts, len, imuerr);
     ins = insinit(avpadderr(avp0,[[30;-30;30]; [0.1;0.1;0.3]; [0.01;0.01;0.03]]), ts); ins.nts = nts;

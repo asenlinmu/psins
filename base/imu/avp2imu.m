@@ -18,7 +18,7 @@ global glv
     wm_1 = [0;0;0];  vm_1 = [0;0;0];
     imu = zeros(len, 6);
     timebar(1, len, 'Trajectory inversion avp->imu.');
-    for k=2:len  % begin form 2
+    for k=2:len  % begin from 2
         Cnb = a2mat(avp(k,1:3));   vn = avp(k,4:6)';   pos = avp(k,7:9)';
         eth = earth((pos_1+pos)/2, (vn_1+vn)/2);
 %         wbts = m2rv(Cbn_1*Cnb);

@@ -8,7 +8,7 @@ function avp1 = insinstant(imu, avp, t0, t1)
 %         t1 - end time in second.
 % Output: avp1 - navigation results, avp1 = [att,vn,pos,t]
 %
-% See also  inspure, trjsimu, insupdate.
+% See also  inspure, drinstant, trjsimu, insupdate.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

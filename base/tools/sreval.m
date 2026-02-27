@@ -29,7 +29,7 @@ global glv
         ebK = dK_roll(1)*2*pi*dK_roll(2)/1e6;
         err = [err, 9.8*t^3*ebK/6];
     end
-    err = [err, sqrt(err*err'+err(1:3)*err(1:3)')];
+    err = [err, sqrt(err*err'+err(1:3)*err(1:3)')];  % double eb/db/phixy0 err(1:3)
     if isfig==1
         figure, bar(err); ylabel(sprintf('INS error / m @ %.0fs',t));
         if exist('dK_roll','var')

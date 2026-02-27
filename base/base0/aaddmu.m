@@ -8,7 +8,7 @@ function att1 = aaddmu(att0, mu)
 %         mu - installation error angles mu=[mux;muy;muz]
 % Output: att1 - Euler angles att1=[pitch1;roll1;yaw1]
 %
-% See also  aa2mu, aa2phi, m2rv, q2rv, m2att.
+% See also  aa2mu, aa2phi, m2rv, q2rv, m2att, qaddphi.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

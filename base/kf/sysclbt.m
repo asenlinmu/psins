@@ -14,7 +14,7 @@ function [clbt, av] = sysclbt(imu, pos, g0, Cba)
 %                where wb=wm/ts, fb=vm/ts, and fL is accelerometer inner
 %                lever arm effect (refer to the following code). 
 %
-% See also  lsclbt, clbtfile, imuclbt, imuerrset, insupdate, kfupdate.
+% See also  imuscale, lsclbt, clbtfile, imuclbt, imuerrset, insupdate, kfupdate.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -138,11 +138,11 @@ global glv
     subplot(332), plot(t, xk(:,4:6)); xygo('dV')
     subplot(333), plot(t, xk(:,7:9)/glv.dph); xygo('eb');
     subplot(334), plot(t, xk(:,10:12)/glv.ug); xygo('db');
-    subplot(335), plot(t, xk(:,13:4:21)/glv.ppm); xygo('dKii / ppm');
+    subplot(335), plot(t, xk(:,13:4:21)/glv.ppm); xygo('dKii');
         hold on,  plot(t, xk(:,22:4:30)/glv.ppm, '--');
-    subplot(336), plot(t, xk(:,[14:16,18:20])/glv.sec); xygo('dKij / (\prime\prime)');
+    subplot(336), plot(t, xk(:,[14:16,18:20])/glv.sec); xygo('dKij');
     	hold on,  plot(t, xk(:,[23:25,27:29])/glv.sec, '--');
-    subplot(337), plot(t, xk(:,31:33)/glv.ugpg2); xygo('Ka2 / ug/g^2');
+    subplot(337), plot(t, xk(:,31:33)/glv.ugpg2); xygo('Ka2');
     subplot(338), plot(t, xk(:,34:36)); xygo('lever arm / m');
     	hold on,  plot(t, xk(:,37:39),'--'); plot(t, xk(:,40:42), '-.');
     subplot(339), plot(t, xk(:,43)); xygo('\tau_{GA} / s');

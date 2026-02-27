@@ -7,7 +7,7 @@ function dr = drupdate(dr, wm, dS)
 %         dS - odometer distance increment
 % Output: dr - DR structure array after DR updating
 %
-% See also  drinit, drpure, drcalibrate, insupdate.
+% See also  drinit, drpure, dratt, drcalibrate, insupdate.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

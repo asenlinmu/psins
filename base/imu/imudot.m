@@ -9,7 +9,7 @@ function dotwf = imudot(imu, passband, iffig)
 % Output: dotwf - = [dot_w, dot_f, t], 
 %                   dot_w = d(w)/dt in rad/s^2, dot_f = d(f)/dt in m/s^3
 %
-% See also  imuresample.
+% See also  imuinc, imuresample.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi'an, P.R.China

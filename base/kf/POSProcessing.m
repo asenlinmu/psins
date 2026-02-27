@@ -17,6 +17,17 @@ function ps = POSProcessing(kf, ins, imu, vpGPS, fbstr, ifbstr)
 %             iavp,ixkpk  - backward processing avp, state estimation and
 %                         variance
 %
+% Example:
+%     psinstypedef(376);
+%     davp0 = avperrset([30;-30;30], [0.01;0.01;0.03], [0.01;0.01;0.03]);
+%     lever = [0.; 0; 0]; dT = 0.0; r0 = davp0(4:9)';
+%     imuerr = imuerrset(0.01, 100, 0.001, 1);
+%     ins = insinit([att; pos], ts); ins.nts=ts;
+%     kf = kfinit(ins, davp0, imuerr, lever, dT, r0);
+%     ps = POSProcessing(kf, ins, imu, vpGPS, 'avped', 'avp');
+%     psf = POSFusion(ps.avp, ps.xkpk, ps.iavp, ps.ixkpk);
+%     POSplot(psf);
+% 
 % See also  sinsgps, insupdate, kfupdate, POSFusion, posplot.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.

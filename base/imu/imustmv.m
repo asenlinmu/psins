@@ -1,12 +1,13 @@
 function [static, moving] = imustmv(imu, angrate)
-% Calculate install matrix and scale factor from calibration matirx.
+% IMU static or moving test.
 %
 % Prototype: stmv = imustmv(imu, angrate)
-% Inputs: Ks - gyro calibration matrix Ka (or acc calibration matrix Ka)
-%         Cbs - gyro install matrix Cbg (or acc install matrix Cba)
-%         K - gyro scale factor (or acc scale factor)
+% Inputs: imu - imu data array
+%         angrate - angluar rate threshold
+% Outputs: static - static flag
+%          moving - moving flag
 %
-% See also  sumn, avar.
+% See also  imustatic, imudot.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

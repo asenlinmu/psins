@@ -19,6 +19,8 @@ function ins = insinit(avp0, ts, var1, var2)
 global glv
     avp0 = avp0(:);
     if length(avp0)==1, avp0=zeros(9,1); end  % ins = insinit(0, ts);
+    if length(avp0)==4, avp0=[0;0;avp0(1); 0;0;0; avp0(2:4)]; end  % ins = insinit([yaw;pos], ts);
+    if length(avp0)==6, avp0=[avp0(1:3); 0;0;0; avp0(4:6)]; end  % ins = insinit([att;pos], ts);
     if nargin==2      % ins = insinit(avp0, ts);
         [qnb0, vn0, pos0] = setvals(a2qua(avp0(1:3)), avp0(4:6), avp0(7:9));
     elseif nargin==3  % ins = insinit(avp0, ts, avperr);
@@ -29,7 +31,7 @@ global glv
         [qnb0, vn0, pos0, ts] = setvals(avp0, ts, var1, var2);
     end        
 	ins = [];
-	ins.ts = ts; ins.nts = [];
+	ins.ts = ts; ins.nts = 2*ts;
     [ins.qnb, ins.vn, ins.pos] = setvals(qnb0, vn0, pos0); ins.vn0 = vn0; ins.pos0 = pos0;
 	[ins.qnb, ins.att, ins.Cnb] = attsyn(ins.qnb);  ins.Cnb0 = ins.Cnb;
     ins.avp  = [ins.att; ins.vn; ins.pos];

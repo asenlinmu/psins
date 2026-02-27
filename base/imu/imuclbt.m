@@ -33,7 +33,7 @@ global glv
     if ~isfield(clbt, 'ry'), clbt.ry = zeros(3,1); end
     if ~isfield(clbt, 'rz'), clbt.rz = zeros(3,1); end
     if ~isfield(clbt, 'tGA'), clbt.tGA = 0; end
-    timebar(1, length(imu));
+    timebar(1, length(imu), 'IMU calibration,');
     for k=2:length(imu)
         wb = imu(k,1:3)'/ts; fb = imu(k,4:6)'/ts;
         dwb = (imu(k,1:3)-imu(k-1,1:3))'/ts/ts;
@@ -42,7 +42,7 @@ global glv
         imu(k,4:6) = fb'*ts;
         timebar(1);
     end
-    imuerr.dKg = clbt.Kg-eye(3); imuerr.eb = clbt.eb; imuerr.web = zeros(3,1); imuerr.sqg = zeros(3,1);
-    imuerr.dKa = clbt.Ka-eye(3); imuerr.db = clbt.db; imuerr.KA2 = clbt.Ka2; imuerr.wdb = zeros(3,1);  imuerr.sqa = zeros(3,1);
+    imuerr.dKg = -(clbt.Kg-eye(3)); imuerr.eb = -clbt.eb; imuerr.web = zeros(3,1); imuerr.sqg = zeros(3,1);
+    imuerr.dKa = -(clbt.Ka-eye(3)); imuerr.db = -clbt.db; imuerr.KA2 = -clbt.Ka2; imuerr.wdb = zeros(3,1);  imuerr.sqa = zeros(3,1);
     imu = imuadderr(imu, imuerr, ts);
     

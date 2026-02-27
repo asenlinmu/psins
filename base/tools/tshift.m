@@ -1,5 +1,5 @@
 function varargout = tshift(varargin)
-% Time tag shift.
+% Time tag shift to specific start time t0.
 %
 % Prototype: varargout = tshift(varargin)
 % Examples: 1) [o1, o2, o3] = tshift(i1, i2, i3, t0)

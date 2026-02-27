@@ -8,7 +8,7 @@ function avp = avpmdf(avp0, xk, ebth, dbth)
 %        dbth - acc bias threshold
 % Output: avp - avp output after modification
 % 
-% See also  kffeedback, avpset, avpseterr.
+% See also  kffeedback, avpset, avperrset.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

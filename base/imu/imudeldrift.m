@@ -1,8 +1,8 @@
-function [imu, eb] = imudeldrift(imu, t0, t1, avp)
+function [imu, eb, db] = imudeldrift(imu, t0, t1, avp)
 % For MEMS-grade IMU and using static-base condition within time interval
 % [t0,t1], correct the gyro output by deleting their bias.
 %
-% Prototype: imu = imudeldrift(imu, t0, t1)
+% Prototype: [imu, eb] = imudeldrift(imu, t0, t1, avp)
 % Inputs: imu - raw SIMU data
 %         t0,t1 - assuming a static-base condition time interval
 % Output: imu - new SIMU date with gyro bias deleted
@@ -13,18 +13,31 @@ function [imu, eb] = imudeldrift(imu, t0, t1, avp)
 % Northwestern Polytechnical University, Xi'an, P.R.China
 % 25/06/2017, 30/11/2020
     ts = diff(imu(1:2,end));
-    if nargin>3
+    if nargin>3  % [imu, eb] = imudeldrift(imu, t0, t1, avp);
         if size(avp,2)>1,  avp = getat(avp,t0);   end
         wbib = imustatic(avp, 1, 1);
-        wbib = wbib(1:3)*ts;
+        wbib = wbib(1,1:3)'*ts;
     else
         wbib = zeros(3,1);
     end
-    if nargin<3, t1=t0+10; end
-    idx0 = find(imu(:,end)>t0,1);
-    idx1 = find(imu(:,end)>t1,1);
-    eb = mean(imu(idx0:idx1,1:3),1)-wbib;
-    imu(:,1:3) = [imu(:,1)-eb(1), imu(:,2)-eb(2), imu(:,3)-eb(3)];
-    eb = eb/diff(imu(1:2,end));
+    if length(t0)==1  % [imu, eb] = imudeldrift(imu, t0, t0+10);
+        if nargin<3, t1=t0+10; end
+        idx0 = find(imu(:,end)>t0,1);
+        idx1 = find(imu(:,end)>t1,1);
+        eb = mean(imu(idx0:idx1,1:3),1)'-wbib;
+        db = zeros(3,1);
+    else   % [imu, eb] = imudeldrift(imu, eb);
+        if length(t0)==3,
+            eb = t0*ts;
+        elseif length(t0)==6,  % [imu, eb, db] = imudeldrift(imu, [eb;db]);
+            eb = t0(1:3)*ts; db = t0(4:6)*ts;
+        else  % [imu, eb, db] = imudeldrift(imu, avp, t0);
+            ebdb = getat(t0(:,10:end),t1); %t0=avp;
+            eb = ebdb(1:3)*ts; db = ebdb(4:6)*ts;
+        end
+    end
+    imu(:,1:6) = [imu(:,1)-eb(1), imu(:,2)-eb(2), imu(:,3)-eb(3)...
+                  imu(:,4)-db(1), imu(:,5)-db(2), imu(:,6)-db(3) ];
+    eb = eb/ts; db = db/ts;
     
 

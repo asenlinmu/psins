@@ -30,7 +30,7 @@ function imuerr = imuerrset(eb, db, web, wdb, sqrtR0G, TauG, sqrtR0A, TauA, dKGi
 %    then call this funcion by
 %       imuerr = imuerrset(0.01,100,0.001,10, 0.001,1000,10,1000, 10,10,10,10, 10);
 %
-% See also  imuadderr, avpseterr, insinit, kfinit.
+% See also  imuadderr, gabias, avperrset, insinit, kfinit.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -1,9 +1,10 @@
 function avp = avpinterp1(avp, t, method)
 % avp linear interpolation. 
 %
-% Prototype: avp = avpinterp(avp1, avp2, ratio)
-% Inputs: avp1,avp2 - input avp at time 1 & 2
-%         ratio - interpolated time ratio point
+% Prototype: avp = avpinterp1(avp, t, method)
+% Inputs: avp - input avp
+%         t - time tag
+%         method - 'nearest'/'linear' etc, see interp1
 % Output: avp - interpolated avp
 %
 % See also  attinterp, interp1.
@@ -15,5 +16,6 @@ function avp = avpinterp1(avp, t, method)
     i1 = find(t>avp(1,end),1,'first');
     i2 = find(t<avp(end,end),1,'last');
     t = t(i1:i2);
+    avp(:,1:3) = att2c(avp(:,1:3));
     avp = [interp1(avp(:,end), avp(:,1:end-1), t, method), t];
-    
+    avp(:,1:3) = iatt2c(avp(:,1:3));

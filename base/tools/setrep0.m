@@ -2,9 +2,8 @@ function data = setrep0(data, clm_idx)
 % Set repeated data as 0.
 %
 % Prototype: data = setrep0(data, clm_idx)
-% Inputs: 
-%    data - data with repeated rows
-%    clm_idx - column for index
+% Inputs: data - data with repeated rows
+%         clm_idx - column for index
 % Output: data - data with repeated rows set by 0
 %
 % See also  norep, delrepeat, imurepair, imuresample.

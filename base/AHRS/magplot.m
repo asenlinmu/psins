@@ -6,7 +6,7 @@ function [yaw, incl] = magplot(mag)
 % Outputs: yaw - geomagnetic yaw with pitch=roll=0
 %          incl - geomagnetic inclation with the asumpt. of device pitch=roll=0
 %          
-% See also  magyaw, imuplot, dvlplot, baroplot, insplot, inserrplot, kfplot, gpsplot.
+% See also  magsimu, magyaw, imuplot, dvlplot, baroplot, insplot, inserrplot, kfplot, gpsplot.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -16,5 +16,6 @@ function [yaw, incl] = magplot(mag)
     yaw = atan2(mag(:,1), mag(:,2));
     incl = atan2(mag(:,3), normv(mag(:,1:2)));
     myfigure;
-    subplot(211), plot(t, [mag(:,1:3),normv(mag(:,1:3))]), xygo('\itt / \rms', 'Mag / mGauss');
-    subplot(212), plot(t, [yaw,incl]/(pi/180)), xygo('\itt / \rms', 'MagYaw&Incl / \circ');
+    subplot(211), plot(t, [mag(:,1:3),normv(mag(:,1:3))]), xygo('\itt / \rms', 'Mag^b / mGauss');
+    subplot(212), plot(t, [yaw,incl]/(pi/180)),
+    xygo('\itt / \rms', 'MagYaw&Incl / \circ');

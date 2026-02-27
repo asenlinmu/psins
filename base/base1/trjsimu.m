@@ -16,7 +16,7 @@ function trj = trjsimu(avp0, wat, ts, repeats)
 %            avp - trajectory attitude, velocity, position & time tag
 %            avp0, wat, ts repeats - the same as inputs
 %
-% See also  trjsegment, imustatic, odsimu, gpssimu, conesimu, scullsimu,
+% See also  trjsegment, avp2imu, imustatic, odsimu, gpssimu, conesimu, scullsimu,
 %           imuadderr, insupdate, cnscl, imuplot, imufile.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.

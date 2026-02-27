@@ -1,4 +1,4 @@
-function out = delbias(in, b)
+function x = delbias(x, b)
 % Delete bias.
 %
 % Prototype:  out = delbias(in)
@@ -6,16 +6,15 @@ function out = delbias(in, b)
 %         b - bias
 % Output: out - output date with no bias
 %
-% See also  sumn, meann.
+% See also  adddt, sumn, meann.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 23/07/2016, 03/07/2018 
-    out = in;
-    for k=1:size(in,2)
+    for k=1:size(x,2)
         if exist('b','var')
-            out(:,k) = in(:,k)-b(k);
+            if k<=length(b), x(:,k) = x(:,k)-b(k); end
         else
-            out(:,k) = in(:,k)-mean(in(:,k));
+            x(:,k) = x(:,k)-mean(x(:,k));
         end
     end

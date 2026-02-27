@@ -9,7 +9,7 @@ psinstypedef('test_GPS_INS_static_tight_def');
 xyz0 = [4097216.6805,  4429119.0287, -2065771.3676]';  pos0 = xyz2blh(xyz0);
 % [eph, obs, ot] = rnx210('abpo0080.15n', 2000);
 avp0 = [[1;1;30]*glv.deg;0;0;0;pos0];
-davp = [d2r([1;1;1]); [1;1;1]; posseterr(100)];
+davp = [d2r([1;1;1]); [1;1;1]; poserrset(100)];
 imuerr = imuerrset(0.01,100,0.001,10, 0.01,300,100,300);  % tactical gride SIMU
 [imu, eth] = imustatic(avp0, ts, 3600, imuerr);  imu(:,end)=imu(:,end)-imu(1,end)+obs(1,ot.tp)-29;
 ins = insinit(avp0, ts, davp);  ins.tauG=imuerr.taug; ins.tauA=imuerr.taua; 

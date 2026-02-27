@@ -36,7 +36,7 @@ function stext = labeldef(stext)
         'r',     '\it\gamma\rm / ( \circ )';
         'y',     '\it\psi\rm / ( \circ )';
         'att',   '\itAtt\rm / ( \circ )';
-        'datt',  '\itdAtt\rm / ( \circ )';
+        'datt',  '\itdAtt\rm / ( \prime )';
         'VEN',   '\itV \rm_{E,N} / ( m/s )';
         'VU',    '\itV \rm_U / ( m/s )';
         'V',     '\itV\rm / ( m/s )';
@@ -58,6 +58,8 @@ function stext = labeldef(stext)
         'eb',    '\it\epsilon\rm / ( (\circ)/h )';
         'en',    '\it\epsilon\rm / ( (\circ)/h )';
         'db',    '\it\nabla\rm / \mu\itg';
+        'dKij',  '\delta\itKij\rm / (\prime\prime)';
+        'dKii',  '\delta\itKii\rm / ppm';
         'Ka2',   'Ka2 / ug/g^2';
         'dbU',   '\it\nabla \rm_U / \mu\itg';
         'L',     '\itLever\rm / m';

@@ -8,6 +8,11 @@ function [att0, res] = aligni0(imu, pos, ts)
 % Output: att0 - attitude align result
 %         res - some other paramters for debug
 %
+% Example:
+%     glvs;
+%     [imu, avp0, ts] = imufile('lasergyro.imu');
+%     att = aligni0(imu(1:300/ts,:), avp0(7:9)');
+%
 % See also  alignfn, alignvn, aligni0vn, aligncmps, alignWahba, alignsb, i0fvp.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
@@ -17,7 +22,8 @@ global glv
     if nargin<3,  ts = imu(2,end)-imu(1,end);  end
     nn = 2; nts = nn*ts;  ratio = 1; % 0.995;
     len = fix(length(imu)/nn)*nn;
-    if(length(pos)>4) pos=pos(4:6); end
+    if length(pos)>4 , pos=pos(4:6); 
+    elseif length(pos)==1, pos=[pos;0;0]; end
     eth = earth(pos);  lat = pos(1);  g0 = -eth.gn(3);
     qib0b = [1; 0; 0; 0];
     [vib0, vi0, pib0, pi0, vib0_1, vi0_1] = setvals(zeros(3,1));

@@ -5,7 +5,7 @@ function insplot(avp, ptype, varargin)
 % Inputs: avp - may be [att], [att,vn] or [att,vn,pos]
 %         ptype - plot type define
 %          
-% See also  inserrplot, kfplot, gpsplot, imuplot, magplot, dvlplot, pos2dxyz.
+% See also  miniplot, inserrplot, kfplot, gpsplot, imuplot, magplot, dvlplot, pos2dxyz.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -14,7 +14,9 @@ global glv
     t = avp(:,end);
     n = size(avp,2);
     if nargin<2
-        if n<5,  	 ptype = 'a';
+        if n==2,     ptype = 'y';  % yaw
+        elseif n==3, ptype = 'l';  % lat-lon
+        elseif n<5,	 ptype = 'a';
         elseif n<8,	 ptype = 'av';
         elseif n<11, ptype = 'avp';
         elseif n<17, ptype = 'avped';
@@ -24,6 +26,14 @@ global glv
     end
     %%
     switch ptype
+        case 'y',
+            myfigure;
+            plot(t, avp(:,1)/glv.deg), xygo('y');
+        case 'l',
+            myfigure;
+            dxyz = pos2dxyz([avp(:,1:2),avp(:,1)*0]);
+            plot(0, 0, 'rp');
+            hold on, plot(dxyz(:,1), dxyz(:,2)); xygo('est', 'nth');
         case 'a',
             myfigure;
             subplot(211), plot(t, avp(:,1:2)/glv.deg), xygo('pr');
@@ -51,13 +61,13 @@ global glv
             subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr');
             subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y');
             subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)]); xygo('V');
-            dxyz = dposxyz(avp(:,7:9));
-            subplot(325), plot(t, dxyz(:,1:3)); xygo('DP');
+            dxyz = pos2dxyz(avp(:,7:9));
+            subplot(325), plot(t, dxyz(:,[2,1,3])); xygo('DP');
 %             subplot(325), plot(t, [[avp(:,7)-avp(1,7),(avp(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avp(:,9)-avp(1,9)]); xygo('DP');
 %             subplot(3,2,[4,6]), plot(r2d(avp(:,8)), r2d(avp(:,7))); xygo('lon', 'lat');
 %                 hold on, plot(r2d(avp(1,8)), r2d(avp(1,7)), 'rp');
             subplot(3,2,[4,6]), plot(0, 0, 'rp');   % 19/04/2015
-                hold on, plot(dxyz(:,2), dxyz(:,1)); xygo('est', 'nth');
+                hold on, plot(dxyz(:,1), dxyz(:,2)); xygo('est', 'nth');
 %                 hold on, plot((avp(:,8)-avp(1,8))*glv.Re*cos(avp(1,7)), (avp(:,7)-avp(1,7))*glv.Re); xygo('est', 'nth');
             legend(sprintf('LON0:%.2f, LAT0:%.2f (DMS)', r2dms(avp(1,8)),r2dms(avp(1,7))));
         case 'ap',
@@ -69,8 +79,8 @@ global glv
             subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr');
             subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y');
             subplot(323), plot(t, [avp(:,4:6),normv(avp(:,4:6))]); xygo('V');
-            dxyz = dposxyz(avp(:,7:9));
-            subplot(324), plot(t, dxyz(:,1:3)); xygo('DP');
+            dxyz = pos2dxyz(avp(:,7:9));
+            subplot(324), plot(t, dxyz(:,[2,1,3])); xygo('DP');
 %             subplot(324), plot(t, [[avp(:,7)-avp(1,7),(avp(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avp(:,9)-avp(1,9)]); xygo('DP');
             subplot(325), plot(t, avp(:,10:12)/glv.dph); xygo('eb');
             subplot(326), plot(t, avp(:,13:15)/glv.ug); xygo('db');
@@ -79,8 +89,8 @@ global glv
             subplot(421), plot(t, avp(:,1:2)/glv.deg); xygo('pr');
             subplot(422), plot(t, avp(:,3)/glv.deg); xygo('y');
             subplot(423), plot(t, [avp(:,4:6),normv(avp(:,4:6))]); xygo('V');
-            dxyz = dposxyz(avp(:,7:9));
-            subplot(424), plot(t, dxyz(:,1:3)); xygo('DP');
+            dxyz = pos2dxyz(avp(:,7:9));
+            subplot(424), plot(t, dxyz(:,[2,1,3])); xygo('DP');
             subplot(425), plot(t, avp(:,10:12)/glv.dph); xygo('eb');
             subplot(426), plot(t, avp(:,13:15)/glv.ug); xygo('db');
             subplot(427), plot(t, avp(:,16:18)); xygo('L');
@@ -93,8 +103,8 @@ global glv
             subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr');
             subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y');
             subplot(323), plot(t, [avp(:,4:6),normv(avp(:,4:6))]); xygo('V');
-            dxyz = dposxyz(avp(:,7:9));
-            subplot(325), plot(t, dxyz(:,1:3)); xygo('DP');
+            dxyz = pos2dxyz(avp(:,7:9));
+            subplot(325), plot(t, dxyz(:,[2,1,3])); xygo('DP');
 %             subplot(325), plot(t, [[avp(:,7)-avp(1,7),(avp(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avp(:,9)-avp(1,9)]); xygo('DP');
             subplot(3,2,[4,6]), plot(r2d(avp(:,8)), r2d(avp(:,7))); xygo('lon', 'lat');
                 hold on, plot(r2d(avptrue(:,8)), r2d(avptrue(:,7)), 'r-');

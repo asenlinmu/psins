@@ -1,4 +1,4 @@
-% Tranfer align simulation. Kalman filter states include:
+% Transfer align simulation. Kalman filter states include:
 % [phi, dvn, eb, db, mu, theta, omega]', but lever arm between
 % SINS and MINS no considered.
 % Please run 'test_align_transfer_trj.m' &

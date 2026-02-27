@@ -10,14 +10,15 @@ function [wvm, Dir] = imurfu(wvm0, dirstr)
 %               'U': Upper; 'D': Down; 'R': Right; 'L': Left; 
 %               'F': Forword; 'B': Back; 'E': East; 'W': West; 'N': North;
 %               'S': South.
-% Output: wvm - SIMU data with X-Y-Z pointing to R-F-U respectively,
+% Outputs: wvm - SIMU data with X-Y-Z pointing to R-F-U respectively,
 %               i.e. wvm(:,1:6) = wvm0(:,1:6)*blkdiag(Dir',Dir').
+%          Dir - see above, or Dir==Cnb, wm=Cnb*wm0.
 %
 % Example:
 %         [wvm1, Dir] = imurfu([], 'flu')
 %         wvm2 = [1 2 3 1 2 3]*blkdiag(Dir',Dir')
 %
-% See also  wierfu, imurot, imuresample, insupdate, trjsimu.
+% See also  imuidx, wierfu, imurot, imuresample, insupdate, trjsimu.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

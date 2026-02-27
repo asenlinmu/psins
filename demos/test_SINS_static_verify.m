@@ -7,7 +7,7 @@ T = 600;  % total simulation time length
 avp0 = avpset([0;0;0], [0;0;0], [34;110;380]);  eth = earth(avp0(7:9));
 imuerr = imuerrset([0;0;0.], [0;0;0], 0.0, 0.0);
 imu = imustatic(avp0, ts, T, imuerr);   % SIMU simulation
-davp0 = avpseterr([0;0;0], [0.0;10.0;0.0], [0;0;0]);
+davp0 = avperrset([0;0;0], [0.0;10.0;0.0], [0;0;0]);
 avp00 = avpadderr(avp0, davp0);
 ins = insinit(avp00, ts);
 len = length(imu);    avp = zeros(fix(len/nn), 10);

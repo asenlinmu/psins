@@ -14,12 +14,14 @@ function [imu, eth] = imustatic(avp0, ts, T, imuerr)
 %   avp0 = avpset([0;0;0], zeros(3,1), glv.pos0);
 %   imu = imustatic(avp0, 1, 300, imuerr);
 %
-% See also  imuerrset, trjsimu, trjunilat, insupdate.
+% See also  imusway, imuerrset, trjsimu, trjunilat, insupdate.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 28/08/2013, 10/01/2014
+global glv;
     if ~exist('imuerr', 'var'), imuerr = imuerrset(0,0,0,0); end
+    if length(avp0)<6, avp0 = [avp0(1:3); glv.pos0]; end
     if length(avp0)<9, avp0 = [avp0(1:3); zeros(3,1); avp0(4:6)]; end
     Cbn = a2mat(avp0(1:3))';
     eth = earth(avp0(7:9), avp0(4:6));

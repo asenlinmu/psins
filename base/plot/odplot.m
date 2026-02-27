@@ -7,7 +7,7 @@ function sv = odplot(od, nsmooth, isplot)
 %         isplot - plot flag
 % Output: sv - smooth velocity
 %
-% See also  odanalysis, imuplot, insplot, inserrplot, kfplot, gpsplot, gpssimu, avpfile.
+% See also  odanalysis, dvlplot, imuplot, gpsplot, gpssimu, avpfile.
 
 % Copyright(c) 2009-2018, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -7,6 +7,11 @@ function att1 = aligni0vn(imu, pos, t1)
 %         t1 - inertial-frame align time
 % Output: att1 - attitude align result
 %
+% Example:
+%     glvs;
+%     [imu, avp0, ts] = imufile('lasergyro.imu');
+%     att = aligni0vn(imu(1:300/ts,:), avp0(7:9)');
+%
 % See also  aligni0, alignvn.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.

@@ -1,9 +1,13 @@
-function Cnb = a2mat(att)
+function [Cnb, Cnbr] = a2mat(att)
 % Convert Euler angles to direction cosine matrix(DCM).
 %
-% Prototype: Cnb = a2mat(att)
+% Prototype: [Cnb, Cnbr] = a2mat(att)
 % Input: att - att=[pitch; roll; yaw] in radians
-% Output: Cnb - DCM from body-frame to navigation-frame
+% Outputs: Cnb - DCM from navigation-frame(n) to body-frame(b), in yaw->pitch->roll
+%                (3-1-2) rotation sequence
+%          Cnbr - DCM in yaw->roll->pitch (3-2-1) roation sequence
+% Test:
+%   att0=randn(3,1)/10; [Cnb,Cnbr]=a2mat(att0); att=m2att(Cnb); [~,attr]=m2att(Cnbr); [att0, att, attr]
 %
 % See also  a2qua, m2att, m2qua, q2att, q2mat, attsyn, rv2m.
 
@@ -16,3 +20,9 @@ function Cnb = a2mat(att)
     Cnb = [ cj*ck-si*sj*sk, -ci*sk,  sj*ck+si*cj*sk;
             cj*sk+si*sj*ck,  ci*ck,  sj*sk-si*cj*ck;
            -ci*sj,           si,     ci*cj           ];
+    if nargout==2  % dual Euler angle DCM
+        Cnbr = [ cj*ck, si*sj*ck-ci*sk, ci*sj*ck+si*sk;
+                 cj*sk, si*sj*sk+ci*ck, ci*sj*sk-si*ck;
+                -sj,    si*cj,          ci*cj            ];
+    end
+    

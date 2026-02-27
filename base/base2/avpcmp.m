@@ -34,7 +34,8 @@ function [avperr, i1, i0] = avpcmp(avp1, avp0, eb_db_Etc0)
         end
         avp0 = [avp0,eb_db_Etc0];
     end
-    avperr = [avp1-avp0,t];
+    clm=min(size(avp1,2),size(avp0,2));
+    avperr = [avp1(:,1:clm)-avp0(:,1:clm),t];
     avperr(:,1:3) = aa2phi(avp1(:,1:3), avp0(:,1:3));
     %% some specific processing
     if ~exist('eb_db_Etc0', 'var'), eb_db_Etc0 = 0; end
@@ -42,10 +43,12 @@ function [avperr, i1, i0] = avpcmp(avp1, avp0, eb_db_Etc0)
     	avperr(:,1:3) = avp1(:,1:3) - avp0(:,1:3);
     elseif strcmp(eb_db_Etc0, 'datt')==1
     	avperr(:,1:3) = avp1(:,1:3) - avp0(:,1:3);
-        idx = avperr(:,3)>pi/2;
-        avperr(idx,3)=avperr(idx,3)-pi;
-        idx = avperr(:,3)<-pi/2;
-        avperr(idx,3)=avperr(idx,3)+pi;
+        for k=1:3
+            idx = avperr(:,k)>pi;
+            avperr(idx,k)=avperr(idx,k)-pi*2;
+            idx = avperr(:,k)<-pi;
+            avperr(idx,k)=avperr(idx,k)+pi*2;
+        end
     elseif strcmp(eb_db_Etc0, 'mu')==1
     	avperr(:,1:3) = aa2mu(avp1(:,1:3), avp0(:,1:3));
     end

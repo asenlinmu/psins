@@ -353,7 +353,7 @@ function simulate_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 setting = handles.setting;
 err = sreval([setting(1),setting(2),setting(3),setting(4),setting(5)], ...
-    setting(8), [setting(7),setting(6)], [setting(9)/3600,setting(10)], 0);
+    setting(8), [setting(7),setting(6)], [setting(9)/360,setting(10)], 0);
 axes(handles.axes1); cla;
 bar(err);
 xlabel('Îó²îÒòËØ'); ylabel(sprintf('µ¼º½Îó²îÆÀ¹À / m'));

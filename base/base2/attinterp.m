@@ -7,7 +7,7 @@ function att = attinterp(att1, att2, ratio)
 %         ratio - interpolated time ratio point
 % Output: att - interpolated Euler angles(or quaternion)
 %
-% See also  avpinterp, qq2phi, qaddphi, q2att.
+% See also  avpinterp, attinterp1, qq2phi, qaddphi, q2att.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

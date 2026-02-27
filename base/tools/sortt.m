@@ -5,7 +5,7 @@ function varargout = sortt(varargin)
 % Input: varargin - varargin{k}=[data,time_tag]
 % Output: varargout - varargout{k}=[data,time_tag]_sorted
 %
-% See also  adddt, sort.
+% See also  adddt, ttest.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

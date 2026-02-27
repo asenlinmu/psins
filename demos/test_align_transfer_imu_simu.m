@@ -1,4 +1,4 @@
-% Slave IMU simulation for tranfer align.
+% Slave IMU simulation for transfer align.
 % Please run 'test_align_transfer_trj.m' beforehand!!!
 % See also  test_align_transfer_trj, test_align_transfer.
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.

@@ -10,7 +10,7 @@ T = 1000;
 avp0 = avpset([0;0;0], [0;0;0], [30;108;380]);
 imuerr = imuerrset(0.01, 50, 0.0001, 0.10);
 imu = imustatic(avp0, ts, T, imuerr);   % IMU simulation
-davp = avpseterr([-30;30;30]*0, [0.01;0.01;0.01]*0, [1;1;1]*0);
+davp = avperrset([-0.5;0.50;30]*0, [0.01;0.01;0.01]*0, [1;1;1]*0);
 avp = avpadderr(avp0, davp);
 %% vn-meas. Kalman filter
 phi = [.5;.5;.005]*glv.deg;

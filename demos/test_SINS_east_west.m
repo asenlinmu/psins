@@ -19,6 +19,6 @@ for k=1:nn:len-nn
     avp(ki,:) = [ins.avp; t]';
     if mod(ki,tbstep)==0, timebar; end;  ki = ki+1;
 end
-avperr = avpcmp(avp, trj.avp);
-inserrplot(avperr);
+avp(ki:end,:) = [];
+avpcmpplot(trj.avp, avp);
 

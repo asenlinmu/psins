@@ -13,10 +13,10 @@ function qnb = m2qua(Cnb)
     C11 = Cnb(1,1); C12 = Cnb(1,2); C13 = Cnb(1,3); 
     C21 = Cnb(2,1); C22 = Cnb(2,2); C23 = Cnb(2,3); 
     C31 = Cnb(3,1); C32 = Cnb(3,2); C33 = Cnb(3,3); 
-    q0t = 0.5*sqrt(1+C11+C22+C33);
-    q1t = 0.5*sqrt(1+C11-C22-C33);
-    q2t = 0.5*sqrt(1-C11+C22-C33);
-    q3t = 0.5*sqrt(1-C11-C22+C33);
+%     q0t = 0.5*sqrt(1+C11+C22+C33);
+%     q1t = 0.5*sqrt(1+C11-C22-C33);
+%     q2t = 0.5*sqrt(1-C11+C22-C33);
+%     q3t = 0.5*sqrt(1-C11-C22+C33);
     if C11>=C22+C33
         q1 = 0.5*sqrt(1+C11-C22-C33);  qq4 = 4*q1;
         q0 = (C32-C23)/qq4; q2 = (C12+C21)/qq4; q3 = (C13+C31)/qq4;

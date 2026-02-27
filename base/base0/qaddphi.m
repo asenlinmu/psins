@@ -9,7 +9,7 @@ function qpb = qaddphi(qnb, phi)
 %               ideal nav-frame
 % Output: qpb - attitude quaternion from body-frame to computed nav-frame
 %
-% See also  qdelphi, qq2phi, qaddafa, qdelafa, qq2afa.
+% See also  qdelphi, qq2phi, qaddafa, qdelafa, qq2afa, aaddmu.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

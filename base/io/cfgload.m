@@ -24,13 +24,13 @@ global glv psinsdef
     fclose(fid);
     cfg.fsimu = [cfg.dir,cfg.fsimu]; cfg.fgps = [cfg.dir,cfg.fgps]; cfg.fres = [cfg.dir,cfg.fres];
     cfg.att = cfg.att*glv.deg; cfg.pos = posset(cfg.pos);  % unit convention
-    cfg.phi = cfg.phi*glv.min; cfg.dpos = posseterr(cfg.dpos);
+    cfg.phi = cfg.phi*glv.min; cfg.dpos = poserrset(cfg.dpos);
     cfg.eb = cfg.eb*glv.dph; cfg.db = cfg.db*glv.ug;
     cfg.ebw = cfg.ebw*glv.dpsh; cfg.dbw = cfg.dbw*glv.ugpsHz;
     cfg.ebr = cfg.ebr*glv.dph; cfg.dbr = cfg.dbr*glv.ug;
     cfg.dkgii = cfg.dkgii*glv.ppm; cfg.dkaii = cfg.dkaii*glv.ppm;
     cfg.dkgij = cfg.dkgij*glv.sec; cfg.dkaij = cfg.dkaij*glv.sec;
-    cfg.posw = posseterr(cfg.posw);
+    cfg.posw = poserrset(cfg.posw);
     %%
     [nn, ts, nts] = nnts(cfg.nnfs(1), 1/cfg.nnfs(2));
     ins = insinit([cfg.att;cfg.vn;cfg.pos], ts);  ins.tauG = cfg.ebtau; ins.tauA = cfg.dbtau;

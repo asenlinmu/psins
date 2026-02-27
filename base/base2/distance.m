@@ -1,4 +1,4 @@
-function dist = distance(pos, timax)
+function [dist, od] = distance(pos, timax)
 % Get traveling distance from position(lat,lon,hgt) curve.
 %
 % Prototype: dist = distance(pos, timax)
@@ -23,6 +23,7 @@ function dist = distance(pos, timax)
         [RMh, clRNh] = RMRN(pos);
         dpos = [zeros(1,3);diff(pos(:,1:3))];
         dxyz = [dpos(:,2).*clRNh, dpos(:,1).*RMh, dpos(:,3)];
+        if k==1, od = [normv(dxyz),pos(:,end)]; end
         distk = cumsum(normv(dxyz));
         plot(pos(:,end), distk); hold on;
         dist(k,1) = distk(end);

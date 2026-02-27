@@ -11,7 +11,7 @@ psinstypedef(346);
 [nn, ts, nts] = nnts(2, trj.ts);
 imuerr = imuerrset(0.01, 100, 0, 0, 0,0,0,0, 10, 10);
 imu = imuadderr(trj.imu, imuerr);
-davp0 = avpseterr([10;-10;30], 0.1, [10;10;30]);
+davp0 = avperrset([0.1;-0.1;30], 0.1, [10;10;30]);
 ins = insinit(avpadderr(trj.avp0,davp0), ts);
 xk = [davp0; imuerr.eb; imuerr.db; zeros(4,1); imuerr.dKga];  % init state error
 len = length(imu)/4; [avp, xkk, zkk] = prealloc(fix(len/nn), 10, 10, 7);

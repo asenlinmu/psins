@@ -1,4 +1,4 @@
-% Trajector simulation for tranfer align.
+% Trajector simulation for transfer align.
 % See also  test_align_transfer_imu_simu, test_align_transfer.
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

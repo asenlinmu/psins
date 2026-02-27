@@ -1,6 +1,6 @@
 function kf = kfinit(ins, varargin)
 % Kalman filter initializes for structure array 'kf', this precedure 
-% usually includs the setting of structure fields: Qk, Rk, Pxk, Hk.
+% usually includs the setting of structure fields: Qt, Rk, Pxk, Hk.
 %
 % Prototype: kf = kfinit(ins, varargin)
 % Inputs: ins - SINS structure array, if not struct then nts=ins;
@@ -60,7 +60,7 @@ switch(psinsdef.kfinit)
     case psinsdef.kfinit196
         psinsdef.kffk = 19;  psinsdef.kfhk = 196;  psinsdef.kfplot = 19;
         [davp, imuerr, lever, dT, r0] = setvals(varargin);
-        kf.Qt = diag([imuerr.web; imuerr.wdb; [1/Re;1/Re;1]*glv.mpsh; ...
+        kf.Qt = diag([imuerr.web; imuerr.wdb; [1/Re;1/Re;1]*0*glv.mpsh; ...
             [1;1;1]*0*glv.dphpsh; [1;1;1]*0*glv.ugpsh; [1;1;1]*0*glv.mpsh; 0])^2;
         kf.Rk = diag(r0)^2;
         kf.Pxk = diag([davp; imuerr.eb; imuerr.db; lever; dT]*1.0)^2;

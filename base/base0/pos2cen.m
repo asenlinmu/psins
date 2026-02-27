@@ -2,7 +2,7 @@ function Cen = pos2cen(pos)
 % Convert geographic pos = [lat; lon; *] to transformation matrix Cen (
 % from Earth-frame to nav-frame £©.
 %
-% Prototype: Cen = pos2cne(pos)
+% Prototype: Cen = pos2cen(pos)
 % Input: pos - geographic position
 % Output: Cen - transformation matrix from Earth-frame to nav-frame
 %

@@ -20,7 +20,7 @@ function [imu, avp] = seawavesimu(dA, pA, dP, pP, ts, T, pos0, yaw0)
 %        avperr = avpcmp(avp, avp0);
 %        inserrplot(avperr);
 
-% See also  ap2avp, avp2imu.
+% See also  swaysimu, ap2avp, avp2imu.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

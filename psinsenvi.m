@@ -1,4 +1,4 @@
 function [rpath, dpath, mytestflag] = psinsenvi()
-	rpath = 'D:\psins201210';
-	dpath = 'D:\psins201210\data\';
+	rpath = 'D:\psins210119';
+	dpath = 'D:\psins210119\data\';
 	mytestflag = 0;

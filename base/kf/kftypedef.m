@@ -8,7 +8,7 @@ function kftypedef(kftypestr)
 % Input: kftypestr - Kalman filter type string, which will be used as 
 %             identifier in other Kalman related routines.
 %
-% See also  kfinit, kffk, kfhk, kfplot.
+% See also  kfinit, kffk, kfhk, kfplot, psinstypedef.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
