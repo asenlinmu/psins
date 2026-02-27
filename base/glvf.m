@@ -58,6 +58,7 @@ global glv
     glv.mil = 2*pi/6000;            % mil
     glv.nm = 1853;                  % nautical mile
     glv.kn = glv.nm/glv.hur;        % knot
+    glv.kmph = 1000/glv.hur;        % km/hour
     %%
     glv.wm_1 = [0,0,0]; glv.vm_1 = [0,0,0];   % the init of previous gyro & acc sample
     glv.cs = [                      % coning & sculling compensation coefficients
@@ -75,6 +76,7 @@ global glv
     glv.t0 = 0;
     glv.tscale = 1;  % =1 for second, =60 for minute, =3600 for hour, =24*3600 for day
     glv.isfig = 1;
+    glv.dgn = [];
     %%
     [glv.rootpath, glv.datapath, glv.mytestflag] = psinsenvi;
     glv1 = glv;

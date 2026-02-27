@@ -1,5 +1,5 @@
 % Gyro rotor procession simulation.
-% See also  demo_HRG_effect, demo_cone_motion.
+% See also  demo_gyro_rotor_precession_nutation, demo_HRG_effect, demo_cone_motion.
 % Copyright(c) 2009-2015, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 28/09/2015
@@ -7,7 +7,7 @@ function demo_gyro_rotor_precession
     Jx = 0.1*0.01^2;  % kg*m^2
     Jy = 1*Jx; Jz = Jy; J = [Jx; Jy; Jz];
     f = 1; Omega = 2*pi*f;
-    My = 1e-6*9.8*1; % N*m       Please try to modify My and see result...
+    My = 1e-6*9.8*10; % N*m       Please try to modify My and see result...
     Mx = 0; Mz = 0; M = [Mx;My;Mz];
     ts = 1/f/100;  T = 10;
     afa = (0:pi/20:2*pi)'; cir = 0.5*[0*afa, sin(afa), cos(afa)]; lin = [1,0,0; -1,0,0];

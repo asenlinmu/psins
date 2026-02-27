@@ -2,7 +2,7 @@ function w = igg1(err, k0, k1)
 % 'Institute of Geodesy & Geophysics' picewise method to calculate weight.
 % Ref. IGG抗差估计在高程拟合中的应用研究_李广来,2021
 %
-% Prototype: gamma = igg3(err, k0, k1)
+% Prototype: gamma = igg1(err, k0, k1)
 % Inputs: err - normalized measurement error
 %         k0, k1 - picewise points 
 % Outputs: w - weight

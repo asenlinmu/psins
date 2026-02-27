@@ -5,7 +5,7 @@ function insplot(avp, ptype, varargin)
 % Inputs: avp - may be [att], [att,vn] or [att,vn,pos]
 %         ptype - plot type define
 %          
-% See also  miniplot, inserrplot, kfplot, gpsplot, imuplot, magplot, dvlplot, addyawplot.
+% See also  attplot, miniplot, inserrplot, kfplot, gpsplot, imuplot, magplot, dvlplot, addyawplot.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -57,13 +57,14 @@ global glv
             elseif n<17, ptype='avped'; end
             insplot(avp, ptype);
             if n<8, subplot(222); xygo('v_{x,y}^b / (m/s)'); subplot(224); xygo('v_z^b / (m/s)');
-            else, subplot(323); xygo('V^b / (m/s)'); end
+            else, subplot(323); xygo('V ^b / (m/s)'); end
         case 'avp',
             if size(avp,2)==9, t=1:length(t); end
             myfig;
             subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr'); legend('Pitch','Roll');
             subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y'); legend('Yaw');
             subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)]); xygo('V'); legend('V_E','V_N', 'V_U', '|V|');
+%             subplot(323), plot(t, avp(:,4:6)); xygo('V'); legend('V_E','V_N', 'V_U');
             dxyz = pos2dxyz(avp(:,7:9));
             subplot(325), plot(t, dxyz(:,[2,1,3])); xygo('DP'); legend('\DeltaLat','\DeltaLon','\DeltaHgt');
 %             subplot(325), plot(t, [[avp(:,7)-avp(1,7),(avp(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avp(:,9)-avp(1,9)]); xygo('DP');
@@ -72,7 +73,7 @@ global glv
             subplot(3,2,[4,6]), plot(0, 0, 'rp');   % 19/04/2015
                 hold on, plot(dxyz(:,1), dxyz(:,2)); xygo('est', 'nth');
 %                 hold on, plot((avp(:,8)-avp(1,8))*glv.Re*cos(avp(1,7)), (avp(:,7)-avp(1,7))*glv.Re); xygo('est', 'nth');
-            legend(sprintf('LON0:%.2f, LAT0:%.2f (DMS)', r2dms(avp(1,8)),r2dms(avp(1,7))));
+            legend(sprintf('LON0:%.2f, LAT0:%.2f (DMS), H0:%.1f (m)', r2dms(avp(1,8)),r2dms(avp(1,7)),avp(1,9)));
         case {'t/m', 't/h', 't/d'},  % AVP-plot where t-axis in day
             tscalepush(ptype);
             insplot([avp(:,1:9),avp(:,end)/tscaleget()],'avp');

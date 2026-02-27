@@ -59,8 +59,9 @@ function stext = labeldef(stext)
         'lat',   '\itL\rm / ( \circ )';
         'lon',   '\it\lambda\rm / ( \circ )';
         'hgt',   '\ith\rm / ( m )';
-        'est',   '\itEast\rm / m';
-        'nth',   '\itNorth\rm / m';
+        'xyz',   'XYZ / ( m )';
+        'est',   'East\rm / m';
+        'nth',   'North\rm / m';
         'H',     '\itH\rm / m';
         'DP',    '\Delta\it P\rm / m';
         'ebyz',  '\it\epsilon _{y,z}\rm / ( (\circ)/h )';
@@ -73,6 +74,7 @@ function stext = labeldef(stext)
         'dbU',   '\it\nabla \rm_U / \mu\itg';
         'L',     '\itLever\rm / m';
         'dT',    '\delta\it T_{asyn}\rm / s';
+        'dKgzz',   '\delta\it Kgzz\rm / ppm';
         'dKg',   '\delta\it Kg\rm / ppm';
         'dAg',   '\delta\it Ag\rm / ( \prime\prime )';
         'dKa',   '\delta\it Ka\rm / ppm';

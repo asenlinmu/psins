@@ -4,6 +4,25 @@
 
 void Demo_User(void)
 {
+	clock_t t1, t2, t3;
+	double a[]={1,2,3,4,5,6,7,8}, b[]={1,1,1,1,1,1,1,1}, s1, s2;
+    t1 = clock();
+	for(int n1=0; n1<10*1000*1000; n1++)
+	{
+		double *pa=a; s1=1.0;
+		for(int i=8; i; i--)
+		{
+			s1 += s1**pa++;
+		}
+	}
+    t2 = clock();
+	for(int n2=0; n2<10*1000*1000; n2++)
+	{
+		double *pa=a; s2=1.0;
+		s2 += s2**pa++; s2 += s2**pa++; s2 += s2**pa++; s2 += s2**pa++; s2 += s2**pa++; s2 += s2**pa++; s2 += s2**pa++; s2 += s2**pa++;
+	}
+    t3 = clock();
+	printf("%d   %d  %f  %f\n", t2-t1, t3-t2, s1, s2);
 }
 
 void Demo_CIIRV3(void)
@@ -28,7 +47,7 @@ void Demo_CMaxMin(void)
 	for(int k=1; k<100; k++)
 	{
 		double x = randn(0.0, 1.0);
-		int flag = maxmin.Update(x);
+		int flag = maxmin.Update((float)x);
 		res<<x<<maxmin.maxRes<<maxmin.minRes<<maxmin.maxpreRes<<maxmin.minpreRes;
 	}
 }
@@ -285,6 +304,58 @@ void Demo_SINSCNS(void)
 	}
 }
 
+double Sf[] = {
+	1.767413e-08, 1.842071e-08, 1.763055e-08, 5.668308e-04, 5.574454e-04, 5.607297e-04 };
+double TempArray[] = {
+	9.99707708e-01, -3.00658113e-10, 6.04560342e-08, -1.56141601e-05, -2.30622170e-04,
+	1.76927602e-03, 3.23551173e-10, -9.28523666e-09, 1.21582445e-06, 2.16338720e-05,
+	6.43281415e-04, 2.92715119e-11, -8.38381188e-09, -1.73867682e-06, -2.11605395e-05,
+	-1.45768022e-03, -5.62390127e-10, -3.90730479e-08, -1.43763749e-05, -1.91496013e-04,
+	9.99675510e-01, 1.17615885e-09, 2.74483237e-08, -1.24579671e-05, -1.71148154e-04,
+	2.93618136e-03, 1.42032241e-10, -2.57794180e-08, -2.86285367e-06, -3.34862675e-05,
+	-2.02107109e-03, 5.58685695e-12, 6.43358139e-09, 4.49940489e-06, 5.87631230e-05,
+	-3.72078288e-04, -2.02255011e-10, 1.00197093e-08, 1.93910812e-06, 2.30112726e-05,
+	1.00026338e+00, -1.14345591e-09, 1.21496866e-07, -1.31384570e-05, -2.12316620e-04,
+	-6.78028028e-08, 1.01491003e-12, -6.74926973e-11, -1.02697058e-09, 1.03064499e-08,
+	1.05081791e-08, 1.37391821e-12, -1.47832115e-10, 1.48511936e-09, 5.72256599e-08,
+	-5.83695814e-09, -1.79640335e-12, 1.45214661e-10, -3.44924971e-09, -8.93884927e-08,
+	9.97281552e-01, 8.63777438e-10, -3.95437114e-07, 1.57469958e-05, 2.99057997e-04,
+	0.00000000e+00, 0.00000000e+00, -0.00000000e+00, -0.00000000e+00, -0.00000000e+00,
+	0.00000000e+00, 0.00000000e+00, -0.00000000e+00, -0.00000000e+00, -0.00000000e+00,
+	-3.58137930e-04, -2.56396191e-10, 1.38168200e-08, -1.75352074e-06, -2.86239503e-05,
+	9.98471357e-01, 1.60414396e-09, -4.09125432e-07, 2.33152319e-05, 4.07859738e-04,
+	0.00000000e+00, 0.00000000e+00, -0.00000000e+00, -0.00000000e+00, -0.00000000e+00,
+	-3.76213590e-04, -1.24519076e-10, 9.21735098e-09, 3.99490537e-06, 5.29119510e-05,
+	2.89612882e-05, -4.50504673e-11, 4.05149029e-10, 5.19375759e-07, 3.40246289e-06,
+	9.98259658e-01, -8.89656689e-10, -3.41939533e-07, 2.77677369e-05, 4.51878054e-04,
+	-9.54013695e-03, -1.29469908e-09, 5.39897939e-07, -2.22899011e-05, -4.18074610e-04,
+	2.54429456e-03, -1.86111376e-10, 5.69954070e-08, -4.86639295e-05, -6.88170679e-04,
+	-4.89241637e-03, -5.05265769e-09, 1.30586733e-06, -8.58605188e-05, -1.45977854e-03,
+	-5.51462916e-06, -3.88372048e-11, 4.52766300e-09, 2.17483556e-07, 2.14706417e-06,
+	-1.30994613e-06, -2.79390677e-11, 2.87778169e-09, 2.54777093e-07, 2.95594310e-06,
+	-1.50250682e-06, -4.80516117e-11, 3.76387452e-09, 2.34180366e-07, 2.51754705e-06,
+	6.27176736e-02, -2.70814736e-08, 9.23449453e-07, 1.20894345e-05, -5.37388674e-05,
+	2.79295927e-04, 8.22297968e-09, -1.67035800e-07, -2.14258729e-05, -2.17305804e-04,
+	-3.00929656e-02, -2.87159036e-08, 1.44735644e-06, 4.87172554e-06, -1.12619490e-04,
+	1.66365077e-02, -2.20002420e-08, -1.55511007e-07, 1.95472024e-05, 1.15417259e-04,
+	6.22343607e-02, 2.37312779e-09, 3.15304389e-07, -2.54577129e-05, -3.50753395e-04,
+	-2.89855952e-02, 1.86693879e-08, -9.53931379e-07, 3.40641532e-05, 7.08533949e-04,
+	0.00000000e+00, 0.00000000e+00, -0.00000000e+00, -0.00000000e+00, -0.00000000e+00,
+	0.00000000e+00, 0.00000000e+00, -0.00000000e+00, -0.00000000e+00, -0.00000000e+00,
+	0.00000000e+00, 0.00000000e+00, -0.00000000e+00, -0.00000000e+00, -0.00000000e+00,
+	-2.24996722e-03, 6.05198917e-11, -1.64318477e-08, -1.02532799e-07, -1.51699755e-06 };
+
+void Demo_IMUTempCompensate(void)
+{
+	CIMU imu;
+	imu.SetSf(*(CVect3*)&Sf[0], *(CVect3*)&Sf[3]);
+	imu.SetTemp(TempArray, 1);
+	imu.Temp = 10;
+	CVect3 wm(0.1), vm(0.1);
+	for(int k=0; k<40; k++)
+		imu.Update(&wm, &vm, 1, 0.1);
+}
+
 void Demo_CVCFileFind(void)
 {
 #ifdef PSINS_VC_AFX_HEADER
@@ -361,5 +432,84 @@ void Demo_CONSOLE_UART(void)
 #endif // PSINS_CONSOLE_UART
 }
 
+void Demo_Cfg(void)
+{
+	short s; int i; float f; double d; CVect3 v; CQuat q; CMat3 m;
+	WriteCfg("psinscfg.cfg")<<"psinscfg"<<(short)12<<23<<1.23f<<3.4<<CVect3(1,4,5)<<CQuat(1,2,3,4)<<CMat3(20);
+	ReadCfg("psinscfg.cfg")>>"psinscfg1">>s>>i>>f>>d>>v>>q>>m;
+}
+
+void Demo_CPolyfit(void)
+{
+	CFileRdWt::Dir("..\\Data\\", ".\\Data\\");	CFileRdWt res("res.bin");
+	double a[] = {1, 2, 3, 4};
+	int n = sizeof(a)/8;
+	CPolyfit pfit;
+	pfit.Init(1.0, n);
+	for(double t=1; t<100; t+=1.0)
+	{
+		double Zk=0, tj=1.0;
+		for(int j=0; j<n; j++)	{ Zk+=a[j]*tj;  tj *= t; }
+		Zk += randn(0.0);
+		pfit.Update(Zk);
+		res << Zk << t;
+	}
+	double Zk1 = pfit.eval(t);
+}
+
+void Demo_CAligni0(void)
+{
+	CFileRdWt::Dir("..\\Data\\", ".\\Data\\");
+	CFileIMU6 fimu("lasergyro.imu"); CFileRdWt faln("aln.bin");
+	CAligni0 aln(fimu.pos0);
+	CAligni0fit alnfit(fimu.pos0);
+	fimu.load(0);
+	for(int i=0; i<1800*100; i++)
+	{
+		if(!fimu.load(1)) break;
+		if(i<100) { fimu.pvm->i-=1.0*fimu.ts; fimu.pvm->j-=1.0*fimu.ts; }  // disturb
+		if(i>1799*100) { fimu.pvm->i+=1.0*fimu.ts; fimu.pvm->j+=1.0*fimu.ts; }  // disturb
+		aln.Update(fimu.pwm, fimu.pvm, 1, fimu.ts);
+		alnfit.Update(fimu.pwm, fimu.pvm, 1, fimu.ts);
+		faln<<q2att(aln.qnb)<<q2att(alnfit.qnb)<<alnfit.vib0<<alnfit.vn0<<alnfit.vnt<<alnfit.xyzt<<fimu.t;
+		disp(i, 100, 100);
+	}
+}
+
+void Demo_SysClbt(void)
+{
+	CFileRdWt::Dir("E:\\ygm2023\\16\\五轴标定数据\\处理后数据\\");
+	CFileIMU7 fimu("imu2.bin"); CFileRdWt fclbt("clbt.bin"), fins("ins.bin");
+	CVect3 wmm, vmm;
+	CSysClbt kf;
+	fimu.load(50*FRQ);
+	fimu.savepos();
+	fimu.sumIMU(100*FRQ, wmm, vmm);
+	CMat3  Cba = CMat3( 0.999999999999999,   0.000078247261346,  -0.600142802656321,
+						0.000259235255995,   1.000000000000000,   0.405111202819736,
+						0.002073882047959,  -0.002269170579030,  -0.689719892253198 );
+	kf.Init(CSINS(PRY(-0.000024,-0.003955,2.602628), O31, LLH(34.176694,108.95115,400), fimu.t), 9.794060384, Cba);
+psinslog.LogSet(1);
+for(int n=0; n<4; n++)
+{
+	fimu.restorepos();
+	kf.att0 = Alignsb(kf.sins.Kg*wmm-kf.sins.eb*100.0, kf.sins.Ka*vmm-kf.sins.db*100.0, kf.sins.pos.i);
+	psinslog<<"\n("<<n<<") Align att (deg): "<<kf.att0/glv.deg<<"\n";
+	kf.NextIter();
+	for(int i=0; i<3500*FRQ; i++)
+	{
+		if(!fimu.load(1)) break;
+		kf.Update(fimu.pwm, fimu.pvm, 1, fimu.ts);
+		if(i%50==0) {
+			fclbt<<kf;
+			fins<<kf.sins;
+		}
+		disp(i, FRQ, 100);
+	}
+	kf.Correct();
+	kf.Log();
+}
+psinslog.LogRunTime();
+}
 
 #endif  // PSINSDemo

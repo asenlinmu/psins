@@ -5,13 +5,13 @@ function miniplot(data, str)
 % Inputs: data - data to plot, 
 %         str - flag string
 %
-% See also  dataplot, insplot, labeldef, mlplot, msplot.
+% See also  dataplot, plotn, insplot, labeldef, mlplot, msplot.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 29/07/2017
 global glv
-    sz = size(data,2);
+    sz = size(data,2);  sz1=sz-1;
     myfig;
     switch str
         case 'w',
