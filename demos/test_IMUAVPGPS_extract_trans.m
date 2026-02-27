@@ -6,7 +6,7 @@
 glvs
 trj = trjfile('trj10ms.mat');
 %% data fabrication 
-imu1 = [[trj.imu(:,[2,1]),-trj.imu(:,3)]/trj.ts/glv.dps, [trj.imu(:,[5,4]),-trj.imu(:,6)]/ts/glv.g0];  % FRD,deg/s,g
+imu1 = [[trj.imu(:,[2,1]),-trj.imu(:,3)]/trj.ts/glv.dps, [trj.imu(:,[5,4]),-trj.imu(:,6)]/trj.ts/glv.g0];  % FRD,deg/s,g
 avp1 = [[trj.avp(:,1:2),yawcvt(trj.avp(:,3),'cc180c360')]/glv.deg, trj.avp(:,4:6), trj.avp(:,[8,7])/glv.deg, trj.avp(:,9)]; % deg,c360 
 gps1 = [trj.avp(1:10:end,[5,4]), -trj.avp(1:10:end,6), trj.avp(1:10:end,[8,7])/glv.deg, trj.avp(1:10:end,9)]; % FRD,deg
 gps1(:,1:3)=gps1(:,1:3)+randn(size(gps1(:,1:3)))*0.01;

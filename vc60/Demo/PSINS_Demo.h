@@ -10,9 +10,9 @@
 #ifndef _PSINS_Demo_H
 #define _PSINS_Demo_H
 
-#include "PSINS.h"
+#include "..\PSINSCore\PSINS.h"
 
-#define PSINSDemo 10
+#define PSINSDemo 13
 
 #define psinsdemo()  \
 	switch(PSINSDemo)\
@@ -30,8 +30,11 @@
 	case 9: Demo_CAlign_CSINS(); break;\
 	case 10: Demo_CSINSGNSS(); break;\
 	case 11: Demo_CSINSGNSSDR(); break;\
-	case 12: Demo_CVCFileFind(); break;\
-	case 13: Demo_DSP_main(); break; \
+	case 12: Demo_SINSOD(); break;\
+	case 13: Demo_POS618(); break;\
+	case 14: Demo_CVCFileFind(); break;\
+	case 15: Demo_DSP_main(); break; \
+	case 16: Demo_CONSOLE_UART(); break; \
 	}
 void Demo_User(void);
 void Demo_CIIRV3(void);
@@ -45,8 +48,11 @@ void Demo_CAligntf(void);
 void Demo_CAlign_CSINS(void);
 void Demo_CSINSGNSS(void);
 void Demo_CSINSGNSSDR(void);
+void Demo_SINSOD(void);
+void Demo_POS618(void);
 void Demo_CVCFileFind(void);
 void Demo_DSP_main(void);
+void Demo_CONSOLE_UART(void);
 
 #ifdef PSINS_IO_FILE
 
@@ -146,7 +152,7 @@ public:
 		t0 = t = 0;
 		load(1);             // get the first record line
 		memcpy(&DS0, pDS, sizeof(DataSensor49));
-		fseek(f, sizeof(DataSensor49), SEEK_CUR);
+		fseek(rwf, sizeof(DataSensor49), SEEK_CUR);
 	};
 	int load(int lines=1) {
 		if(!CFileRdWt::load(lines)) return 0;
@@ -160,6 +166,42 @@ public:
 		while(pDS->posgps.i<0.1) if(!load(1)) return 0;
 		return 1;
 	}
+};
+
+typedef struct {
+	double t;  //1
+	CVect3 vm, wm;  //7
+	double temp, dS;  //8
+	CVect3 gpos;  // 12
+	double na, gvalid;  // 14
+} DataSensor14;
+
+class CFileRdSr1:public CFileRdWt  // read sensor file
+{
+public:
+	DataSensor14 *pDS, DS0;
+	CVect3 att0;
+	CFileRdSr1(const char *fname0):CFileRdWt(fname0, -dbsize(DataSensor14)) {
+		pDS = (DataSensor14*)buff;
+		load(0);  DS0 = *pDS;       // just get the first record line
+	};
+	int load(int lines=1) {
+		if(!CFileRdWt::load(lines)) return 0;
+		pDS->dS *= 1.9606/500;  swapt(pDS->gpos.i, pDS->gpos.j, double);
+		return 1;
+	};
+	CVect3 align(double T2=300, double t0=-1.0) {
+		if(t0>0.0) {
+			fseek(rwf, 0, SEEK_SET);
+			load((int)(t0/TS10));
+		}
+		CAlignsv aln(pDS->gpos, TS10, T2);
+		while(1) {
+			if(!load(1) || aln.tk>T2) break;
+			aln.Update(&pDS->wm, &pDS->vm);
+		}
+		return (att0 = q2att(aln.qnb));
+	};
 };
 
 #endif  // PSINS_IO_FILE

@@ -7,7 +7,10 @@ function h = myfig(namestr)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 15/02/2014
     if ~exist('namestr','var')
-        h = myfigure;
+        h0 = myfigure;
     else
         h = myfigure(namestr);
+    end
+    if nargout==1
+        h = h0;
     end

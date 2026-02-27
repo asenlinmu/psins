@@ -78,6 +78,7 @@ global glv
             ki = timebar;
         end
     end
+    avp(ki:end,:) = []; imu(ki:end,:) = [];
     avp = iatt2c(avp);
     trj = varpack(imu, avp, avp0, wat, ts, repeats);
 

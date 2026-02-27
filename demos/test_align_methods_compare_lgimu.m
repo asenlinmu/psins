@@ -52,5 +52,5 @@ plot(t, [resi0.attk(:,1),resi0.attkv(:,1),attkw(:,1),attkf(:,1),attkv(:,1),attkc
 plot(t, [resi0.attk(:,2),resi0.attkv(:,2),attkw(:,2),attkf(:,2),attkv(:,2),attkc(:,2)]/glv.deg)
 legend('i0 pos', 'i0 vel', 'i0 Whaba', 'Kalman fn', 'Kalman vn', 'gyro-compass');
 myfigure, xygo('y')
-plot(t, [resi0.attk(:,3),resi0.attkv(:,3),attkw(:,3),attkf(:,3),attkv(:,3),attkc(:,3)]/glv.deg)
+plot(t, [resi0.attk(:,3),smooth(resi0.attkv(:,3),100),attkw(:,3),attkf(:,3),attkv(:,3),attkc(:,3)]/glv.deg)
 legend('i0 pos', 'i0 vel', 'i0 Whaba', 'Kalman fn', 'Kalman vn', 'gyro-compass');

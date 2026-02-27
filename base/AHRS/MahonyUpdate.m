@@ -42,7 +42,11 @@ function ahrs = MahonyUpdate(ahrs, imu, mag, ts)
 %     exyz1 = angle3d(ahrs.Cnb(3,:)',acc) + angle3d(wxyz,mag)*0;
     ahrs.exyzInt = ahrs.exyzInt + exyz*ahrs.Ki*nts;
 %     ahrs.flt = iirflt(ahrs.flt, ahrs.exyzInt); ahrs.exyzInt = ahrs.flt.y(:,1);
-    ahrs.q = qmul(ahrs.q, rv2q(phim-(ahrs.Kp*exyz+ahrs.exyzInt)*nts));
+    eb = (ahrs.Kp*exyz+ahrs.exyzInt);
+    if nm==0
+        en = ahrs.Cnb*eb; en(3)=0; eb = ahrs.Cnb'*en;
+    end
+    ahrs.q = qmul(ahrs.q, rv2q(phim-eb*nts));
     ahrs.Cnb = q2mat(ahrs.q);
     ahrs.tk = ahrs.tk + nts;
     %%

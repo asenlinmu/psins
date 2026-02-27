@@ -8,7 +8,7 @@ function imu = imuadderr(imu, imuerr, ts)
 %         ts - SIMU sample interval
 % Output: imu - output SIMU data added errors
 %
-% See also  imuerrset, imuclbt, imudeldrift, imugsensi, avperrset, trjsimu, insupdate.
+% See also  imuerrset, imuclbt, imudeldrift, imuasyn, imugsensi, avperrset, trjsimu, insupdate.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

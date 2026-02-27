@@ -11,7 +11,7 @@ function avp = avpfile(fname, avp, infostr)
 %    Create: avpfile(fname, avp, infostr)
 %    Read:   avp = avpfile(fname)
 %
-% See also  imufile, binfile, kffile, trjfile, pos2gpx, gpsplot.
+% See also  imufile, binfile, kffile, trjfile, kffile, pos2gpx, gpsplot.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

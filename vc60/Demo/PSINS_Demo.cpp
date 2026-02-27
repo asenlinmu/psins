@@ -1,32 +1,10 @@
-#include "PSINS.h"
 #include "PSINS_Demo.h"
 
 #ifdef  PSINSDemo
 
 void Demo_User(void)
 {
-	CFileRdWt::Dir("..\\Data\\", "D:\\ygm2020\\精准\\");	CFileRdWt fins("ins.bin"), fkf("kf.bin");
-	CVect3 att0=PRY(1,1.01,3), vn0=O31, pos0=LLH(34,0,0);
-	CVect3 wm[2], vm[2];
-	IMUStatic(wm[0], vm[0], att0, pos0, TS1);
-	CSINS sins(a2qua(att0)+CVect3(1,2,0*40)*glv.min, O31, pos0);
-	CSINSGNSS kf(15,6,TS1);
-	kf.Init(sins,1); 		kf.FBTau=INF;
-	for(int i=0; i<500*100; i++)
-	{
-		kf.Update(wm, vm, 1, TS1);
-		if(i%10==0) {
-			fins<<kf.sins;
-			fkf<<kf;
-		}
-		if(i==200*100) {
-			kf.SetYaw(90*DEG);
-		}
-		if(i%100==0) {
-			kf.SetMeasGNSS(pos0);
-		}
-		disp(i,FRQ100,100);
-	}
+	CVect3 att = sv2att(CVect3(2,3,1), 0.0, CVect3(1,2,3))/DEG;
 }
 
 void Demo_CIIRV3(void)
@@ -183,7 +161,7 @@ void Demo_CSINSGNSS(void)
 	}
 	CSINSGNSS kf(19, 6, fimu.ts);
 	kf.Init(CSINS(aln.qnb,fimu.vn0,fimu.pos0,fimu.t),0);
-	kf.Pmin.Set2(fPHI(0.1,1.0),  fXXX(0.01),  fPOS(0.1),  fDPH3(0.01),  fUG3(10.0),
+	kf.Pmin.Set2(fPHI(0.1,1.0),  fXXX(0.01),  fdPOS(0.1),  fDPH3(0.01),  fUG3(10.0),
 			fXXX(0.001), 0.0001, fdKG9(1.0,1.0), fdKA6(1.0,1.0));
 	kf.Qt.Set2(fDPSH3(0.01),  fUGPSHZ3(10.0),  fOOO,  fOO6,
 			fOOO, 0.0,  fOO9,  fOO6);
@@ -221,6 +199,36 @@ void Demo_CSINSGNSSDR(void)
 		}
 		disp(i, 100, 100);
 	}
+}
+
+void Demo_SINSOD(void)
+{
+	typedef struct { CVect3 wm, vm; double dS; CVect3 att, vn, pos; double t; } DataSensor17;
+	CFileRdWt::Dir("D:\\psins210823\\data\\");
+	CFileRdWt fins("ins.bin"), fkf("kf.bin");
+	CFileRdWt fimu("imuod.bin",-17);	DataSensor17 *pDS=(DataSensor17*)&fimu.buff[0];
+	fimu.load(1);
+	CVAutoPOS kf(TS10); 
+	kf.Init(CSINS(pDS->att, pDS->vn, pDS->pos, pDS->t), 0); 
+	kf.sins.AddErr(0.1*DEG);
+
+	for(int i=0; i<6000*FRQ100; i++)
+	{
+		if(!fimu.load(1)) break;
+		kf.Update(&pDS->wm, &pDS->vm, pDS->dS, 1, TS10, 6);
+		if (i%10==0)	fins << kf.sins << kf.ODKappa();
+		if (i%50==0)	fkf << kf;
+		disp(i, FRQ100, 100);
+	}
+}
+
+void Demo_POS618(void)
+{
+	CFileRdWt::Dir("D:\\ygm2021\\立得空间\\0901\\");
+	CPOS618 pos(0.01, 5.0);
+	pos.Load("imugnss.bin", 0, 50000);
+	pos.Init(0, CVect3(0,0,126)*DEG);
+	pos.Process("posres.bin");
 }
 
 void Demo_CVCFileFind(void)
@@ -265,4 +273,39 @@ void Demo_DSP_main(void)
 	}*/
 }
 
-#endif
+
+void Demo_CONSOLE_UART(void)
+{
+#ifdef PSINS_CONSOLE_UART
+	FILE *f;
+	if(!(f=fopen(".\\Data\\pbcomsetting.txt","rt"))) {
+		printf("未找到配置文件 .\\Data\\pbcomsetting.txt！"); getch(); exit(0);	}
+	int comi, baudrate; fscanf(f, "%d %d", &comi, &baudrate);  fclose(f);
+	CVect3 wm, vm, eb=CVect3(-4.0,1.3,0.0)*glv.dps, db=O31;
+	CMahony mahony(10.0);
+	CFileRdWt::Dir(".\\Data\\");  CFileRdWt fmh("mahony.bin");
+	CConUart uart;
+	uart.Init(comi, baudrate, 35*4, 0xaa55);  // COM setting
+	for(int i=0; i<5*3600*100; )
+	{
+		if(uart.getUart())	{
+			uart.dispUart();
+			wm = (CVect3(uart.ps->gx, uart.ps->gy, uart.ps->gz)*glv.dps - eb)*TS10;
+			vm = (CVect3(uart.ps->ax, uart.ps->ay, uart.ps->az)*glv.g0 - db)*TS10;
+			mahony.Update(wm, vm, 0.01); mahony.tk=uart.ps->t;
+			if(i++%21==0)	{
+				uart.gotorc(20,60);
+				CVect3 att=q2att(mahony.qnb);
+//				printf("Mahony-Att(deg) : %8.3f %8.3f %8.3f", att.i/DEG, att.j/DEG, CC180C360(att.k)/DEG);
+				uart.gotorc(21,60);
+//				printf("Mahony-eb(deg/s): %8.3f %8.3f %8.3f", mahony.exyzInt.i/DPS, mahony.exyzInt.j/DPS, mahony.exyzInt.k/DPS);
+				if(fmh.rwf) fmh<<mahony;
+			}
+			if(i%100==0&&fmh.rwf) fflush(fmh.rwf);
+		}
+	}
+#endif // PSINS_CONSOLE_UART
+}
+
+
+#endif  // PSINSDemo

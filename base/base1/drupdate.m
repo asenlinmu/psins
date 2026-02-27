@@ -7,18 +7,18 @@ function dr = drupdate(dr, wm, dS)
 %         dS - odometer distance increment
 % Output: dr - DR structure array after DR updating
 %
-% See also  drinit, drpure, dratt, drcalibrate, insupdate.
+% See also  drinit, drpure, dratt, drcalibrate, nhcpure, insupdate.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 17/12/2008, 8/04/2014
     nts = dr.ts*size(wm,1);
     dr.distance = dr.distance + dr.kod*norm(dS);
-    phim = cnscl(wm);
+    phim = cnscl(wm);  qnb12 = qupdt(dr.qnb, phim/2);
     if length(dS)>1,
-        dSn = qmulv(dr.qnb, dr.Cbo*dS);
+        dSn = qmulv(qnb12, dr.Cbo*dS);
     else
-        dSn = qmulv(dr.qnb, dr.prj*dS);
+        dSn = qmulv(qnb12, dr.prj*dS);
     end
     dr.vn = dSn/nts;
     dr.eth = earth(dr.pos, dr.vn);

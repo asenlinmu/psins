@@ -7,7 +7,7 @@ function c = cep(posINS, posGPS, t)
 %         t  - statical time point
 % Output: c - CEP value
 %
-% See also  avperrstd, avpcmp.
+% See also  avperrstd, titlems, avpcmp.
 
 % Copyright(c) 2009-2018, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

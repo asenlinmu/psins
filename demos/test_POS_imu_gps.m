@@ -6,7 +6,7 @@
 % 10/03/2021
 glvs
 psinstypedef(346);
-load mimu_gps_POS.mat;
+load mimu_gps_POS.mat;  % download ?
 imuplot(mimu);
 gpsplot(dgps);
 insplot(avpref);

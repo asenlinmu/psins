@@ -7,7 +7,7 @@ function [res, idx] = no0(scr, clm)
 % Outputs: res - result
 %          idx - row index for non-zero data
 %
-% See also  firstno0, norep, normv.
+% See also  firstno0, nonan, norep, normv.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

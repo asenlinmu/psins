@@ -12,5 +12,5 @@ function [data, idx] = reminct(data)
     for k=2:n
         if t(k)<=t(k-1), idx(k)=0; t(k)=t(k-1)+1e-10; end
     end
-    idx = idx(idx>0);
+    idx = idx(idx>0);  % for delete
     data = data(idx,:);

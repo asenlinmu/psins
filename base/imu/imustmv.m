@@ -7,7 +7,7 @@ function [static, moving] = imustmv(imu, angrate)
 % Outputs: static - static flag
 %          moving - moving flag
 %
-% See also  imustatic, imudot.
+% See also  zuptest, imustatic, imudot.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -22,7 +22,7 @@ global glv
     stmv = diff(stmv);
     static = find(stmv==-1);  static = [1; static];
     moving = find(stmv==1);
-    figure, subplot(211), plot(imu(:,end), imu(:,1:3)); xygo('Gyro');
-        plot(imu(static,end), static*0, 'or',imu(moving,end), moving*0, 'ob');
-    subplot(212), plot(imu(:,end), imu(:,4:6)); xygo('Acc');
-        plot(imu(static,end), static*0, 'or',imu(moving,end), moving*0, 'ob');        
+    figure, subplot(211), plot(imu(:,end), imu(:,1:3)/ts/glv.dph); xygo('Gyro');
+        plot(imu(static,end), static*0, 'om',imu(moving,end), moving*0, 'ob');
+    subplot(212), plot(imu(:,end), imu(:,4:6)/ts); xygo('Acc');
+        plot(imu(static,end), static*0, 'om',imu(moving,end), moving*0, 'ob');        

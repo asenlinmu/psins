@@ -12,7 +12,7 @@ function inserrplot(err, ptype)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 06/10/2013
 global glv
-    t = err(:,end);
+    t = err(:,end)/tscaleget();
     n = size(err,2)-1;
     if nargin<2
         if n<6,        	ptype = 'a';

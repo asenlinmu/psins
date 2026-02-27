@@ -7,10 +7,17 @@ function stext = labeldef(stext)
 %
 % See also  xygo, myfig.
 
-% Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
+% Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
-% 08/03/2014
-    specl = {...  % string cell
+% 08/03/2014, 07/07/2021
+    global glv
+    global specl_string
+    if isempty(specl_string)
+    specl_string = {...  % string cell
+        't/s'    '\itt \rm / s';
+        't/m'    '\itt \rm / min';
+        't/h'    '\itt \rm / h';
+        't/d'    '\itt \rm / d';
         'phi',   '\it\phi\rm / ( \prime )';
         'phiE',  '\it\phi\rm_E / ( \prime\prime )';
         'phiN',  '\it\phi\rm_N / ( \prime\prime )';
@@ -74,15 +81,34 @@ function stext = labeldef(stext)
 		'wy',    '\it\omega_y\rm / ( (\circ)/s )';
 		'wz',    '\it\omega_z\rm / ( (\circ)/s )';
 		'w',     '\it\omega\rm / ( (\circ)/s )';
+		'wxdph',    '\it\omega_x\rm / ( (\circ)/h )';
+		'wydph',    '\it\omega_y\rm / ( (\circ)/h )';
+		'wzdph',    '\it\omega_z\rm / ( (\circ)/h )';
+		'wdph',     '\it\omega\rm / ( (\circ)/h )';
 		'fx',    '\itf_x\rm / \itg';
 		'fy',    '\itf_y\rm / \itg';
 		'fz',    '\itf_z\rm / \itg';
 		'f',     '\itf\rm / \itg';
+		'fxug',    '\itf_x\rm / u\itg';
+		'fyug',    '\itf_y\rm / u\itg';
+		'fzug',    '\itf_z\rm / u\itg';
+		'fug',     '\itf\rm / u\itg';
+        'Temp',  '\itT\rm / \circC';
+        'frq',  '\itf\rm / Hz';
 		'dinst', '\delta\it\theta , \rm\delta\it\psi\rm / ( \prime )';
     };
-    for k=1:size(specl,1)
-        if strcmp(stext,specl(k,1))==1
-            stext = specl{k,2};
+    end
+    if strcmp(stext,'t')==1
+        switch glv.tscale(end)
+            case 1, stext='t/s';
+            case 60, stext='t/m';
+            case 3600, stext='t/h';
+            case 24*3600, stext='t/d';
+        end
+    end
+    for k=1:length(specl_string)
+        if strcmp(stext,specl_string(k,1))==1
+            stext = specl_string{k,2};
             break;
         end
     end

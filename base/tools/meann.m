@@ -6,7 +6,7 @@ function res = meann(scr, n, dim)
 %         n - element number to be averaged
 %         dim - =1 averaged along rows, =2 averaged along columns
 %
-% See also  sumn, maxn, avar.
+% See also  sumn, maxn, avar, smooth.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

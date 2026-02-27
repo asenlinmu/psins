@@ -18,7 +18,7 @@ function [wvm, Dir] = imurfu(wvm0, dirstr)
 %         [wvm1, Dir] = imurfu([], 'flu')
 %         wvm2 = [1 2 3 1 2 3]*blkdiag(Dir',Dir')
 %
-% See also  imuidx, wierfu, imurot, imuresample, insupdate, trjsimu.
+% See also  imuidx, wierfu, imurot, imuresample, insupdate, trjsimu, attrfu.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

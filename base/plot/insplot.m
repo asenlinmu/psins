@@ -5,7 +5,7 @@ function insplot(avp, ptype, varargin)
 % Inputs: avp - may be [att], [att,vn] or [att,vn,pos]
 %         ptype - plot type define
 %          
-% See also  miniplot, inserrplot, kfplot, gpsplot, imuplot, magplot, dvlplot, pos2dxyz.
+% See also  miniplot, inserrplot, kfplot, gpsplot, imuplot, magplot, dvlplot, addyawplot.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -34,6 +34,9 @@ global glv
             dxyz = pos2dxyz([avp(:,1:2),avp(:,1)*0]);
             plot(0, 0, 'rp');
             hold on, plot(dxyz(:,1), dxyz(:,2)); xygo('est', 'nth');
+        case 'A',
+            myfig;
+            plot(t, avp(:,1:2)/glv.deg), xygo('pr');
         case 'a',
             myfigure;
             subplot(211), plot(t, avp(:,1:2)/glv.deg), xygo('pr');
@@ -57,7 +60,7 @@ global glv
             else, subplot(323); xygo('V^b / (m/s)'); end
         case 'avp',
             if size(avp,2)==9, t=1:length(t); end
-            myfigure;
+            myfig;
             subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr'); legend('Pitch','Roll');
             subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y'); legend('Yaw');
             subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)]); xygo('V'); legend('V_E','V_N', 'V_U', '|V|');
@@ -70,6 +73,10 @@ global glv
                 hold on, plot(dxyz(:,1), dxyz(:,2)); xygo('est', 'nth');
 %                 hold on, plot((avp(:,8)-avp(1,8))*glv.Re*cos(avp(1,7)), (avp(:,7)-avp(1,7))*glv.Re); xygo('est', 'nth');
             legend(sprintf('LON0:%.2f, LAT0:%.2f (DMS)', r2dms(avp(1,8)),r2dms(avp(1,7))));
+        case {'t/m', 't/h', 't/d'},  % AVP-plot where t-axis in day
+            tscalepush(ptype);
+            insplot([avp(:,1:9),avp(:,end)/tscaleget()],'avp');
+            tscalepop();
         case 'ap',
             insplot([avp(:,1:3),zeros(length(avp),3),avp(:,4:end)],'avp');
         case 'vp',

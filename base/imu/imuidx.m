@@ -19,6 +19,7 @@ global glv
     if nargin<4, aunit=glv.g0; end
     if nargin<3, gunit=glv.dps; end
     if length(idx)<7, imu(:,7)=(1:length(imu))'*ts; end
+    if diff(imu(1:2,7))>=1, imu(:,7)=imu(:,7)*ts; end  % imu(:,7) is time count
     imu(:,1:3) = imu(:,1:3)*gunit*ts;
     imu(:,4:6) = imu(:,4:6)*aunit*ts;
     for k=1:6

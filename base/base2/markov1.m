@@ -10,9 +10,14 @@ function [data, beta, q] = markov1(sigma, tau, ts, len, ifplot)
 %          beta -  the inverse of correlation time
 %          q - white noise intensity of the process generator
 %
-% Example:
+% Example1:
 %          sigma = 2;  tau = 10;  ts = 0.1;
 %          [data, beta, q] = markov1(sigma, tau, ts, fix(100*tau/ts), 1);
+% Example2:
+%          sigma = 2;  tau = 10;  ts1 = 0.1;   ts2 = 1;
+%          [data1, beta, q] = markov1(sigma, tau, ts1, fix(100*tau/ts1));
+%          [data2, beta, q] = markov1(sigma, tau, ts2, fix(100*tau/ts2));
+%          figure, plot((1:length(data1))'*ts1, data1, (1:length(data2))'*ts2, data2); xygo;
 %
 % See also  mkvq, markov2, ar1coefs, imuadderr.
 

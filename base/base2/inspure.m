@@ -18,7 +18,7 @@ function avp = inspure(imu, avp0, href, isfig)
 %                   'Z' - fix hgt, hgt=href.
 % Output: avp - navigation results, avp = [att,vn,pos,t]
 %
-% See also  insinstant, trjsimu, insupdate, drpure.
+% See also  insinstant, attpure, trjsimu, insupdate, drpure, nhcpure.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

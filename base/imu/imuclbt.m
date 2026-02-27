@@ -13,7 +13,7 @@ function imu = imuclbt(imu, clbt, eb, Ka, db)
 % 16/08/2016
 global glv
     ts = diff(imu(1:2,end));
-    if nargin<2
+    if nargin<2  % imuclbt(imu)  default as an example
         clbt.Kg = eye(3) - diag([10;20;30]*glv.ppm) + ...
             [0, 10, 20; 30, 0, 40; 50, 60, 0]*glv.sec;
         clbt.eb = [0.1; 0.2; 0.3]*glv.dph;
@@ -24,8 +24,12 @@ global glv
         clbt.rx = [1;2;3]/100; clbt.ry = [4;5;6]/100; clbt.rz = zeros(3,1);
         clbt.tGA = 0.001;
     end
-    if nargin>2  % imuclbt(imu, Kg, eb, Ka, db)
+    [m, n] = size(clbt);
+    if m==3 && n==3  % imuclbt(imu, Kg, eb, Ka, db)
         Kg = clbt;
+        if ~exist('eb','var'), eb=zeros(3,1); end
+        if ~exist('Ka','var'), Ka=eye(3); end
+        if ~exist('db','var'), db=zeros(3,1); end
         imu(:,1:6) = [imu(:,1:3)*Kg',imu(:,4:6)*Ka'] - repmat([eb;db]'*ts,length(imu),1);
         return;
     end
@@ -43,7 +47,7 @@ global glv
         wb = imu(k,1:3)'/ts; fb = imu(k,4:6)'/ts;
         dwb = (imu(k,1:3)-imu(k-1,1:3))'/ts/ts;
         SS = imulvS(wb, dwb);  fL = SS*[clbt.rx;clbt.ry;clbt.rz];
-        fb = fb + fL + clbt.tGA*cross(wb,fb);
+        fb = fb - fL + clbt.tGA*cross(wb,fb);
         imu(k,4:6) = fb'*ts;
         timebar(1);
     end

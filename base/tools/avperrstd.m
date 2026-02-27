@@ -10,7 +10,7 @@ function [errstd, errmean, errmax, errmin] = avperrstd(avperr, t0, t1, isdisp)
 %          errmax - error max.
 %          errmin - error min.
 %
-% See also  avpcmp, avpcmpplot, cep.
+% See also  avpcmp, avpcmpplot, cep, titlems.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

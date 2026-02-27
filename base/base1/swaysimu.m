@@ -1,6 +1,6 @@
 function [wm, att] = swaysimu(afa, f, phase0, ts, T)
-% Sway simulation with pitch,roll,yaw(center-,inner-,outer-frame) 
-% on turntable, neglecting earth angular rate (i.e. w.r.t. inetial frame).
+% Sway simulation with pitch,roll,yaw (center-,inner-,outer-frame) 
+% on 3-axis turntable, neglecting earth angular rate (i.e. w.r.t. inetial frame).
 %
 % Prototype: [wm, att] = swaysimu(afa, f, phase0, ts, T)
 % Inputs: afa - sway amplitude (in degree)
@@ -10,6 +10,11 @@ function [wm, att] = swaysimu(afa, f, phase0, ts, T)
 %        T - total simulation time
 % Outputs: wm  = [      wm1,  wm2, ... , wmN ]';    % angular increment
 %          att = [att0, att1, att2, ..., attN]';
+%
+% Example:
+%    [wm, att] = swaysimu([10;20;0], [0.2;0.5;0], [0;0;0], 0.01, 100);
+%    myfig; plot(wm(:,end), wm(:,1:3)/diff(wm(1:2,end))/glv.dps);  xygo('w');
+%    insplot(att,'a');
 %
 % See also  conesimu.
 
@@ -36,7 +41,7 @@ function [wm, att] = swaysimu(afa, f, phase0, ts, T)
           sr.*dpitch+cr.*cp.*dyaw];
     wm = cumint(wb, ts/n10);
     wm = diff(wm);
-    wm = sumn(wm, n10);
     k = 1:10:length(t);
     att = [pitch(k,:), roll(k,:), yaw(k,:), t(k,:)];
+    wm = [sumn(wm, n10), att(2:end,end)];
 

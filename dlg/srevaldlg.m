@@ -358,7 +358,7 @@ axes(handles.axes1); cla;
 bar(err);
 xlabel('ŒÛ≤Ó“ÚÀÿ'); ylabel(sprintf('µº∫ΩŒÛ≤Ó∆¿π¿ / m'));
 set(handles.axes1, 'YMinorGrid', 'on');
-xtl = {'eb', 'db', 'phixy0', 'dvel0', 'dpos0', 'phiz0*vel*T', 'wy*dkg', 'TotalError'};
+xtl = {'eb', 'db', 'phixy0', 'dvel0', 'dpos0', 'phiz0*dvel*T', 'wy*dkg', 'TotalError'};
 set(handles.axes1, 'XTicklabel', xtl);
     
 % set(handles.eb, 'String', setting(1));   set(handles.dvel, 'String', setting(6));

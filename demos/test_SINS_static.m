@@ -11,7 +11,9 @@ imuerr = imuerrset(0.01, 10, 0.001, 0.2);
 imu = imustatic(avp0, ts, T, imuerr);   % SIMU simulation
 davp0 = avperrset([-0.1;0.1;3], [0.01;0.01;0.01], [10;10;10]);
 avp00 = avpadderr(avp0, davp0);
+tscalepush('t/h');
 avp = inspure(imu, avp00, avp0(9));  % pure inertial navigation
 avperr = avpcmp(avp, avp0);
 inserrplot(avperr);
+tscalepop();
 

@@ -10,7 +10,7 @@ function [wm, qt, wt] = conesimu(afa, f, ts, T)
 %          qt = [ q0,  q1,   q2,  ... , qN  ]';    % quaternion reference
 %          wt = [ w0,  w1,   w2,  ... , wN  ]';    % angular rate
 %
-% See also  scullsimu, trjsimu, conecoef, conedrift, highmansimu.
+% See also  scullsimu, trjsimu, conecoef, conedrift, highmansimu, swaysimu.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

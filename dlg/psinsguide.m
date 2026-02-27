@@ -42,6 +42,8 @@ function sculldemo_Callback(hObject, eventdata, handles)
 opru('demo_scull_motion.m');
 function rotordemo_Callback(hObject, eventdata, handles)
 opru('demo_gyro_rotor_precession.m');
+function hrgdemo_Callback(hObject, eventdata, handles)
+opru('demo_HRG_effect.m');
 function sagnacdemo_Callback(hObject, eventdata, handles)
 opru('demo_sagnac_effect.m');
 function randonmwalk_Callback(hObject, eventdata, handles)
@@ -87,7 +89,7 @@ opru('test_align_ekf.m');
 function alignukf_Callback(hObject, eventdata, handles)
 opru('test_align_ukf.m');
 function sysclbt_Callback(hObject, eventdata, handles)
-opru('test_system_calibration.m');
+opru('test_system_calibration_19pos.m');
 function attcompare_Callback(hObject, eventdata, handles)
 opru('test_attitude_update_methods_compare.m');
 function sinsstatic_Callback(hObject, eventdata, handles)
