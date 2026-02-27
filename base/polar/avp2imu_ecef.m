@@ -6,7 +6,7 @@ function [imu, avp0] = avp2imu_ecef(avp)
 % Outputs: imu = [wm,vm,t]
 %          avp0 = init [att,vn,pos] in ENU-frame
 %
-% See also  imupolar_ecef, ap2avp, ap2imu, trajsimu, insupdate.
+% See also  ap2avp_ecef, imupolar_ecef, ap2avp, avp2imu, trajsimu, insupdate.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -7,7 +7,7 @@ function  avp = ap2avp(ap, ts)
 %         ts - sampling time interval
 % Output: avp = [att, vn, pos, t]
 %
-% See also  att2c, avp2imu, ap2imu, apmove, apscale, trjsimu, insupdate.
+% See also  att2c, avp2imu, ap2imu, apmove, apscale, trjsimu, insupdate, ap2avp_ecef.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

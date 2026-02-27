@@ -84,6 +84,10 @@ global glv
         case 'db',
             if sz>4, sz=4; data=data(:,[13:15,end]); end
             sz1=3; data(:,1:sz1)=data(:,1:sz1)/glv.ug;
+        case 'edb',
+            if sz>7, sz=7; data=data(:,[10:15,end]); end
+            subplot(211), plot(data(:,end), data(:,1:3)/glv.dph); xygo('eb');
+            subplot(212), plot(data(:,end), data(:,4:6)/glv.ug); xygo('db'); return;
         case 'L',
             if sz>4, sz=4; data=data(:,[7:9,end]); end
             sz1=3;

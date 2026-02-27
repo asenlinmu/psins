@@ -110,7 +110,7 @@ function Ft = getFt(fb, wb, Cnb, wnie, SS)   % kffk
              fX  o33   o33  Cnb   o33      o33      o33      fx*Cnb   fy*Cnb   fz*Cnb   CDf2  Cnb*SS       CwXf
              zeros(37,43) ];
 
-function SS = lvS(Cba, wb, dotwb)
+function SS = lvS(Cba, wb, dotwb) % Ref: Yan G, Inner lever arm compensation and its test verification for SINS, Journal of Astronautics, 2012.
     U = (Cba')^-1; V1 = Cba(:,1)'; V2 = Cba(:,2)'; V3 = Cba(:,3)';
     Q11 = U(1,1)*V1; Q12 = U(1,2)*V2; Q13 = U(1,3)*V3;
     Q21 = U(2,1)*V1; Q22 = U(2,2)*V2; Q23 = U(2,3)*V3;

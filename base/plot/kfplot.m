@@ -50,6 +50,14 @@ global psinsdef
             inserrplot(xkpk(:,[1:15,end]));
             inserrplot(xkpk(:,[16:30,end]),'kgka');
             inserrplot([sqrt(xkpk(:,31:60)),xkpk(:,end)]);
+        case 33
+            inserrplot(xkpk(:,[1:15,end]));
+            inserrplot(xkpk(:,[16:30,end]),'kgka');
+            inserrplot([sqrt(xkpk(:,34:48)),xkpk(:,end)]);
+            inserrplot([sqrt(xkpk(:,49:63)),xkpk(:,end)]);
+            myfig;
+            subplot(121), plot(xkpk(:,end),xkpk(:,31:33)), xygo('Ka2');
+            subplot(122), plot(xkpk(:,end),sqrt(xkpk(:,64:66))), xygo('Ka2');
         case 34
             inserrplot(xkpk(:,[1:19,end]));
             if nargin>1, trueplot19(varargin); end

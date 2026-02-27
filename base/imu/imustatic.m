@@ -13,6 +13,7 @@ function [imu, eth] = imustatic(avp0, ts, T, imuerr)
 %   imuerr = imuerrset(0.01,100,0.001,10, 0.001,1000,10,1000, 10,10,10,10);
 %   avp0 = avpset([0;0;0]*glv.deg, 0, glv.pos0, 0);
 %   imu = imustatic(avp0, 1, 300, imuerr);
+%   avp = inspure(imu, avp0);
 %
 % See also  imustatictp, imusway, imuerrset, trjsimu, trjunilat, insupdate.
 

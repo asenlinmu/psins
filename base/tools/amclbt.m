@@ -38,9 +38,9 @@ global glv
     if isfig, msplot(3, t, [acc,normv(acc)], 't','Acc');  msplot(4, t, [mag,normv(mag)], 't','Mag'); end
     H = vv2H(acc,mag);
     X = lscov(H, ones(length(acc),1));
-    Cmm = reshape(X,3,3)';  dCmm=det(Cmm);
-    Cmm = -Cmm/(abs(dCmm)^(1/3));  Cmm=foam(Cmm);
-    theta = -asin(1/(sign(dCmm)*abs(dCmm)^(1/3)));
+    Cmm = reshape(X,3,3)';  dCmm=det(Cmm);  c=sign(dCmm)*1/abs(dCmm)^(1/3);
+    Cmm = Cmm*c;  Cmm=foam(Cmm);
+    theta = -asin(c);
     mag = mag*Cmm';
     if isfig, msplot(5, t, [acc,normv(acc)]);  msplot(6, t, [mag,normv(mag)]);
               title(sprintf('incl=%.2f\\circ',theta/glv.deg)); end

@@ -32,6 +32,7 @@ global psinsdef
     psinsdef.kfinit196 = 196;
     psinsdef.kfinit246 = 246;
     psinsdef.kfinit331 = 331;
+    psinsdef.kfinit333 = 333;
     psinsdef.kfinit343 = 343;
     psinsdef.kfinit346 = 346;
     psinsdef.kfinit373 = 373;
@@ -56,6 +57,7 @@ global psinsdef
     psinsdef.kfhk196 = 196;
     psinsdef.kfhk246 = 246;
     psinsdef.kfhk331 = 331;
+    psinsdef.kfhk333 = 333;
     psinsdef.kfhk343 = 343;
     psinsdef.kfhk346 = 346;
     psinsdef.kfhk373 = 373;

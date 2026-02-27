@@ -1,6 +1,6 @@
 % Kalman filter error distribution analysis and statistic for SINS/GPS.
 % Please run 'test_SINS_trj.m' to generate 'trj10ms.mat' beforehand!!!
-% See also  test_SINS_GPS_153.
+% See also  test_SINS_GPS_153, inserrcov.
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 26/11/2023

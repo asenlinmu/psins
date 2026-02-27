@@ -15,7 +15,7 @@ function [imu, avp0, avp] = imupolar_grid(pos0, vel0, ts, T, imuerr)
 %   [imu, avp0, avp] = imupolar_grid(posset(89.0,10,100), 100, 1, 2000);
 %   imuplot_polar(imu);  insplot_polar(avp,'g');
 %
-% See also  avp2imu_ecef, imupolar_ecef, imupolar_enu, imustatic, inserrplot_polar.
+% See also  imupolar_rnd, avp2imu_ecef, imupolar_ecef, imupolar_enu, imustatic, avpcmpplot_polar.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -17,6 +17,7 @@ function insplot_polar(avp, typ)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 28/11/2024
 global glv
+    if size(avp,2)<9, avp=[avp(:,1:3),zeros(size(avp,1),3), avp(:,4:end)];  end  % [a,p,t]
     if nargin<2,
         if norm(avp(1,7:9))<glv.Re/2, typ='n'; else, typ='g'; end
     end
@@ -26,7 +27,7 @@ global glv
     myfig;
     subplot(321), plot(avp(:,end), avp(:,1:2)/glv.deg), xygo('pr');
     subplot(322), plot(avp(:,end), avp(:,3)/glv.deg), xygo('y');
-    subplot(323), plot(avp(:,end), avp(:,4:6)), xygo('V');
+    subplot(323), plot(avp(:,end), [avp(:,4:6),normv(avp(:,4:6))]), xygo('V');
     if typ=='n'
         subplot(325), plot(avp(:,end), avp(:,9)), xygo('hgt');
         subplot(3,2,[4,6]), plot(avp(:,8)/glv.deg, (avp(:,7)-pi/2)/glv.deg), xygo('lon','L / +90(\circ)');
@@ -41,4 +42,6 @@ global glv
         lon = atan2(avp(:,8),avp(:,7)); rho = sqrt(avp(:,8).^2+avp(:,7).^2)/glv.Re/glv.deg;
         polar(lon, rho, 'r'); view(90,90); hold on;
         polar(lon(1), rho(1), '*m');
+        [nxy,idx] = min(normv(avp(:,7:8)));  [nxy1,idx] = max(normv(avp(:,7:8)));
+        xlabel(['90-\itL\rm / ( \circ ), ',sprintf('(%.3f ~ %.0fm)',nxy,nxy1)]);  ylabel('\it\lambda\rm / ( \circ )');
     end

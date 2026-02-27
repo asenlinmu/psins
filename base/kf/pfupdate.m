@@ -32,7 +32,7 @@ function [pf, Pxk] = pfupdate(pf, Zk, TimeMeasBoth)
     for k=1:pf.Npts
         if TimeMeasBoth=='T' || TimeMeasBoth=='B'
             if isfield(pf,'fx')
-                pf.particles(:,k) = feval(pf.fx, pf.particles(:,k), pf.tpara) + sQ*randn(pf.n,1);
+                pf.particles(:,k) = feval(pf.fx, pf.particles(:,k), pf.tpara) + sQ*randn(pf.n,1);  % additive noise
             else
                 pf.particles(:,k) = pf.Phikk_1*pf.particles(:,k) + sQ*randn(pf.n,1);
             end
@@ -53,6 +53,7 @@ function [pf, Pxk] = pfupdate(pf, Zk, TimeMeasBoth)
 %         idx = interp1(cumw, (1:pf.Npts)', linspace(cumw(1),cumw(end),pf.Npts+10), 'nearest');  % resampling index
         idx = interp1(cumw, (1:pf.Npts)', cumw(1)+(cumw(end)-cumw(1))*rand(pf.Npts+10,1), 'nearest');  % resampling index
         pf.particles = pf.particles(:,idx(3:pf.Npts+2)); % myfig,hist(pf.particles(2,:));
+        % pf.particles = pf.particles(:,randsample(pf.Npts,kf.Npts,true,weight));
     end
     pf.xk = mean(pf.particles,2);
     xk = pf.particles - repmat(pf.xk,1,pf.Npts);

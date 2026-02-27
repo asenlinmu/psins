@@ -68,7 +68,8 @@ global glv
             myfig;
             subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr'); legend('Pitch','Roll');
             subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y'); legend('Yaw');
-            subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+0*avp(:,6).^2)]); xygo('V'); legend('V_E','V_N', 'V_U', '|V|');
+            % subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)]); xygo('V'); legend('V_E','V_N', 'V_U', '|V|');
+            subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2)]); xygo('V'); legend('V_E','V_N', 'V_U', 'V_G');
 %             subplot(323), plot(t, avp(:,4:6)); xygo('V'); legend('V_E','V_N', 'V_U');
             dxyz = pos2dxyz(avp(:,7:9));
             subplot(325), plot(t, dxyz(:,[2,1,3])); xygo('DP'); legend('\DeltaLat','\DeltaLon','\DeltaHgt');
@@ -99,6 +100,12 @@ global glv
             insplot(avp(:,[1:9,end]));
             if size(avp,2)~=11, dist = distance(avp(:,[7:9,end])); dist=dist(:,[1,end]); else, dist=avp(:,10:11); end
             subplot(3,2,5), plot(dist(:,2), dist(:,1), 'm');  legend('\DeltaLat','\DeltaLon','\DeltaHgt', 'Dist');  % plot OD distance
+        case 'avpi', % for launch vehicle
+            myfig,
+            subplot(221), plot(avp(:,end), avp(:,1)/glv.deg), xygo('p');
+            subplot(222), plot(avp(:,end), avp(:,2:3)/glv.deg), xygo('ry');
+            subplot(223), plot(avp(:,end), avp(:,4:6)), xygo('V');  title('LCI  F/U/R')
+            subplot(224), plot(avp(:,end), avp(:,7:9)), xygo('DP');
         case {'t/m', 't/h', 't/d'},  % AVP-plot where t-axis in day
             tscalepush(ptype);
             insplot([avp(:,1:9),avp(:,end)/tscaleget()],'avp');
@@ -115,6 +122,13 @@ global glv
             ax = plotyy(vuh(:,end), vuh(:,1), vuh(:,end), vuh(:,2));
             xlabel('t / s'); grid on;
             ylabel(ax(1), 'V_U / m/s'); ylabel(ax(2), 'h / m');
+        case 'vnlat'
+            if n>9, vnl=avp(:,[5,7,end]);   % avp input
+            elseif n>6, vnl=avp(:,[2,4,end]); end  % vp input
+            myfig;
+            ax = plotyy(vnl(:,end), vnl(:,1), vnl(:,end), (vnl(:,2)-vnl(1,2))*glv.Re);
+            xlabel('t / s'); grid on;
+            ylabel(ax(1), 'V_N / m/s'); ylabel(ax(2), '\DeltaL / m');
         case 'avped'
             myfigure;
             subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr'); legend('Pitch','Roll');

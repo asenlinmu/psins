@@ -113,6 +113,8 @@ function sinsgps_Callback(hObject, eventdata, handles)
     if get(handles.sinsgps153,'value'),         opru('test_SINS_GPS_153.m');
     elseif get(handles.sinsgps186,'value'),     opru('test_SINS_GPS_186.m');
     else,                                       opru('test_SINS_GPS_193.m');  end
+function PotterSRKF_Callback(hObject, eventdata, handles)
+opru('test_SINS_GPS_Potter_SRKF.m');
 function sinsgnssekf_Callback(hObject, eventdata, handles)
 opru('test_SINS_GPS_EKF_153.m');
 function sinsgnssukf_Callback(hObject, eventdata, handles)
@@ -133,4 +135,7 @@ function posfusion_Callback(hObject, eventdata, handles)
 opru('test_POS_fusion.m');
 function sysclbt_Callback(hObject, eventdata, handles)
 opru('test_system_calibration_19pos.m');
-
+function RSINS_1Axis_Callback(hObject, eventdata, handles)
+opru('test_RSINS_1_axis.m');
+function RSINS_2Axis_Callback(hObject, eventdata, handles)
+opru('test_RSINS_2_axis.m');

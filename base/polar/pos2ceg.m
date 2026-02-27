@@ -7,7 +7,7 @@ function [CeG, slat, clat, slon, clon, zeta] = pos2ceg(pos)
 % Output: CeG - transformation matrix from Earth-frame to grid-frame
 %         slat, clat, slon, clon, zeta - see the code
 %
-% See also  pos2cng, pos2cen, cen2pos, blh2xyz, xyz2blh.
+% See also  pos2cng, pos2cen, cen2pos, blh2xyz, xyz2blh, nv2cen.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -2,9 +2,9 @@
 % VFB model Ref: Athans, M. 'Suboptimal state estimation for continuous-time nonlinear systems 
 % from discrete noisy measurements'. IEEE Transactions on Automatic Control,1968.
 % See also  vfbfx, vfbhx
-% Copyright(c) 2009-2022, by Gongmin Yan, All rights reserved.
+% Copyright(c) 2009-2025, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
-% 08/08/2022, 01/01/2023
+% 08/08/2022, 01/01/2023, 10/05/2025
 %% VFB system simulator ******************************************
 glvs;
 Ts = 0.01;  len = fix(30/Ts);
@@ -224,6 +224,30 @@ ress{end+1}=res; lgstr(end+1)={'CKF5'};
 [U, wm, wc] = utpoint(n);
 GCU_KF_Frame;
 ress{end+1}=res; lgstr(end+1)={'UKF'};
+%% PF ************************************************************
+Ns = 1000;  w = ones(Ns,1)/Ns;
+ptcs = repmat(Xk0,1,Ns)+chol(Pk0)'*randn(n,Ns);  % particles initialize
+for k=1:len
+    for i=1:Ns  % time update
+        ptcs(:,i) = vfbfx(ptcs(:,i), tpara);  % +chol(Qk)'*randn(n,1);
+    end
+    if mod(k,zint)==0  % meas update
+        for i=1:Ns
+            zi = vfbhx(ptcs(:,i), tpara);  dz = zk(k)-zi;
+            w(i) = w(i)*exp(-0.5*dz'/Rk*dz);  % weight update
+        end
+        w = w/sum(w);  % normalize
+        Neff = 1/(w'*w);
+        if Neff<Ns/2  % resampling
+            ptcs = ptcs(:,pfresample(w));
+            w = ones(Ns,1)/Ns;
+        end
+    end
+    Xk = ptcs*w;  Pk = zeros(n);  % estimation
+    for i=1:Ns, dx=ptcs(:,i)-Xk; Pk=Pk+w(i)*dx*dx'; end
+	res(k,:) = [Xk; diag(Pk)]';
+end
+ress{end+1}=res; lgstr(end+1)={'PF'};
 %% SR-UKF ********************************************************
 [U, wm, wc, gmm] = utpoint(n);  swc = sqrt(abs(wc));
 L = length(wm); Xk = Xk0; sPk = chol(Pk0,'lower'); sQk = zeros(3); sRk = chol(Rk,'lower');
@@ -296,10 +320,11 @@ end
 subplot(336); legend(lgstr{kk});
 % CKF5「GHQKF5 > CKF3「GHQKF3「UKF=SRUKF「EKF2「CDKF2 > DQEKF「CDKF1「FBDKF「EKF=IDKF「IEKF  
 myfig; kk=1;
-for k=[11,10,8,3,12,6,2,5,7,1,4], subplot(4,3,kk); plot(t, ress{k}(:,1:3)-ress{9}(:,1:3)); legend([lgstr{k},' Err']); kk=kk+1; end
+for k=[11,10,8,3,12,6,2,5,7,1,4,13], subplot(4,3,kk); plot(t, ress{k}(:,1:3)-ress{9}(:,1:3)); legend([lgstr{k},' Err']); kk=kk+1; end
 % [~,idx]=sort(xx(:,1)); xx=[xx(idx,:),idx];
 %%
 return;
+
 myfig;
 subplot(221), plot(ress{1}(:,1:3)-ress{14}(:,1:3)); legend('EKF-IDKF');
 subplot(222), plot(ress{12}(:,1:3)-ress{13}(:,1:3)); legend('UKF-SRUKF');
@@ -317,3 +342,10 @@ myfig, subplot(131), plot(xx1'), hold on, plot(xx1(end,:),'linewidth',3);
 subplot(132), plot(xx2'), hold on, plot(xx2(end,:),'linewidth',3);
 subplot(133), plot(xx3'), hold on, plot(xx3(end,:),'linewidth',3);
 
+myfig; % ress{13}=res;
+subplot(231), plot([ress{13}(:,1),ress{1}(:,1)]); legend('PF','EKF');
+subplot(232), plot([ress{13}(:,2),ress{1}(:,2)]); legend('PF','EKF');
+subplot(233), plot([ress{13}(:,3),ress{1}(:,3)]); legend('PF','EKF');
+subplot(234), plot(sqrt([ress{13}(:,4),ress{1}(:,4)])); legend('PF','EKF');
+subplot(235), plot(sqrt([ress{13}(:,5),ress{1}(:,5)])); legend('PF','EKF');
+subplot(236), plot(sqrt([ress{13}(:,6),ress{1}(:,6)])); legend('PF','EKF');

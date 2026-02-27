@@ -51,7 +51,8 @@
 		case 27: Demo_CIMUInc(); break; \
 		case 28: Demo_Extern_C_example(); break; \
 		case 29: Demo_Extract_Txt_File(); break; \
-		case 30: Demo_operator_pointer_run_time(); break; \
+		case 30: Demo_Extract_Txt_File_bin(); break; \
+		case 31: Demo_operator_pointer_run_time(); break; \
 		} \
 		exit(0); \
 	}
@@ -85,6 +86,7 @@ void Demo_GKP(void);
 void Demo_CIMUInc(void);
 void Demo_Extern_C_example(void);
 void Demo_Extract_Txt_File(void);
+void Demo_Extract_Txt_File_bin(void);
 void Demo_operator_pointer_run_time(void);
 
 #ifdef PSINS_IO_FILE

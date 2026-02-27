@@ -1,8 +1,9 @@
 function avp = gps2avp(gps, isfig)
 % trans GNSS array to AVP, where att is tracking attitude.
 %
-% Prototype: avp = gps2avp(gps)
-% Input: gps - GNSS vel/pos array
+% Prototype: avp = gps2avp(gps, isfig)
+% Inputs: gps - GNSS vel/pos array
+%         isfig - figure flag
 % Output: avp - tracking attitude, vn and pos
 %
 % See also  vn2att, pp2vn.

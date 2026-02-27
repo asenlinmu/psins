@@ -12,14 +12,14 @@ function avp = inspure_grid(imu, avp0, href, isfig)
 %                   'H' - height fix-damping, =pos0(3)
 %                   'f' - height free.
 %         isfig - figure on/off flag
-% Output: avp - navigation results, avp = [att,vn,pos,t]
+% Output: avp - navigation results, avp = [attG,vG,pG,t]
 %
 % Example:
 %   [imu, avp0, avp] = imupolar_grid(posset(89.9,0.10,100), 100, .1, 200);
 %   avpg = inspure_grid(imu, avp0, 'V');
-%   inserrplot_polar(avp, avpg, 'g');
+%   avpcmpplot_polar(avp, avpg, 'g');
 %
-% See also  insinit_grid, insupdate_grid, inspure, inspure_ecef, inserrplot_polar.
+% See also  insinit_grid, insupdate_grid, inspure, inspure_ecef, avpcmpplot_polar.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -30,7 +30,7 @@ global glv
     [nn, ts, nts] = nnts(2, imu(:,end));
     ins = insinit_grid(avp0, ts);  vn0 = avp0(4:6); pos0 = avp0(7:9);  vG0 = ins.vG; pe0 = ins.pe;
     len = length(imu);    avp = zeros(fix(len/nn), 10);
-    ki = timebar(nn, len, 'Grid pure inertial navigation processing.');
+    ki = timebar(nn, len, 'Grid-frame pure inertial navigation processing.');
     for k=1:nn:len-nn+1
         k1 = k+nn-1;
         wvm = imu(k:k1, 1:6);  t = imu(k1,end);

@@ -5,7 +5,7 @@ function [y, t] = avarsimu(NRKQ, M, ts, len, isfig)
 % Inputs: NRKQ - = [N,R,K,Q] parameters, where
 %             N: angular random walk, in deg/h^{1/2}
 %             R: rate ramp, in deg/h^2
-%             N: angular rate random walk, in deg/h^{3/2}
+%             K: angular rate random walk, in deg/h^{3/2}
 %             Q: angular quantization(or algular Gauss white noise, 1-sigma), in arcsec
 %         M - = [sigma1, tau1; sigma2, tau2; ...] 1st order Markov process, where
 %             sigma: standard deviation of the process
@@ -31,6 +31,7 @@ global glv
     y = NRKQ(1)*glv.dpsh/sqrt(ts)*randn(len,1);  % N
     if length(NRKQ)>1,  % R
         y = y + NRKQ(2)*glv.dph2*t;
+        % y = y + NRKQ(2)*glv.dph2*ts*cumsum(cumsum(randn(len,1)));
     end
     if length(NRKQ)>2,  % K
 %         y = y + cumsum(NRKQ(3)*glv.dphpsh/ts*randn(len,1));

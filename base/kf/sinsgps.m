@@ -75,6 +75,7 @@ global glv
     kf.Pxk = diag([davp; imuerr.eb; imuerr.db; lever(1:3)*lever(4); dT(1)*dT(2)]*1.0)^2;   % 2021/11/2
     kf.Hk = zeros(length(rk),19);
     kf = kfinit0(kf, nts);
+    kf.xk(16:18) = lever(1:3)*lever(4);  kf.xk(19) = dT(1)*dT(2);
     if exist('Pmin', 'var'),
         if sum(Pmin)<=0, kf.pconstrain=0;
         else kf.Pmin = Pmin; kf.pconstrain = 1; end
@@ -122,8 +123,10 @@ global glv
             zkrk(kiz,:) = [zk; diag(kf.Rk); t];  kiz = kiz+1;
         end
         [kf, ins] = kffeedback(kf, ins, nts);
-        if lever(5)==1,  avp(ki,:) = [ins.att; ins.vnL; ins.posL; ins.eb; ins.db; t]';
-        else             avp(ki,:) = [ins.att; ins.vn;  ins.pos;  ins.eb; ins.db; t]';        end
+        if lever(5)==1,
+            insL = inslever(ins, ins.lever+kf.xk(16:18));
+            avp(ki,:) = [ins.att; insL.vnL; insL.posL; ins.eb; ins.db; t]';
+        else             avp(ki,:) = [ins.att; ins.vn;  ins.pos;  ins.eb; ins.db; t]';   end
         xkpk(ki,:) = [kf.xk; diag(kf.Pxk); t]';
         sk(ki,:) = [kf.measlog, t];  kf.measlog=0;  ki = ki+1; 
         timebar;

@@ -53,6 +53,11 @@ global glv
             subplot(321), plot(t, avp(:,1:3)/glv.deg), xygo('att');  legend('Pitch Ref.', 'Roll Ref.', 'Yaw Ref.');
             subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)]); xygo('V');
             subplot(325), plot(t, [[avp(:,7)-avp0(1,7),(avp(:,8)-avp0(1,8))*cos(avp0(1,7))]*glv.Re,avp(:,9)-avp0(1,9)]); xygo('DP');
+        case 'avpi',  % for LCI launch vehicle
+            avp = avp0; t = avp(:,end);
+            subplot(321), plot(t, avp(:,1:3)/glv.deg), xygo('att');  legend('Pitch Ref.', 'Roll Ref.', 'Yaw Ref.');
+            subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)]); xygo('V');
+            subplot(325), plot(t, avp(:,7:9)); xygo('DP');
         case 'vp',
             avp = avp0; t = avp(:,end);
             if size(avp,2)<10, avp = [zeros(length(avp),3), avp]; end
@@ -145,6 +150,18 @@ global glv
                 subplot(324), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dV'); mylegend('dVE','dVN','dVU');
                 subplot(326), hold on, plot(t, [[err(:,7),err(:,8).*cos(lat)]*glv.Re,err(:,9)], strk, 'LineWidth',2); xygo('dP'); mylegend('dlat','dlon','dH');
             end
+        case 'avpi',  % for LCI launch vehicle, 20250502
+            k=1; strk = str(k*2-1:k*2); avp = varargin{k}; t = avp(:,end);
+            subplot(321), hold on, plot(t, avp(:,1:3)/glv.deg, strk, 'LineWidth',2), xygo('att');
+            subplot(323), hold on, plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)], strk, 'LineWidth',2); xygo('V');
+            subplot(325), hold on, plot(t, avp(:,7:9), strk, 'LineWidth',2); xygo('DP');
+            avp1 = avpinterp1(avp, avp0(:,end), 'linear');
+            [t, i1, i0] = intersect(avp1(:,end), avp0(:,end));
+            err = [avp1(i1,1:9)-avp0(i0,1:9),t];
+            % err(:,1:3) = aa2phi(avp1(i1,1:3), avp0(i1,1:3));
+            subplot(322), hold on, plot(t, err(:,1:3)/glv.min, strk, 'LineWidth',2); xygo('datt'); mylegend('dpch','drll','dyaw');
+            subplot(324), hold on, plot(t, err(:,4:6), strk, 'LineWidth',2); xygo('dV'); mylegend('dVE','dVN','dVU');
+            subplot(326), hold on, plot(t, err(:,7:9), strk, 'LineWidth',2); xygo('dP'); mylegend('dX','dY','dZ');
         case 'avpdist',  % subplot(326), pos_err vs. distance
             avp = varargin{1};
             close(gcf);

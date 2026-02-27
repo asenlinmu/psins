@@ -21,11 +21,11 @@ function [att, eb, db] = alignpetp(imu, pos, T1T2, eU, isfig)
 %    imu2 = imuclbt(imu1, eb1, db1);  % imuplot(imu2);
 %    [att2, eb2, db2] = alignpetp(imu2, glv.pos0, [280,320, 30], 0.0*glv.dph);
 %
-% See also  alignsb, alignvn, imustatictp, alignvntp, alignsbtp1.
+% See also  alignsb, alignvn, alignpe, imustatictp, alignvntp, alignsbtp1.
 
-% Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
+% Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
-% 11/11/2021
+% 11/11/2021, 01/08/2024
 global glv
     if nargin<5, isfig=1; end
     if nargin<4, eU=0; end
@@ -53,8 +53,9 @@ global glv
     eN = (eN1-eN2)/2;
     dE = phi(2)*glv.g0;
     dN = -phi(1)*glv.g0;
-    Cnb = a2mat(av1(1,1:3)');
-    eb = Cnb'*[eE;eN;eU];  db = Cnb'*[dE;dN;dU2];
+    Cnb = a2mat(av1(1,1:3)'); 
+    p1 = polyfit(av1(:,end),angle2c(av1(:,3)),1); p2 = polyfit(av2(:,end),angle2c(av2(:,3)),1);  % 11/12/2024     
+    eb = Cnb'*[eE;eN;eU+(p1(1)+p2(1))/2];  db = Cnb'*[dE;dN;dU2];
     if length(T1T2)>2  % the last T1T2(3) sec, leveling
         if T1T2(3)<5, return; end
         [a2, idx] = getat(av2, imu(end,end)-T1T2(3));
@@ -72,7 +73,7 @@ global glv
         subplot(339), plot(av2(:,end), av2(:,3)/glv.deg,'-', avp(end,end), avp(end,3)/glv.deg,'om'); xygo('y');
         subplot(332), plot(avp(:,end), avp(:,1)/glv.deg); xygo('p');  title('T1 -> T2');  % rotate
         subplot(335), plot(avp(:,end), avp(:,2)/glv.deg); xygo('r');
-        subplot(338), plot(avp(:,end), avp(:,3)/glv.deg); xygo('y');
+        subplot(338), plot(avp(:,end), avp(:,3)/glv.deg); xygo('y');  title([sprintf('%.4f, ', (avp(end,3)-avp(1,3))/glv.deg),'(deg)']);
         subplot(333), title([sprintf('%.4f, ', eb/glv.dph),'(dph); ', sprintf('%.1f, ', db/glv.ug),'(ug)']);
         subplot(339), title([sprintf('%.4f, ', att/glv.deg),'(deg)']);
     end
@@ -90,3 +91,13 @@ global glv
 %         att = aaddphi(att, phi1);  db = Cnb'*[dE;dN;dU+dU1];
 %     end
 
+function ang = angle2c(ang)
+    df = diff(ang);    % find discontinuous points
+    g = find(df>pi);   % greater than pi
+    s = find(df<-pi);  % smaller than -pi
+    for k=1:length(g)
+        ang(g(k)+1:end) = ang(g(k)+1:end) - 2*pi;
+    end
+    for k=1:length(s)
+        ang(s(k)+1:end) = ang(s(k)+1:end) + 2*pi;
+    end

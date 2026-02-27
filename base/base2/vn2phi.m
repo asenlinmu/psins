@@ -17,7 +17,7 @@ function [phi, eN, dU] = vn2phi(vn, lti, ts, isfig)
 %   avp = inspure(imu, [q2att(qaddphi(a2qua(ap0(1:3)),[.1;.1;10]*glv.min));glv.pos0], 'f');
 %   phi = vn2phi(avp(:,[4:6,end]), glv.pos0);
 %
-% See also  vn2phiu, aa2phi, vn2att.
+% See also  vn2phiu, vn2phistd, phiu2vn, aa2phi, vn2att.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

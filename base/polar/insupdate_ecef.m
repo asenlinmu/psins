@@ -1,12 +1,14 @@
 function ins = insupdate_ecef(ins, imu)
 % ECEF based SINS Updating Alogrithm.
+% Ref: DuH, ECEF integrated navigation based on inertial and satellite navigation for polar region, OOT, 2022.
+%      WangX．Global inertial navigation and integrated navigation method based on Earth coordinate frame, MCT, 2022.
 %
 % Prototype: ins = insupdate_ecef(ins, imu)
 % Inputs: ins - SINS structure array created by function 'insinit_ecef'
 %         imu - gyro & acc incremental sample(s)
 % Output: ins - SINS structure array after updating
 %
-% See also  insinit_ecef, insinit_grid, insupdate, insupdate_grid.
+% See also  insinit_ecef, insinit_grid, insupdate, insupdate_enu, insupdate_grid.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -33,7 +35,7 @@ global glv
     ins.qeb = qupdt2(ins.qeb, phim, ins.weie*nts);
     if ins.qeb(1)<0, ins.qeb=-ins.qeb; end
     [ins.llh, ins.RN, ins.sl] = xyz2llh(ins.pe);
-    ins.uU = [ins.pe(1:2)/(ins.RN+ins.llh(3)); ins.sl];
+    ins.ne = [ins.pe(1:2)/(ins.RN+ins.llh(3)); ins.sl];  % normal vector in ECEF frame
     ins.avp = [q2att(ins.qeb); ins.ve; ins.pe];
     
 %     Cen = pos2cen(ins.llh);

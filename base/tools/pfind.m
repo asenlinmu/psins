@@ -52,4 +52,4 @@ for k=1:length(dirs)
     end
     if n1>toomany, break; end
 end
-if nargout==0, disp(funs); end
+% if nargout==0, disp(funs); end

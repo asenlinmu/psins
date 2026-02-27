@@ -25,7 +25,7 @@ function [lxyz, av] = imulvest(imu, pos, rott, statict)
 % rott = [ 35,55; [35,55]+60; [35,55]+120 ]; 
 % [lxyz, av] = imulvest(imu1, pos0, rott);  insplot(av);
 %
-% See also  imulvplot, imulever, sysclbt.
+% See also  inleverest, imulvplot, imulever, sysclbt.
 
 % Copyright(c) 2009-2022, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

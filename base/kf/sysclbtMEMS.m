@@ -15,7 +15,7 @@ function [clbt, av, avi] = sysclbtMEMS(imu, pos0, yaw0, itertion, isKap, wStatic
 %                 vm = Ka*vm - (db + Kap.*abs(fb))*ts
 %                where wb=wm/ts, fb=vm/ts. 
 %
-% See also  sysclbt, imuscale, imudpdrift, lsclbt, clbtfile, clbtdiff, imuclbt, imuerrset, kfupdate.
+% See also  sysclbt, imuscale, imudpdrift, lsclbt, clbtfile, imuclbt, imuerrset, mimumalclbt.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

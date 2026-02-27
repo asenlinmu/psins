@@ -17,7 +17,7 @@ function avp = avpset(att, vn, pos, isdeg)
 global glv
     if nargin<4, isdeg=1; end 
     if nargin==2, pos=vn; vn=zeros(3,1); end  % avp = avpset(att, pos);
-    if length(att)==1,  att = [att; att; att];  end
+    if length(att)==1,  att = [0; 0; att];  end
     if length(vn)==1,   % vn is scalar, representing the forward velocity
         vb = [0; vn; 0];
         vn = a2mat(d2r(att(:)))*vb;

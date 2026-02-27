@@ -23,8 +23,10 @@ global glv
     chksum = typecast(single(dd(:,35)),'uint32');
     dd = dd(chksum>0,:);
     head = typecast(single(dd(:,1)),'uint32');
-    imu = norep([[dd(:,3:5)*glv.dps, dd(:,6:8)]*ts, dd(:,2)],1:6);
-    mag = norep(dd(:,[9:11,2]),1:3);
+    % imu = norep([[dd(:,3:5)*glv.dps, dd(:,6:8)]*ts, dd(:,2)],1:6);
+    % mag = norep(dd(:,[9:11,2]),1:3);
+    imu = [[dd(:,3:5)*glv.dps, dd(:,6:8)]*ts, dd(:,2)];
+    mag = dd(:,[9:11,2]);
     bar = norep(dd(:,[12,2]),1);
     avp = no0([dd(:,13:15)*glv.deg, dd(:,16:18), (dd(:,[21,19])+dd(:,[22,20]))*glv.deg, dd(:,[23,2])],1);
     gps = no0([dd(:,24:26), (dd(:,[29,27])+dd(:,[30,28]))*glv.deg, dd(:,[31,2])], 1);

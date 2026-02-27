@@ -10,7 +10,7 @@ function [y, Pyy, Pxy, X, Y] = ukfUT(x, Pxx, hfx, tpara, alpha, beta, kappa)
 %          Pxy - covariance matrix between x & y
 %          X, Y - Sigma-point vectors before & after UT
 %
-% See also  ukf, ckfCT, SSUT.
+% See also  ukf, ckfCT, SSUT, ekfJcb.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

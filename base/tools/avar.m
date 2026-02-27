@@ -16,7 +16,7 @@ function [sigma, tau, Err] = avar(y0, tau0, str, isfig)
 %     [sigma, tau, Err] = avar(x, ts, 2);    % gyro in deg/h, plus cumsum angle plot
 %     [sigma, tau, Err] = avar(x, ts, 'mg'); % acc in mg
 %
-% See also  avarsimu, avarfit, avar2, avars, avarimu, oavar, tavar, meann, hrgbi.
+% See also  avarsimu, avarfit, avar2, avars, avarimu, oavar, tavar, tvar, meann, hrgbi.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

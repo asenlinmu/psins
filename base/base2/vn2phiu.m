@@ -1,12 +1,14 @@
-function [phiu0, vnfit] = vn2phiu(vn, lti, isfig)
+function [phiu0, vnfit, phi] = vn2phiu(vn, lti, isfig)
 % Calculating yaw misalign angles from pure SINS velocity error.
 %
-% Prototype: [phiu0, vnfit] = vn2phiu(vn, lti)
+% Prototype: [phiu0, vnfit, phi] = vn2phiu(vn, lti, isfig)
 % Inputs: vn - pure SINS velocity error, in most case for static base
 %         lti - latitude
+%         isfig - figure flag
 % Output: phiu0 - misalignment between calculating navigation frame and real
 %               navigation frame
 %         vnfit - polyfit for velocity
+%         phi - [phiE0, phiN0, phiU0];
 %
 % Example:
 %   ap0 = [[0;0;1]*glv.deg;glv.pos0];
@@ -14,7 +16,7 @@ function [phiu0, vnfit] = vn2phiu(vn, lti, isfig)
 %   avp = inspure(imu, [q2att(qaddphi(a2qua(ap0(1:3)),[1;-2;10]*glv.min));glv.pos0], 'f');
 %   [phiu0, vnfit] = vn2phiu(avp(:,[4:6,end]), glv.pos0, 1);
 %
-% See also  av2phiu, vn2phi, vn2att.
+% See also  vn2phistd, pn2phiu, av2phiu, vn2phi, phiu2vn, vn2att.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -35,3 +37,4 @@ global glv
         subplot(132), plot(vn(:,end), [vn(:,2),vnfit(:,2)]); xygo('VN'); title(sprintf('\\phi_{U0} = %.4f(\\prime); \\phi_{E0} = %.4f(\\prime)', phiu0/glv.min, pn(2)/glv.g0/glv.min));
         subplot(133), plot(vn(:,end), [vn(:,3),vnfit(:,3)]); xygo('VU'); title(sprintf('\\nabla_{U} = %.2f(ug)', pu(2)/glv.ug));
     end
+    phi = [pn(2)/glv.g0; phin0; phiu0];

@@ -1,14 +1,14 @@
 function [Jcb, y] = ekfJcb(hfx, x, tpara)
-% Spherical-Radial Cubature transformation.
+% Jacobian matrix & state transformation for nonlinear equation.
 %
-% Prototype: [y, Pyy, Pxy, X, Y] = ckfCT(x, Pxx, hfx, tpara)
+% Prototype: [Jcb, y] = ekfJcb(hfx, x, tpara)
 % Inputs: hfx - a handle for nonlinear state equation
 %         x - state vector
 %         tpara - some time-variant parameter pass to hfx
 % Outputs: Jcb - Jacobian matrix of hfx
 %          y - y = fhx(x)
 %
-% See also  ekf, ckf, ukf, Jacob5, alignvn_ekf.
+% See also  ekf, ckf, ukf, Jacob5, ukfUT, alignvn_ekf.
 
 % Copyright(c) 2009-2022, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

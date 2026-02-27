@@ -2,7 +2,7 @@ function avp = avp2ecefBatch(avp, n2e)
 % Batch processing AVP translation, from ENU-frame to ECEF-frame,
 % or reverse.
 %
-% Prototype: avp = avp2ecefBatch(avp)
+% Prototype: avp = avp2ecefBatch(avp, n2e)
 % Input: avp - [att,vn,blh] in ENU-frame, if norm(blh)>Re/2 for in ECEF-frame
 %        n2e - ==1 from ENU-frame to ECEF-frame, ==0 reverse
 % Output: avp - [qeb(2:4),ve,pe] in ECEF-frame, or in ENU-frame

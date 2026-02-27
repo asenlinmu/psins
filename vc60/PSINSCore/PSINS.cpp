@@ -6950,6 +6950,24 @@ CFileCfg ReadCfg(const char *fname, const char *ext)  // { ReadCfg("cfg.bin")>>"
 	return cfg;
 }
 
+// trans DEC-file like: 'AA 55 01 00 ...' to BIN-file: 'AA550100...'
+int dec2binf(char *fdecstr)
+{
+	FILE *fdec=fopen(fdecstr, "rt");	if(!fdec) return 1;
+	char fbinstr[1024]; strcat(strcpy(fbinstr,fdecstr),".bin");
+	FILE *fbin=fopen(fbinstr, "wb");	if(!fbin) return 2;
+	unsigned char dec=0, bin=0;
+	while(!feof(fdec))	{
+		fread(&dec, 1,1,fdec);
+		if(dec==' ') fwrite(&bin, 1,1,fbin);
+		else {
+			if(dec>='A')  bin = bin<<4 | (dec-('A'-10));  // A-F
+			else          bin = bin<<4 | (dec-'0');       // 0-9
+		}
+	}
+	fclose(fdec); fclose(fbin); return 0;
+}
+
 #endif // PSINS_IO_FILE
 
 //******************************  CRMemory *********************************/

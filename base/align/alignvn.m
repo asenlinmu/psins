@@ -22,6 +22,8 @@ function [att0, attk, xkpk] = alignvn(imu, qnb, pos, phi0, imuerr, wvn, isfig)
 %	wvn = [0.01; 0.01; 0.01];
 %	[att0, attk, xkpk] = alignvn(imu, avp0(1:3)', avp0(7:9)', phi, imuerr, wvn);
 %
+%   [att0, attk, xkpk] = alignvn(imu, 100, glv.pos0);
+%
 % See also  alignfn, aligngps, alignfn9, aligncmps, aligni0, alignWahba, alignsb, alignvndp, etm.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
@@ -32,8 +34,10 @@ global glv
     if nargin<6,  wvn = 0.01;  end;  if length(wvn)==1, wvn=repmat(wvn,3,1); end
     if nargin<5,  imuerr = imuerrset(0.01, 100, 0.001, 1);  end
     if nargin<4,  phi0 = [1.5; 1.5; 3]*glv.deg;  end
-    if length(qnb)==3, qnb=a2qua(qnb); end  %if input qnb is Eular angles.
+    if length(pos)==1, pos=[pos;0;0]; end
     [nn, ts, nts] = nnts(2, diff(imu(1:2,end)));
+    if length(qnb)==1, qnb=a2qua(aligni0(imu(1:fix(qnb/ts),:),pos,0)); % 11/12/2024
+    elseif length(qnb)==3, qnb=a2qua(qnb); end  %if input qnb is Eular angles.
     len = fix(length(imu)/nn)*nn;
     eth = earth(pos); vn = zeros(3,1); Cnn = rv2m(-eth.wnie*nts/2);
     kf = avnkfinit(nts, pos, phi0, imuerr, wvn);

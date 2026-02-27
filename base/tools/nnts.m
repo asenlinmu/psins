@@ -1,4 +1,4 @@
-function [nn, ts, nts] = nnts(nn, ts)
+function [nn, ts, nts, nts2] = nnts(nn, ts)
 % Set subsample number, sampling interval and their product.
 %
 % Prototype: [nn, ts, nts] = nnts(nn, ts)
@@ -6,6 +6,7 @@ function [nn, ts, nts] = nnts(nn, ts)
 %         ts - sampling interval
 % Outputs: ss, ts - the same as above
 %         nts - nts = nn*ts
+%         nts2 - nts2 = nts/2
 %
 % Example:
 %        [nn, ts, nts] = nnts(2, 0.01);
@@ -21,3 +22,4 @@ function [nn, ts, nts] = nnts(nn, ts)
         ts = mean(diff(ts(:,end)));
     end
     nts = nn*ts;
+    nts2 = nts/2;

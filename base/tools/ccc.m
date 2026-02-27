@@ -4,3 +4,4 @@
     close all;
     clc;
     fclose('all');
+    glvs;

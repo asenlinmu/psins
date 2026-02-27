@@ -1,11 +1,11 @@
 function g = grav(pos)
-% Normal gravity amplitude calculation.
+% Normal gravity amplitude calculation by simplified Somigliana equation.
 %
 % Prototype: g = grav(pos)
 % Input: pos - =[lat, lon, hgt]
-% Output: h - normal gravity
+% Output: g - normal gravity
 %
-% See also  earth, egmwgs84, egm.
+% See also  gravj4, earth, egmwgs84, egm.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

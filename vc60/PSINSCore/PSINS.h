@@ -25,11 +25,11 @@ Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 22/11/2021, 17
 #define PSINS_IO_FILE
 //#define PSINS_IO_FILE_FIND
 #define PSINS_RMEMORY
-//#define PSINS_AHRS_MEMS
+#define PSINS_AHRS_MEMS
 //#define PSINS_psinsassert
 //#define PSINS_MAT_COUNT
 //#define PSINS_STACK
-//#define PSINS_CONSOLE_UART
+#define PSINS_CONSOLE_UART
 //#define PSINS_VC_AFX_HEADER
 //#define PSINS_COMPLEX
 //#define PSINS_FAST_CALCULATION
@@ -1679,6 +1679,7 @@ public:
 };
 CFileCfg WriteCfg(const char *fname, const char *ext=NULL);  // the only method to create WriteCfg file
 CFileCfg ReadCfg(const char *fname, const char *ext=NULL);   // the only method to create ReadCfg file
+int dec2binf(char *fname);
 
 #endif // PSINS_IO_FILE
 

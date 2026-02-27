@@ -25,6 +25,9 @@ global glv
     glv.e = sqrt(2*glv.f-glv.f^2); glv.e2 = glv.e^2; % 1st eccentricity
     glv.ep = sqrt(glv.Re^2-glv.Rp^2)/glv.Rp; glv.ep2 = glv.ep^2; % 2nd eccentricity
     glv.GM = 3.986004418e14;        % Earth's universal
+    glv.J2 = 1.08262982131*10^-3;
+    glv.J4 =-2.37091120053*10^-6;
+    glv.J6 = 6.08346498882*10^-9;
     glv.wie = wie;                  % the Earth's angular rate
     glv.meru = glv.wie/1000;        % milli earth rate unit
     glv.g0 = 9.7803267715;          % gravitational force

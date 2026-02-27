@@ -1,11 +1,12 @@
-function [att0, res] = aligni0(imu, pos, isfig)
+function [att, att0, res] = aligni0(imu, pos, isfig)
 % SINS initial align based on inertial frame method.
 %
-% Prototype: [att0, res] = aligni0(imu, pos, isfig)
+% Prototype: [att0, att0, res] = aligni0(imu, pos, isfig)
 % Inputs: imu - IMU data
 %         pos - position
 %         isfig - figure flag
-% Output: att0 - attitude align result
+% Output: att - attitude align result
+%         att0 - attitude align result at initial epoch
 %         res - some other paramters for debug
 %
 % Example:
@@ -27,7 +28,8 @@ global glv
     [nn, ts, nts] = nnts(2, diff(imu(1:2,end)));
     ratio = 1; % 0.995;
     len = fix(length(imu)/nn)*nn;
-    if length(pos)>4 , pos=pos(4:6); 
+    if length(pos)>7, pos=pos(7:9);   % [att;vn;pos]
+    elseif length(pos)>4, pos=pos(4:6);   % [vn;pos]
     elseif length(pos)==1, pos=[pos;0;0]; end
     eth = earth(pos);  lat = pos(1);  g0 = -eth.gn(3);
     qib0b = [1; 0; 0; 0];
@@ -72,8 +74,8 @@ global glv
     attk(1:k0,:) = repmat(att0',k0,1);
     attkv(1:k0,:) = repmat(attkv(k0+1,:),k0,1);
     tk = imu(nn:nn:length(attk)*nn,end); attk(:,4) = tk; attkv(:,4) = tk;
-    res = varpack(lat, nts, vib0k, pib0k, fib0k, vi0k, pi0k, fi0k, attk, attkv, att0); 
-    att0 = attk(end,1:3)';
+    att = attk(end,1:3)';
+    res = varpack(lat, nts, vib0k, pib0k, fib0k, vi0k, pi0k, fi0k, attk, attkv, att0, att); 
     resdisp('Initial align attitudes (arcdeg)', att0/glv.deg);
     if isfig, ai0plot(attk, attkv); end
     

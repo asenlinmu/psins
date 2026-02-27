@@ -1,19 +1,20 @@
 function pos = poscu(strname)
-% Geographic position in common use.
+% Geographic position in common use / curren user.
 %
 % Prototype: pos = poscu(strname)
 % Input: strname=string name of institude NO.
 % Output: pos=[lat; lon; hgt]
 % 
-% See also  posset.
+% See also  posset, bdpoint.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 13/09/2024
     if isnumeric(strname)
         switch strname
-            case 16,  pos = llh();
+            case  16,  pos = llh(34.1767, 108.95115, 400);
             case 203,  pos = llh();
+            case 618,  pos = llh(34.1977, 108.8301, 400);
         end
     else
         switch upper(strname)

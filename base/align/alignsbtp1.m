@@ -15,7 +15,7 @@ function [att2, att1, eb, db, phi, dyaw] = alignsbtp1(imu, pos, T1T2, Y1Y2)
 %    [att, eb, db, phi] = alignsbtp1(imu1, glv.pos0, [130,170], 0);  eb/glv.dph, db/glv.ug, phi/glv.min
 %    insplot(att0, 'a'); plot(att0(end,1), att(3)/glv.deg, 'or');
 %
-% See also  alignsbtp, alignvn, aa2dkg, alignvntp.
+% See also  alignsbtp, alignvn, aa2dkg, alignvntp, alignpetp.
 
 % Copyright(c) 2009-2022, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

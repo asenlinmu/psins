@@ -625,6 +625,24 @@ void Demo_Extract_Txt_File(void)
 	fclose(fIn); fclose(fOut);
 }
 
+void Demo_Extract_Txt_File_bin(void)
+{
+	int txtclm=61, binclm[]={1,2,3,4,5,6,1000};  double data;
+	FILE *fIn =fopen("D:\\ygm2025\\16\\lyh\\4-Õý5¶È²âÊÔ\\¸ú×Ù\\10ms.dat","rt"), 
+		 *fOut=fopen("D:\\ygm2025\\16\\lyh\\4-Õý5¶È²âÊÔ\\¸ú×Ù\\10ms.bin","wb");
+	for(int i=0; i<10000*100; i++) {
+		for(int j=0, bcj=0; j<txtclm; j++) {
+			fscanf(fIn, "%lf", &data);
+			if(j==binclm[bcj]) {
+				fwrite(&data, sizeof(double), 1, fOut);  bcj++;
+			}
+		}
+		if(feof(fIn)) break;
+		if(i%10000) printf("%d\n", i/100);
+	}
+	fclose(fIn); fclose(fOut);
+}
+
 void Demo_operator_pointer_run_time(void)
 {
 	CVect3 v1=randn(O31)*0.001, v2=randn(O31), v, vv1,vv2;

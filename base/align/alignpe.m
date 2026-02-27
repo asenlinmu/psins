@@ -26,8 +26,8 @@ global glv
     if nargin<4,  i0t = 30;  end
     if nargin<3,  eU = 0;  end
     [nn, ts, nts] = nnts(2, diff(imu(1:2,end)));
-    [atti0, res] = aligni0(imu(1:fix(i0t/ts),:), pos, tmpfig);
-    att0 = res.att0;  eN=0;  dU=0;
+    [att, att0, res] = aligni0(imu(1:fix(i0t/ts),:), pos, tmpfig);
+    eN=0;  dU=0;
     nextlinestyle(-1);
     for iter=1:4
         av = inspure(imu, [att0;pos], 'O', tmpfig);

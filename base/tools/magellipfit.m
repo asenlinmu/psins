@@ -42,6 +42,7 @@ function [mag1, K, b, K1, b1, K0, b0, err] = magellipfit(mag0, isfig)
         myfig
         subplot(321), plot([mag0(:,1:3),normv(mag0(:,1:3))]), xygo('k', 'mag raw');
         subplot(323), plot([mag1,normv(mag1(:,1:3))]), xygo('k', 'mag scaled & fitted'); plot(mag,':');
+                      title(sprintf('K:%.4f,%.4f,%.4f;   b:%.1f,%.1f,%.1f',K(1,1),K(2,2),K(3,3),b(1),b(2),b(3)));
         subplot(325), plot(err); xygo('k', 'norm fitted error');
         subplot(3,2,[2,4,6])
         r=0.95; [x, y, z] = ellipsoid(0,0,0,r,r,r,20); 

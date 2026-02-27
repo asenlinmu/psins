@@ -10,7 +10,7 @@ function psinslog(varname, data, note)
 %          psinslog(data)  % log data only
 %          psinslog(varname, data)  % log varname & data
 %
-% See also  binfile.
+% See also  glvdata, binfile.
 
 % Copyright(c) 2009-2023, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

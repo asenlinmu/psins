@@ -4,7 +4,7 @@ function avp = inspure(imu, avp0, href, isfig)
 %
 % Prototype: avp = inspure(imu, avp0, href, isfig)
 % Inputs: imu - SIMU data array
-%         avp0 - initial parameters, avp0 = [att0,vn0,pos0]
+%         avp0 - initial parameters, avp0 = [att0,vn0,pos0], or see the code note
 %         href - reference height for altitude damping.
 %                If href is a char, then 
 %                   'v' - velocity fix-damping, =vn0
@@ -32,11 +32,13 @@ function avp = inspure(imu, avp0, href, isfig)
 % 12/01/2013, 04/09/2014
 global glv
     [nn, ts, nts] = nnts(2, imu(:,end));
+    if avp0(1)>pi, aT=fix(avp0(1)/ts); pos=avp0(2:4);
+        avp0=[alignsb(imu(1:aT,:),pos);pos]; imu(1:aT,:)=[]; end % avp0=[alignT;pos]
     if abs(norm(avp0(1:4))-1)<1e-6, avp0(1:3)=q2att(avp0(1:4)); avp0(4)=[]; end % avp0=[qnb; ...]
     if length(avp0)<9, avp0=[avp0(1:3);zeros(3,1);avp0(4:end)]; end  % avp0=[att;pos]
     ins = insinit(avp0, ts);  vn0 = avp0(4:6); pos0 = avp0(7:9);
     if ~isempty(glv.dgn), ins.eth = attachdgn(ins.eth, glv.dgn); end
-    if nargin<3,  href = avp0(9);  end
+    if nargin<3,  href = 'H';  end
     vp_fix = 'n';
 %     vp_fix = 'b';  % unsing baro height
     if length(href)==1

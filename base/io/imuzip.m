@@ -21,10 +21,11 @@ function [imu, ts, t0, bias, scale, mami_pos0] = imuzip(imu, sg, sa, ts, t0, pos
 %    [imu1, ts, t0, bias, scale, mm] = imuzip(imu0, 1/2, 1/2, 0.01, 1000, glv.pos0, 'imu.bin');
 %    [imu1, ts, t0, bias, scale, mm] = imuzip(imu0, 1/2, 1/2, [], [], 'imu.bin');
 %    [imu1, ts, t0, bias, scale, mm] = imuzip(imu0, 4, 1/8, [], 1000);
+%    save imu1.mat imu1;  load imu1.mat;
 %    [imu2, ts, t0, bias, scale, pos0] = imuzip(imu1);
 %    imuplot(adddt(imu0,t0-ts),imu2); plotn(cumsum(imu2-adddt(imu0,t0-ts)));
 %
-% See also  imufile, binfile.
+% See also  imufile, mat2binfile, binfile.
 
 % Copyright(c) 2009-2024, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -73,18 +74,23 @@ function [imu, ts, t0, bias, scale, mami_pos0] = imuzip(imu, sg, sa, ts, t0, pos
                 intstr = 'uint8';  i1(1) = 0;
                 imu=imu+8; imu=imu(1:2:end,:)*16+imu(2:2:end,:);
                 imu = [uint8([i1; i2; i3; i4; i5]+128); uint8(imu)];
-            else
+            else  % 1byte
                 imu = [int8([i1; i2; i3; i4; i5]); int8(imu)];
             end
         else
             intstr = 'int16';  i1(1) = 2*256;  % NOTE: byte_flag==1 for int8, ==2 for int16
-            imu = [[i1; i2; i3]; int16(imu)];
+            imu = [[i1; i2; i3; i4; i5]; int16(imu)];
         end
         if exist('fname','var'),
-        	fid=fopen(fname,'w'); fwrite(fid, imu', intstr); fclose(fid);
+            if strcmp(fname(end-3:end),'.mat')==1
+                save(fname, 'imu');
+            else
+                fid=fopen(fname,'w'); fwrite(fid, imu', intstr); fclose(fid);
+                % mat2intfile(fname, imu);
+            end
         end
         mami_pos0 = mami;
-    else % upzip
+    else % unzip
         % 1st row i1=[byte_flag, scale_gyro(arcsec), scale_acc(100ug), fs(0.001Hz,3bytes)]
         % 2st row i2=[t0(0.1ms,6bytes)]
         % 3nd row i3=[bias_gx, bias_gy, bias_gz,  bias_ax, bias_ay, bias_az]

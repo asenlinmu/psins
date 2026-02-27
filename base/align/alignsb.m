@@ -30,12 +30,13 @@ global glv
     eth = earth(pos);
     if norm(eth.wnie)<7.29e-06, eth.wnie=[0;1;0]; end
     [qnb, att] = dv2atti(eth.gn, eth.wnie, -fbsf, wbib);
+    dH = (-eth.gn(3)-norm(fbsf))/3.086e-6;  % 27/01/2025
     if nargin<2 && isfig
-        resdisp('Coarse align resusts (att,lat_estimated/arcdeg)', ...
-            [att; lat]/glv.deg);
+        resdisp('Coarse align resusts (att,lat_estimated/arcdeg,dH_est/m)', ...
+            [[att; lat]/glv.deg;dH]);
     elseif isfig
-        resdisp('Coarse align resusts (att,lat_estimated,lat_real/arcdeg)', ...
-            [att; lat; pos(1)]/glv.deg);
+        resdisp('Coarse align resusts (att,lat_estimated,lat_real/arcdeg,dH_est/m)', ...
+            [[att; lat; pos(1)]/glv.deg;dH]);
     end
     if nargout>1 && length(imu)>100  % 06/11/2021
         wvm = [cumsum(imu(:,1:6),1), imu(:,end)];

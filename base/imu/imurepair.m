@@ -6,7 +6,7 @@ function imu = imurepair(imu0, method)
 %         method - interpolation method, 'nearest', 'linear', ect
 % Output: imu - repaired new SIMU dada
 %
-% See also  imuresample, interp1.
+% See also  imuresample, imuzip, interp1.
 
 % Copyright(c) 2009-2015, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi'an, P.R.China

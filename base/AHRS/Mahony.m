@@ -9,14 +9,19 @@ global glv
     ki = timebar(1, length(imu)/nn, 'Mahony processing.');
     for k=1:nn:length(imu)-nn+1
         [phim, dvbm] = cnscl(imu(k:k+nn-1,1:6));
-        ahrs = MahonyUpdate(ahrs, [phim;dvbm]', 0, nts);
+        if size(imu,2)<9
+            ahrs = MahonyUpdate(ahrs, [phim;dvbm]', 0, nts);
+        else
+            mag = mean(imu(k:k+nn-1,7:9),1)';
+            ahrs = MahonyUpdate(ahrs, [phim;dvbm]', mag, nts);  % use mag
+        end
 %         attebfn(ki,:) = [m2att(ahrs.Cnb); ahrs.exyzInt; ahrs.Cnb*dvbm/nts+[0;0;-glv.g0]; imu(k+nn-1,end)]';
         attebfn(ki,:) = [m2att(ahrs.Cnb); ahrs.Cnb*phim/nts; ahrs.Cnb*dvbm/nts+[0;0;-glv.g0]; imu(k+nn-1,end)]';
         ki = timebar;
     end
     attebfn(ki:end,:) = [];  t = attebfn(:,end);
 	myfig;
-    for k=1:3, attebfn(:,k) = angle2c(attebfn(:,k));  end
+    % for k=1:3, attebfn(:,k) = angle2c(attebfn(:,k));  end
 	subplot(221), plot(t, attebfn(:,1:2)/glv.deg), xygo('pr');
 	subplot(223), plot(t, attebfn(:,3)/glv.deg), xygo('y');
 % 	subplot(222), plot(t, attebfn(:,4:6)/glv.dph), xygo('eb');

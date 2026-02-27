@@ -1,7 +1,7 @@
 function [sigma, tau] = tavar(y0, tau0)
 % Calculate total Allan variance.
 %
-% Prototype: [sigma, tau] = oavar(y0, tau0)
+% Prototype: [sigma, tau] = tavar(y0, tau0)
 % Inputs: y0 - data 
 %         tau0 - sampling interval
 % Outputs: sigma - Allan variance
