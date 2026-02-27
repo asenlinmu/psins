@@ -22,7 +22,7 @@ function [att0, attk, xkpk] = alignvn(imu, qnb, pos, phi0, imuerr, wvn, ts)
 %	wvn = [0.01; 0.01; 0.01];
 %	[att0, attk, xkpk] = alignvn(imu, avp0(1:3)', avp0(7:9)', phi, imuerr, wvn);
 %
-% See also  alignfn, aligncmps, aligni0, alignWahba, alignsb, insupdate, etm.
+% See also  alignfn, alignfn9, aligncmps, aligni0, alignWahba, alignsb, insupdate, etm.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

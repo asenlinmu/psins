@@ -22,7 +22,7 @@ function [kgps, dt] = imugpssyn(k0, k1, ForB)
 %       ForB='f' for re-setting from the first one,
 %       ForB='b' for re-setting from the last one. 
 %
-% See also  insupdate, kfupdate, POSProcessing.
+% See also  insupdate, kfupdate, POSProcessing, combinedata, combinet.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

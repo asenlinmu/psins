@@ -41,8 +41,10 @@ global glv
             dphim = cros(cm,wm(n,:));
         elseif coneoptimal==1 % else: using polynomial fitting coning compensation method
             dphim = conepolyn(wm);
-        else
+        elseif coneoptimal==2
             dphim = coneuncomp(wm);
+        elseif coneoptimal==3
+            dphim = conehighorder(wm);
         end
 	end
     phim = (wmm+dphim)';  dvbm = [0; 0; 0];

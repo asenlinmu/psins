@@ -1,4 +1,4 @@
-function [Ft,Hk] = nzFtHk(n)
+function [Ft,Hk,Pk] = nzFtHk(n)
 % Generate nonzero elements in Ft (SINS Error Transition Matrix).
 %
 % Prototype: [Ft,Hk] = nzFtHk(n)
@@ -9,7 +9,8 @@ function [Ft,Hk] = nzFtHk(n)
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
-% 21/02/2015
+% 21/02/2015, 13/01/2019
+global glv
     ins = insinit(a2qua([.1;.2;21]*pi/180), [1;2;1], posset(34,110,380), 0.01);
     ins.tauG=[10;20;30]; ins.tauA=[100;200;300];
     ins = insupdate(ins, [[111,222,333]*pi/180, [3,4,9.8]]*0.01);
@@ -40,4 +41,17 @@ function [Ft,Hk] = nzFtHk(n)
         Hk(1:3,16:19) = [-ins.CW, -ins.an];
         Hk(4:6,16:19) = [-ins.MpvCnb, -ins.Mpvvn];
     end
+    
+    [m, n] = size(Hk);
+    Phik = eye(n)+Ft;
+    Pk = diag([[1;1;1]*glv.deg; [1;1;1]; [10;10]/glv.Re;10; [0.1;0.1;0.1]*glv.dph; [1;1;1]*glv.mg]);
+    Qk = Pk;
+    Rk = diag([[1;1;1]; [10;10]/glv.Re;10]);
+%     Pk = diag(abs(randn(n,1))); Qk = diag(abs(randn(n,1))); Rk = diag(abs(randn(m,1)));
+    for k=1:5
+        Pk =  Phik*Pk*Phik' + Qk;
+        Kk = Pk*Hk'*inv(Hk*Pk*Hk' + Rk);
+        Pk = (eye(n)-Kk*Hk)*Pk;
+    end
+    surfpk(Pk);
 

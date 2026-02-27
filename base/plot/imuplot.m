@@ -24,7 +24,7 @@ global glv
         t = t-t0;
     end
     if norm(mean(imu(:,4:6)))<9.8/2   % if it's velocity increment
-        imu(:,1:6)=imu(:,1:6)/(t(2)-t(1));
+        imu(:,1:6)=imu(:,1:6)/mean(diff(t));
     end
     myfigure,
     if type==1

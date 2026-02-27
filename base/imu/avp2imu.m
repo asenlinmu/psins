@@ -1,12 +1,12 @@
 function [imu, avp0] = avp2imu(avp)
-% Simulate SIMU sensor outputs from attitude, velocity & position.
+% Simulate SIMU sensor outputs from attitude, velocity & position profile.
 %
 % Prototype: [imu, avp0] = avp2imu(avp)
 % Input: avp = [att,vn,pos,t]
 % Outputs: imu = [wm,vm,t]
 %          avp0 = init [att,vn,pos]
 %
-% See also  ap2avp, trajsimu, insupdate.
+% See also  ap2avp, ap2imu, trajsimu, insupdate.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

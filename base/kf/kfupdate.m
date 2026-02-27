@@ -17,9 +17,9 @@ function kf = kfupdate(kf, yk, TimeMeasBoth)
 %    (2) If kf.adaptive=1, then use Sage-Husa adaptive method (but only for 
 %    measurement noise 'Rk'). The 'Rk' adaptive formula is:
 %      Rk = b*Rk_1 + (1-b)*(rk*rk'-Hk*Pxkk_1*Hk')
-%    where  minimum constrain 'Rmin' and maximum constrain 'Rmax' are
+%    where minimum constrain 'Rmin' and maximum constrain 'Rmax' are
 %    considered to avoid divergence.
-%    (3) If kf.fading>1, the use fading memory filtering method.
+%    (3) If kf.fading>1, then use fading memory filtering method.
 %    (4) Using Pmax&Pmin to constrain Pxk, such that Pmin<=diag(Pxk)<=Pmax.
 %
 % See also  kfinit, kfupdatesq, kffk, kfhk, kfc2d, kffeedback, kfplot, RLS, ekf, ukf.

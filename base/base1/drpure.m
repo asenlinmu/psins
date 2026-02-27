@@ -18,6 +18,7 @@ function avp = drpure(imuod, avp0, inst, kod)
     if nargin<4, kod = 1; end
     if nargin<3, inst = [0;0;0]; end
     [nn, ts] = nnts(2, diff(imuod(1:2,end)));
+    if length(avp0)<9, avp0=[avp0(1:3);zeros(3,1);avp0(4:end)]; end
     dr = drinit(avp0, inst, kod, ts);
     len = size(imuod,1);
     avp = zeros(fix(len/nn), 10);

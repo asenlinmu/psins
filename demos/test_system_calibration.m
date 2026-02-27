@@ -35,7 +35,9 @@ avp = [att(:,1:3),zeros(len,3),repmat(pos0',len,1),att(:,4)];
 imu = avp2imu(avp);
 imuplot(imu,1);
 % systematic calibration
-ierr = imuerrset(0.01,100,0.00,0, 0,0,0,0, 10,10,10,10);
-imu1 = imuadderr(imu, ierr);
+imu1 = imuclbt(imu);
 [clbt, av] = sysclbt(imu1, pos0);
+clbtfile(clbt);
+% clbtfile(clbt, 'clbt19.bin');
+% binfile('imu19.bin', [imu1,imu1(:,end)]);
 

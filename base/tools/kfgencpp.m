@@ -1,5 +1,6 @@
 function kfgencpp(classname, Ft, Hk)
 % 快速滤波计算法：根据矩阵Ft和Hk的非零元素直接展开，生成C++语言程序，参见我的文章:
+%   https://wenku.baidu.com/view/57d620efe009581b6bd9eb92.html，车载SINS/GPS组合卡尔曼滤波快速计算方法
 %   "A rapid computation method for Kalman filtering in vehicular SINS/GPS integrated system"
 % 滤波模型：dXt/dt = Ft*Xt+Qt, Zk = Hk*Xk+Rk
 %   Ft--连续时间系统的一步转移矩阵, Hk--量测矩阵, Qt--系统噪声（要求对角阵）, Rk--量测噪声（要求对角阵）

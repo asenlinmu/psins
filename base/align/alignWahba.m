@@ -19,14 +19,16 @@ global glv
 	eth = earth(pos);   g0 = -eth.gn(3);
     qib0b = [1; 0; 0; 0];
     [vib0, vi0] = setvals(zeros(3,1));
-    K = zeros(4);
-    attk = zeros(len/nn, 3);
+    K = zeros(4); A = zeros(3); Af = zeros(3);
+    attk = zeros(len/nn, 3); cndA = attk(:,1:3);
     ki = timebar(nn, len, 'Initial align using i0 & Wahba method.');
     for k=1:nn:len-nn+1
         wvm = imu(k:k+nn-1, 1:6);  kts = (k+nn-1)*ts;
         [phim, dvbm] = cnscl(wvm);
-        vib0 = 0*vib0 + qmulv(qib0b, dvbm);
-        vi0 = 0*vi0 + [eth.cl*cos(kts*glv.wie); eth.cl*sin(kts*glv.wie); eth.sl]*g0*nts;
+        vib0 = 1*vib0 + qmulv(qib0b, dvbm);
+        vi0 = 1*vi0 + [eth.cl*cos(kts*glv.wie); eth.cl*sin(kts*glv.wie); eth.sl]*g0*nts;
+        A = A + vib0*vi0';
+% Af = Af + qmulv(qib0b, dvbm)*[eth.cl*cos(kts*glv.wie); eth.cl*sin(kts*glv.wie); eth.sl]'*g0*nts;
         qib0b = qupdt(qib0b, phim);
         dM = rq2m([0;vib0])-lq2m([0;vi0]);
         K = 0.99991*K + dM'*dM*nts;
@@ -34,8 +36,10 @@ global glv
         Cni0 = pos2cen([pos(1); kts*glv.wie; 0])'; qni0 = m2qua(Cni0);
         qnb = qmul(qmul(qni0,qi0ib0),qib0b);
         attk(ki,:) = q2att(qnb)';
+% cndA(ki,:) = [cond(A),cond(Af), kts];
         ki = timebar;
     end
     att0 = attk(end,:)';
     resdisp('Initial align attitudes (arcdeg)', att0/glv.deg);
     insplot([attk, (1:length(attk))'*nts]);
+%     figure, semilogy(cndA(:,end), cndA(:,1:end-1)); xygo('cond(A)');

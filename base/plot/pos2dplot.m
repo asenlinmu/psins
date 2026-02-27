@@ -19,7 +19,7 @@ function xyz = pos2dplot(pos0, varargin)
     plot(xyz(:,1), xyz(:,2))
     if nargin>1 xy1 = xyz; xyz = []; xyz{1} = xy1; end
     if nargin>1
-        clr = 'rgmycb';
+        clr = 'rmycgb';
         for k=1:length(varargin)
             pos0 = varargin{k};
             xyz{k+1} = [(pos0(:,2)-lon0)*eth.RMh, (pos0(:,1)-lat0)*eth.clRNh, pos0(:,3:4)];

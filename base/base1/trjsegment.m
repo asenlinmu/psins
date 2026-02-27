@@ -6,8 +6,8 @@ function seg = trjsegment(seg, segtype, lasting, w, a, var1)
 %         segtype - trjsegment type
 %         lasting - segment lasting time
 %         w - trajectory angular rate (NOTE: in deg/sec!)
-%         a - trajectory acceleration
-%         var1 - augmented input, see code in detail
+%         a - trajectory acceleration in m/ss
+%         var1 - augmented input, see the following code in detail
 % Output: seg - new trjsegment structure array
 %          
 % See also  trjsimu, insupdate.

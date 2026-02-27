@@ -1,4 +1,4 @@
-function [x, p] = fusion(x1, p1, x2, p2)
+function [x, p] = fusion(x1, p1, x2, p2, isatt)
 % Data fusion.
 %
 % Prototype: [x, p] = fusion(x1, p1, x2, p2)
@@ -13,7 +13,7 @@ function [x, p] = fusion(x1, p1, x2, p2)
 %     x = ( p2.*x1 + p1.*x2 )./(p1+p2)
 %     p = p1.*p2./(p1+p2)
 %
-% See also  kfupdate, POSFusion.
+% See also  attfusion, kfupdate, POSFusion.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -26,4 +26,9 @@ function [x, p] = fusion(x1, p1, x2, p2)
         p = p1+p2;
         x = ( p2.*x1 + p1.*x2 )./p;
         p = p1.*p2./p;
+    end
+    if nargin<5, isatt=0; end
+    if isatt==1
+        att = attfusion(x1(:,1:3), p1(:,1:3), x2(:,1:3), p2(:,1:3));
+        x(:,1:3) = att;
     end

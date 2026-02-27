@@ -1,8 +1,9 @@
-function att = Mahony(imu, att0)
+function att = Mahony(imu, att0, tau)
 % See also  MahonyInit, MahonyUpdate, inspure.
     if ~exist('att0', 'var'), att0 = zeros(3,1); end
+    if ~exist('tau', 'var'), tau = 0; end
     ts = diff(imu(1:2,end));
-    ahrs = MahonyInit(0, att0);
+    ahrs = MahonyInit(tau, att0);
     att = imu(:,4:end);
     ki = timebar(1, length(imu)/2, 'Mahony processing.');
     for k=1:2:length(imu)-1

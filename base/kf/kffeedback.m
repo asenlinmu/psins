@@ -6,7 +6,7 @@ function [kf, ins] = kffeedback(kf, ins, T_fb, fbstring)
 %         ins - SINS structure array
 %         T_fb - feedback time interval
 %         fbstring - feedback tag string
-% Outputs: kf, ins - Kalman filter % SINS structure array after feedback
+% Outputs: kf, ins - Kalman filter & SINS structure array after feedback
 %
 % See also  kfinit, kffk, kftypedef.
 

@@ -1,7 +1,7 @@
-function stateplot(state)
+function sstate = stateplot(state)
 % Runing-state plot.
 %
-% Prototype: stateplot(state)
+% Prototype: sstate = stateplot(state)
 % Input: state - runing state
 %          
 % See also  imuplot, insplot, inserrplot, kfplot, gpsplot.
@@ -18,5 +18,5 @@ function stateplot(state)
         mtmp = max(tmp);
         if mtmp>0, sstate = [sstate, tmp/mtmp*(k+1)]; end
     end
-    figure, plot(t, sstate, '*');  xygo('Running-state');
+    myfigure, plot(t, sstate, '*');  xygo('Running-state');
 

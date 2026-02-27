@@ -36,18 +36,7 @@ function psf = POSFusion(rf, xpf, rr, xpr, ratio)
     	r10(k,1:3) = q2att(qdelphi(a2qua(r1(k,1:3)'),x1(k,1:3)'))';
     	r20(k,1:3) = q2att(qdelphi(a2qua(r2(k,1:3)'),x2(k,1:3)'))';
     end
-    r(:,1:3) = attfusion(r10(:,1:3), r20(:,1:3), p1(:,1:3), p2(:,1:3));
+    r(:,1:3) = attfusion(r10(:,1:3), p1(:,1:3), r20(:,1:3), p2(:,1:3));
     rf = [r,t]; r1 = [r10,t]; r2 = [r20,t];
     pf = [p,t]; p1 = [p1,t];  p2 = [p2,t];
     psf = varpack(rf, pf, r1, p1, r2, p2);
-
-    
-function att = attfusion(att1, att2, p1, p2)
-    att = att1;
-	for k=1:size(att1, 1)
-    	pf = p1(k,:)./(p1(k,:)+p2(k,:));
-    	q1k = a2qua(att1(k,:)');
-    	phi = qq2phi(a2qua(att2(k,:)'), q1k);
-        att(k,:) = q2att( qaddphi(q1k,phi.*pf') );
-	end
-    

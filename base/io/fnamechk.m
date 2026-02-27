@@ -15,6 +15,10 @@ global glv
     if isempty(strfind(fname, '.'))
         fname = [fname, '.', ext]; 
     end
-    if ~exist(fname, 'file') && (isempty(find(fname,'\')) || isempty(find(fname,'/')))
+    if ~isempty(strfind(fname,'\')) || ~isempty(strfind(fname,'/'))
+        return;
+    end
+%     if ~exist(fname, 'file') && (isempty(strfind(fname,'\')) || isempty(strfind(fname,'/')))
+    if ~exist(fname, 'file')
         fname = [glv.datapath, fname];
     end

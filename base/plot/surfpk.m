@@ -15,10 +15,12 @@ function sd = surfpk(pk)
     d1 = diag(1./sd);
     myfigure;
     subplot(2,3,[1,2, 4,5]);
-    surf(d1*pk*d1); xlabel('i'); ylabel('j'); xlim([1,len]); ylim([1,len]);
+    pk1 = d1*pk*d1; pk1(end+1,end+1) = pk1(end,end);
+    pk1(end,1:end-1) = pk1(end-1,1:end-1); pk1(1:end-1,end) = pk1(1:end-1,end-1);
+    surf(pk1); xlabel('i'); ylabel('j'); xlim([1,len+1]); ylim([1,len+1]);
     subplot(2,3,[3,6]);
     if len>=15
         s = [[1;1;1]*glv.min; [1;1;1]; [1;1]/glv.Re;1; [1;1;1]*glv.dph; [1;1;1]*glv.ug];
         sd(1:15) = sd(1:15)./s;
     end
-    semilogx(sd+eps, -(1:len), '-.o'); grid on; ylim([-len,-1]); xlabel('sqrt(P(i,i))'); ylabel('-i');
+    semilogx(sd+eps, -(1:len), '-.o'); grid on; ylim([-len-1,-1]); xlabel('sqrt(P(i,i))'); ylabel('-i');

@@ -6,7 +6,7 @@ function [avp, xkpk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, lever, r0, 
 % %% kf
 % lever = [0;0;0];
 % rk = [10/glv.Re;10/glv.Re;30];
-% [avp1, xkpk, ins, kf] = sinsgps(imu, gps, ins, davp, imuerr, lever, rk, 'avp');
+% [avp1, xkpk, ins1, kf] = sinsgps(imu, gps, ins, davp, imuerr, lever, rk, 'avp');
 global glv
     if ~exist('fbstr', 'var'), fbstr='avp'; end
     [nn, ts, nts] = nnts(2, diff(imu(1:2,end)));

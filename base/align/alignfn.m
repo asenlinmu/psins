@@ -11,7 +11,7 @@ function [att0, attk, xkpk] = alignfn(imu, qnb, pos, phi0, imuerr, ts)
 %         ts - IMU sampling interval
 % Output: att0 - attitude align result
 %
-% See also  alignvn, aligncmps, aligni0, alignWahba, alignsb.
+% See also  alignfn9, alignvn, aligncmps, aligni0, alignWahba, alignsb.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -23,7 +23,7 @@ global glv
     len = fix(length(imu)/nn)*nn;
     eth = earth(pos);  Cnn = rv2m(-eth.wnie*nts/2);
     kf = afnkfinit(nts, pos, phi0, imuerr); 
-    [attk, xkpk] = prealloc(fix(len/nn), 3, 2*kf.n);
+    [attk, xkpk] = prealloc(fix(len/nn), 4, 2*kf.n);
     ki = timebar(nn, len, 'Initial align using fn as meas.');
     for k=1:nn:len-nn+1
         wvm = imu(k:k+nn-1, 1:6);
@@ -32,7 +32,7 @@ global glv
         qnb = qupdt(qnb, phim-qmulv(qconj(qnb),eth.wnie)*nts);  % att updating
         kf = kfupdate(kf, fn(1:2));
         qnb = qdelphi(qnb, 0.1*kf.xk(1:3)); kf.xk(1:3) = 0.9*kf.xk(1:3); % feedback
-        attk(ki,:) = q2att(qnb)';
+        attk(ki,:) = [q2att(qnb)',imu(k+nn-1,end)];
         xkpk(ki,:) = [kf.xk; diag(kf.Pxk)];
         ki = timebar;
     end

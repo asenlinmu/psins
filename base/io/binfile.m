@@ -11,7 +11,7 @@ function data1 = binfile(fname, data, row0, row1)
 %    Save: binfile(fname, data)
 %    Read: data1 = binfile(fname, column)
 
-% See also  imufile, avpfile.
+% See also  imufile, avpfile, matbinfile.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

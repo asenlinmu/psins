@@ -9,7 +9,7 @@ function dr = drinit(avp0, inst, kod, ts)
 %         ts - SIMU % odometer sampling interval
 % Output: dr - DR structure array
 %
-% See also  drupdate, drcalibrate, insinit.
+% See also  drupdate, drpure, drcalibrate, insinit.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -25,6 +25,6 @@ function dr = drinit(avp0, inst, kod, ts)
 	dr.prj = dr.Cbo*[0;1;0]; % from OD to SIMU
 	dr.ts = ts;
 	dr.distance = 0;
-	dr.eth = earth(dr.pos);
+	dr.eth = earth(dr.pos); dr.web = [0;0;0];
     dr.Mpv = [0, 1/dr.eth.RMh, 0; 1/dr.eth.clRNh, 0, 0; 0, 0, 1];
 

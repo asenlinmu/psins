@@ -1,7 +1,7 @@
-function val = gett(array, tk, mth)
+function val = getat(array, tk, mth)
 % Get value at tk from array.
 %
-% Prototype: val = gett(array, tk, mth)
+% Prototype: val = getat(array, tk, mth)
 %
 % See also  combinet, datacut.
 

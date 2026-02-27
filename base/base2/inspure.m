@@ -22,6 +22,7 @@ function avp = inspure(imu, avp0, href)
 % 12/01/2013, 04/09/2014
 global glv
     [nn, ts, nts] = nnts(2, imu(2,end)-imu(1,end));
+    if length(avp0)<9, avp0=[avp0(1:3);zeros(3,1);avp0(4:end)]; end  % avp0=[att;pos]
     ins = insinit(avp0, ts);  vn0 = avp0(4:6); pos0 = avp0(7:9);
     if nargin<3,  href = avp0(9);  end
     vp_fix = 'n';

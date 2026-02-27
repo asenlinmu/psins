@@ -10,7 +10,7 @@ function  [i1, i2, dt] = combinet(t1, t2)
 %   1. [i1, i2, dt] = combinet((1:10)', [-1;2;5.6]);
 %   2. [i1, i2, dt] = combinet(imu(:,end)-gps(1,end), gps(:,end)-gps(1,end));
 %
-% See also  gett, datacut.
+% See also  combinedata, timeunion, imugpssyn, gett, datacut.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

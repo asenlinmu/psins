@@ -17,6 +17,7 @@ function h = myfigure(namestr)
         namestr = 'PSINS Toolbox';
     end
     h0 = figure('OuterPosition',scrsz, 'Name',namestr, 'Color','White');
+    % set(gcf, 'Color','White');
     if nargout==1
         h = h0;
     end

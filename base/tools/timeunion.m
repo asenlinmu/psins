@@ -2,9 +2,11 @@ function [i1, i2] = timeunion(t1, t2)
 % Extract data index sharing the same sampling time interval, according to 
 % time tags t1 & t2.
 %
-% Prototype: [i1, i2] = datacut(t1, t2)
+% Prototype: [i1, i2] = timeunion(t1, t2)
 % Inputs: t1, t2 - input sampling time index arrays
 % Outputs: i1, i2 - output index sharing the same sampling time interval
+%
+% See also  combinedata, imugpssyn, gett, datacut.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -15,6 +15,8 @@ function pos2gpx(fname, pos)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 10/08/2011, 14/03/2014
     % fname = fnamechk(fname, 'gpx');
+    if size(pos,2)>9, pos = pos(:,7:9);  % avp
+    elseif size(pos,2)>6, pos = pos(:,4:6); end  % vp
     pos = [r2d(pos(:,1:2)), pos(:,3)];
     t = (1:length(pos))';
     t = datestr(datenum(2014,3,14,0,0,t),13);

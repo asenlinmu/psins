@@ -56,12 +56,13 @@ function stext = labeldef(stext)
         'eb',    '\it\epsilon\rm / ( (\circ)/h )';
         'en',    '\it\epsilon\rm / ( (\circ)/h )';
         'db',    '\it\nabla\rm / \mu\itg';
+        'Ka2',   'Ka2 / ug/g^2';
         'dbU',   '\it\nabla \rm_U / \mu\itg';
         'L',     '\itLever\rm / m';
         'dT',    '\delta\it T_{asyn}\rm / s';
         'dKg',   '\delta\it Kg\rm / ppm';
         'dAg',   '\delta\it Ag\rm / ( \prime\prime )';
-        'dKa',   '\delta\it Ka\rm / /ppm';
+        'dKa',   '\delta\it Ka\rm / ppm';
         'dAa',   '\delta\it Aa\rm / ( \prime\prime )';
 		'wx',    '\it\omega_x\rm / ( (\circ)/s )';
 		'wy',    '\it\omega_y\rm / ( (\circ)/s )';
