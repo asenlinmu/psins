@@ -27,10 +27,10 @@ global glv
     end
     myfig;
    	subplot(221), plot(imu(:,end), imu(:,1:3));  xygo('\it\omega / \rm(\circ)/h');
-    title(['Mean: ', sprintf('%.3f; ',m(1:3)), ' \circ/h']);
+    title(['Mean: ', sprintf('%.3f; ',[m(1:3),norm(m(1:3))]), ' \circ/h']);
    	subplot(223), loglog(tau(:,1), sigma(:,1:3));  xygo('\it\tau \rm/ s', '\it\sigma_A\rm( \tau ) /\rm (\circ)/h');
    	subplot(222), plot(imu(:,end), imu(:,4:6));  xygo('\itf ^b / \rmmg');
-    title(['Mean: ', sprintf('%.3f; ',m(4:6)),' mg']);
+    title(['Mean: ', sprintf('%.3f; ',[m(4:6),norm(m(4:6))]),' mg']);
    	subplot(224), loglog(tau(:,1), sigma(:,4:6));  xygo('\it\tau \rm/ s', '\it\sigma_A\rm( \tau ) /\rm mg');
     
 

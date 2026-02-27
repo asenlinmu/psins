@@ -48,6 +48,7 @@ global glv
     glv.dphpsh = glv.dph/sqrt(glv.hur); % (arcdeg/hour) / sqrt(hour)
     glv.dph2 = glv.dph/glv.hur;    % (arcdeg/hour) / hour
     glv.secpg = glv.sec/glv.g0;    % arcsec / g
+    glv.secpdps2 = glv.sec/(glv.deg/1^2);    % arcsec / (deg/s^2)
     glv.secprps2 = glv.sec/(1/1^2);    % arcsec / (rad/s^2)
     glv.Hz = 1/1;                   % Hertz
     glv.dphpsHz = glv.dph/glv.Hz;   % (arcdeg/hour) / sqrt(Hz)
@@ -75,7 +76,8 @@ global glv
     glv.v0 = [0;0;0];    % 3x1 zero-vector
     glv.qI = [1;0;0;0];  % identity quaternion
     glv.I33 = eye(3); glv.o33 = zeros(3);  % identity & zero 3x3 matrices
-    glv.pos0 = [34.246048*glv.deg; 108.909664*glv.deg; 380]; % position of INS Lab@NWPU
+%   glv.pos0 = [34.246048*glv.deg; 108.909664*glv.deg; 380]; % position of INS Lab@NWPU old
+    glv.pos0 = [34.034310*glv.deg; 108.775427*glv.deg; 450];
     glv.eth = []; glv.eth = earth(glv.pos0);
     glv.t0 = 0;
     glv.tscale = 1;  % =1 for second, =60 for minute, =3600 for hour, =24*3600 for day

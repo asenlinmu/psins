@@ -44,6 +44,9 @@ function stext = labeldef(stext)
         'r',     '\it\gamma\rm / ( \circ )';
         'y',     '\it\psi\rm / ( \circ )';
         'att',   '\itAtt\rm / ( \circ )';
+        'dpch'   '\delta\it\theta \rm / ( \prime )';
+        'drll'   '\delta\it\gamma \rm / ( \prime )';
+        'dyaw'   '\delta\it\psi \rm / ( \prime )';
         'datt',  '\itdAtt\rm / ( \prime )';
         'VEN',   '\itV \rm_{E,N} / ( m/s )';
         'VE',   '\itV \rm_E / ( m/s )';

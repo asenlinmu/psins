@@ -7,7 +7,7 @@ function lost = imuplot(imu, type, t0)
 %         t0 - plot time t0 as 0
 % Output: lost - lost index      
 %          
-% See also  imumeanplot, imutplot, cumangplot, insplot, inserrplot, kfplot, gpsplot, odplot, magplot, igsplot, ttest.
+% See also  imumeanplot, imutplot, cumangplot, insplot, inserrplot, kfplot, gpsplot, odplot, imuodplot, magplot, igsplot, ttest.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -1,4 +1,4 @@
-function dr = drinit(avp0, inst, kod, ts)
+function dr = drinit(avp0, inst, kod, ts, Td)
 % Dead Reckoning(DR) structure array initialization.
 %
 % Prototype: dr = drinit(avp0, inst, ts)
@@ -8,6 +8,7 @@ function dr = drinit(avp0, inst, kod, ts)
 %            aos is Angle Of Slide coefficient
 %         kod - odometer scale factor in meter/pulse.
 %         ts - SIMU % odometer sampling interval
+%         Td - leveling time constant
 % Output: dr - DR structure array
 %
 % See also  drupdate, drpure, drcalibrate, insinit.
@@ -29,4 +30,12 @@ function dr = drinit(avp0, inst, kod, ts)
 	dr.distance = 0;
 	dr.eth = earth(dr.pos); dr.web = [0;0;0];
     dr.Mpv = [0, 1/dr.eth.RMh, 0; 1/dr.eth.clRNh, 0, 0; 0, 0, 1];
-
+    if nargin<5, Td=0; end
+    dr.Td = Td;
+    if Td>0  % for leveling
+        xi=0.707; xi2=xi*xi; ws2=9.8/6738160; sigma=2*pi*xi/(Td*sqrt(1.0-xi2)); sigma2=sigma*sigma;
+        dr.gck(1) = 3.0*sigma; 
+        dr.gck(2) = sigma2*(2.0+1.0/xi2)/ws2-1.0; 
+        dr.gck(3) = sigma2*sigma/(9.8*xi2);
+        dr.wnc = zeros(3,1); dr.vni = zeros(3,1); dr.dpos = zeros(3,1);
+    end

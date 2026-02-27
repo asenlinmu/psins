@@ -428,6 +428,7 @@ CVect3 sv2att(const CVect3 &fb, double yaw0=0.0, const CVect3 &fn=I31Z);  // lev
 CVect3 dv2att(const CVect3 &va1, const CVect3 &va2, const CVect3 &vb1, const CVect3 &vb2);  // attitude determination using double-vector
 CVect3 mv2att(int n, const CVect3 *vai, const CVect3 *vbi, ...);  // attitude determination using multiple-vector
 CVect3 vn2att(const CVect3 &vn);  // trans ENU velocity to attitude (pitch & yaw)
+CVect3 atss(CVect3 &att, CVect3 &vn);  // angles of attack & sideslip
 CVect3 Alignsb(const CVect3 &wmm, const CVect3 &vmm, double latitude);  // align in static-base
 CVect3 Alignsb(const CVect3 &wmm, const CVect3 &vmm, const CVect3 &pos);
 double MagYaw(const CVect3 &mag, const CVect3 &att, double declination=0.0);
@@ -907,6 +908,7 @@ public:
 	void Extrap(double extts);			// SINS fast extrapolation using previous Gyro&Acc sample
 	void lever(const CVect3 &dL=O31, CVect3 *ppos=NULL, CVect3* pvn=NULL);		// lever arm
 	void lever2(const CVect3 &dL, CVect3 *ppos, CVect3 *pvn=NULL, const CVect3 *ppos0=NULL, const CVect3 *pvn0=NULL);
+	void atss(double *attack, double *sideslip);  // angles of attack & sideslip
 	void etm(void);							// SINS error transform matrix coefficients
 	void AddErr(const CVect3 &phi, const CVect3 &dvn=O31, const CVect3 &dpos=O31);
 	void AddErr(double phiU, const CVect3 &dvn=O31, const CVect3 &dpos=O31);

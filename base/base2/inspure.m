@@ -19,7 +19,7 @@ function avp = inspure(imu, avp0, href, isfig)
 %         isfig - figure on/off flag
 % Output: avp - navigation results, avp = [att,vn,pos,t]
 %
-% See also  insinstant, attpure, trjsimu, insupdate, drpure, nhcpure.
+% See also  insinstant, attpure, trjsimu, insupdate, drpure, nhcpure, insopenav.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

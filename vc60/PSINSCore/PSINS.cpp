@@ -932,6 +932,14 @@ CVect3 vn2att(const CVect3 &vn)
     return CVect3(atan2(vn.k, vel), 0, atan2(-vn.i, vn.j));
 }
 
+CVect3 atss(CVect3 &att, CVect3 &vn)
+{
+	CVect3 att1 = vn2att(vn);
+	CVect3 as(att1.i-att.i, 0.0, att1.k-att.k);
+	if(as.k>PI) as.k-=_2PI; else if(as.k<-PI) as.k+=_2PI;
+	return as;
+}
+
 CMat3 operator-(const CMat3 &m)
 {
 	return CMat3(-m.e00,-m.e01,-m.e02,-m.e10,-m.e11,-m.e12,-m.e20,-m.e21,-m.e22);
@@ -5383,6 +5391,12 @@ void CSINS::lever2(const CVect3 &dL, CVect3 *ppos, CVect3 *pvn, const CVect3 *pp
 	CW = Cnb*askew(web), MpvCnb = Mpv*Cnb;
 	if(ppos!=NULL)  *ppos = *ppos0 + MpvCnb*lvr;
 	if(pvn!=NULL)  *pvn = *pvn0 + CW*lvr;
+}
+
+void CSINS::atss(double *attack, double *sideslip)
+{
+	CVect3 as=::atss(att, vn);
+	*attack = as.i,  *sideslip = as.k;
 }
 
 void CSINS::etm(void)

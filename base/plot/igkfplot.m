@@ -38,6 +38,20 @@ global glv
                     subplot(224), plot(t, [sqrt(rk(:,4:5))*glv.Re,sqrt(rk(:,6))]); xygo('dP');
                 end
             end
+            if nr==7  % CSINSGNSS(15,7)
+                if type==0 || type ==1
+                    psinstypedef(156);  kfplot(xk,pk, 1:15);
+                end
+                if type==0 || type ==2  %     // Meas     0-5: SINS/GNSS-dvn,dpos
+                    myfig
+                    subplot(231), plot(t, zk(:,1:3)); xygo('dV');
+                    subplot(232), plot(t, [zk(:,4:5)*glv.Re,zk(:,6)]); xygo('dP');
+                    subplot(233), plot(t, zk(:,7)/glv.deg); xygo('dYaw / \circ');
+                    subplot(234), plot(t, sqrt(rk(:,1:3))); xygo('dV');
+                    subplot(235), plot(t, [sqrt(rk(:,4:5))*glv.Re,sqrt(rk(:,6))]); xygo('dP');
+                    subplot(236), plot(t, sqrt(rk(:,7))/glv.deg); xygo('dYaw / \circ');
+                end
+            end
         case 16,
             if nr==6  % CSINSGNSS(16,6)
                 if type==0 || type ==1
