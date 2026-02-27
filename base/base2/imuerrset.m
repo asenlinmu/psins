@@ -63,9 +63,9 @@ global glv
         imuerr.dKg = setdiag(imuerr.dKg, dKGii*glv.ppm);
     end
     if exist('dKAii', 'var')
-        imuerr.dKg = setdiag(imuerr.dKg, dKAii*glv.ppm);
+        imuerr.dKa = setdiag(imuerr.dKa, dKAii*glv.ppm);
     end
-    %% installation error
+    %% installation angle error
     if exist('dKGij', 'var')
         dKGij = ones(6,1).*dKGij*glv.sec;
         imuerr.dKg(2,1) = dKGij(1); imuerr.dKg(3,1) = dKGij(2); imuerr.dKg(3,2) = dKGij(3); 

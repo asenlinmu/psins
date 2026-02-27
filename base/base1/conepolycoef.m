@@ -21,7 +21,10 @@ function [coef, kij] = conepolycoef(nn, pp)
     for k=1:NN
         wmi = randn(3,NN);
         Wt = wmi*coef;  At = Wt./der;
-        dphi = polycros(1/2*At, Wt);  sz2 = size(dphi,2);
+        dphi = polycross(1/2*At, Wt);  sz2 = size(dphi,2);
+%         der1 = repmat(size([dphi,[0;0;0]],2):-1:1,3,1);
+%         U = [[dphi,[0;0;0]]./der1,[0;0;0]];
+%         E(3*k-2:3*k,1) = sum(U,2);
         for kk=sz2-1:-1:2
             E(3*k-2:3*k,1) = E(3*k-2:3*k,1) + dphi(:,kk)/(sz2-kk+2);
         end
@@ -34,8 +37,3 @@ function [coef, kij] = conepolycoef(nn, pp)
 %     disp([X, kij]);
 %     for k=1:size(ij,1),  a(ij(k,1),ij(k,2))=coef(k);  end
 %     disp(a);
-
-function c = polycros(a, b)
-    c = [ conv(a(2,:),b(3,:))-conv(a(3,:),b(2,:));
-    	  conv(a(3,:),b(1,:))-conv(a(1,:),b(3,:));
-          conv(a(1,:),b(2,:))-conv(a(2,:),b(1,:)) ];

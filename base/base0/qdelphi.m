@@ -1,6 +1,6 @@
 function qnb = qdelphi(qpb, phi)
 % Get the accurate quaternion from calculated quaternion and misalignment
-% angles. It can be Denoted as 'qnb = qpb - phi', where qpb is calculated 
+% angles. It can be denoted as 'qnb = qpb - phi', where qpb is calculated 
 % quaternion and phi is misalignment angles.
 %
 % Prototype: qnb = qdelphi(qpb, phi)

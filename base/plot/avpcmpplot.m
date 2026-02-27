@@ -97,7 +97,7 @@ global glv
             for k=1:kk
                 strk = str(k*2-1:k*2);
                 avp = varargin{k}; t = avp(:,end);
-                subplot(321), hold on, plot(t, avp(:,1:3)/glv.deg), xygo('att');
+                subplot(321), hold on, plot(t, avp(:,1:3)/glv.deg, strk, 'LineWidth',2), xygo('att');
                 subplot(323), hold on, plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)], strk, 'LineWidth',2); xygo('V');
                 subplot(325), hold on, plot(t, [[avp(:,7)-avp0(1,7),(avp(:,8)-avp0(1,8))*cos(avp0(1,7))]*glv.Re,avp(:,9)-avp0(1,9)], strk, 'LineWidth',2); xygo('DP');
                 err = avpcmp(avp, avp0, 'mu'); t = err(:,end);

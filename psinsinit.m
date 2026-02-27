@@ -43,5 +43,6 @@ fprintf(fid, '\tmytestflag = %d;\n', mytestflag);
 fclose(fid);
 clear pp rootpath datapath res fid mytestflag;
 glvs;
-disp('   *** PSINS Toolbox Initialization Done! ***');
+% disp('   *** PSINS Toolbox Initialization Done! ***');
+msgbox('PSINS Toolbox Initialization Done!','PSINS','modal')
 

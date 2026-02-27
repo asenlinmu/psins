@@ -1,5 +1,6 @@
 function kf = kfinit0(kf, nts)
 % Always called by kfinit and initialize the remaining fields of kf.
+% See also kfinit, kfupdate.
     kf.nts = nts;
     [kf.m, kf.n] = size(kf.Hk);
     kf.I = eye(kf.n);
@@ -18,6 +19,7 @@ function kf = kfinit0(kf, nts)
     end
     if ~isfield(kf, 'xtau'),  kf.xtau = ones(size(kf.xk))*eps;   end
     if ~isfield(kf, 'T_fb'),  kf.T_fb = 1;   end
+    if ~isfield(kf, 'Pmin'),  kf.pconstrain = 0;  end
     kf.xfb = zeros(kf.n, 1);
 %     kf.coef_fb = (1.0-exp(-kf.T_fb./kf.xtau));
 %     kf.coef_fb = ar1coefs(kf.T_fb, kf.xtau);

@@ -1,6 +1,6 @@
 function qpb = qaddphi(qnb, phi)
 % Get the calculated quaternion from accurate quaternion and misalignment
-% angles. It can be Denoted as 'qpb = qnb + phi', where qnb is accurate 
+% angles. It can be denoted as 'qpb = qnb + phi', where qnb is accurate 
 % quaternion and phi is misalignment angles.
 %
 % Prototype: qpb = qaddphi(qnb, phi)

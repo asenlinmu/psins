@@ -41,7 +41,7 @@ global glv
     glv.dph = glv.deg/glv.hur;      % arcdeg / hour
     glv.dpss = glv.deg/sqrt(1);     % arcdeg / sqrt(second)
     glv.dpsh = glv.deg/sqrt(glv.hur);  % arcdeg / sqrt(hour)
-    glv.dphpsh = glv.dph/sqrt(glv.hur); % (arcdec/hour) / sqrt(hour)
+    glv.dphpsh = glv.dph/sqrt(glv.hur); % (arcdeg/hour) / sqrt(hour)
     glv.Hz = 1/1;                   % Hertz
     glv.dphpsHz = glv.dph/glv.Hz;   % (arcdeg/hour) / sqrt(Hz)
     glv.ugpsHz = glv.ug/sqrt(glv.Hz);  % ug / sqrt(Hz)

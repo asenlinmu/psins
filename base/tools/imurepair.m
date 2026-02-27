@@ -1,7 +1,7 @@
 function imu = imurepair(imu0, method)
 % If imu0 loss some frames, then repair them.
 %
-% Prototype: imu = imuresample(imu0, ts, t1)
+% Prototype: imu = imurepair(imu0, method)
 % Inputs: 
 %    imu0 - raw SIMU data
 %    method - interpolation method

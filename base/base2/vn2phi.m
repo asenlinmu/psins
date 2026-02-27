@@ -19,7 +19,7 @@ global glv
     for k=10:length(vn)
         kts = (1:k)'*ts;
         A = [ones(length(kts),1), kts, kts.^2, kts.^3];
-        aEN = (A'*A)^-1*A'*vn(1:k,1:2);
+        aEN = invbc(A'*A)*A'*vn(1:k,1:2);
         [phit, phi0] = prls([aEN(2:4,1);aEN(2:4,2)], lti, kts(end));
         phi(k,1:3) = phit';
     end

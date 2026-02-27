@@ -1,7 +1,7 @@
 function imu = imuresample(imu0, ts, t1, method)
 % Re-sample SIMU data in a new sampling interval.
 %
-% Prototype: imu = imuresample(imu0, ts, t1)
+% Prototype: imu = imuresample(imu0, ts, t1, method)
 % Inputs: 
 %    imu0 - raw SIMU data (imu0(:,7) is old sampling time sequence)
 %    ts - new sampling interval (in time second)

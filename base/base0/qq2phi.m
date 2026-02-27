@@ -1,13 +1,13 @@
 function phi = qq2phi(qpb, qnb)
 % Calculate platform misalignment angles between qpb and qnb.
-% It can be Denoted as 'phi = qpb - qnb', where qpb is caculated  
+% It can be denoted as 'phi = qpb - qnb', where qpb is caculated  
 % quaternion and qnb is accurate quaternion.
 %
 % Prototype: phi = qq2phi(qpb, qnb)
 % Inputs: qpb - attitude quaternion from body-frame to computed nav-frame
 %         qnb - attitude quaternion from body-frame to ideal nav-frame
 % Output: phi - platform misalignment angles from ideal nav-frame to
-%               computed nav-frame: Cpn = I - (phix)
+%               computed nav-frame: Cpn = I - (phiX)
 %
 % See also  qaddphi, qdelphi, aa2phi, qaddafa, qdelafa, qq2afa, qq2rv.
 
