@@ -1,8 +1,8 @@
-function avp = inspure(imu, avp0, href)
+function avp = inspure(imu, avp0, href, isfig)
 % Process SINS pure inertial navigation with SIMU log data and
 % using initial condition avp0 = [att0,vn0,pos0].
 %
-% Prototype: avp = inspure(imu, avp0)
+% Prototype: avp = inspure(imu, avp0, href, isfig)
 % Inputs: imu - SIMU data array
 %         avp0 - initial parameters, avp0 = [att0,vn0,pos0]
 %         href - reference height for altitude damping.
@@ -90,4 +90,5 @@ global glv
     if vp_fix=='n'
         figure, plot(dbU(:,2), dbU(:,1)/glv.ug), xygo('dbU');
     end
-    insplot(avp);
+    if nargin<4, isfig=1; end
+    if isfig==1, insplot(avp); end

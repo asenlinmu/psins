@@ -15,7 +15,7 @@ function [att0, attk, xkpk] = alignvn(imu, qnb, pos, phi0, imuerr, wvn, ts)
 %         attk, xkpk - for debug
 %
 % Example:
-%	avp0 = avpset([0;0;0], zeros(3,1), glv.pos0);
+%	avp0 = [[0;0;0], zeros(3,1), glv.pos0];
 %	imuerr = imuerrset(0.03, 100, 0.001, 10);
 %	imu = imustatic(avp0, 1, 300, imuerr);
 %	phi = [.5; .5; 5]*glv.deg;
@@ -37,10 +37,10 @@ global glv
     len = fix(length(imu)/nn)*nn;
     eth = earth(pos); vn = zeros(3,1); Cnn = rv2m(-eth.wnie*nts/2);
     kf = avnkfinit(nts, pos, phi0, imuerr, wvn);
-    [attk, xkpk] = prealloc(fix(len/nn), 4, 2*kf.n);
+    [attk, xkpk] = prealloc(fix(len/nn), 4, 2*kf.n+1);
     ki = timebar(nn, len, 'Initial align using vn as meas.');
     for k=1:nn:len-nn+1
-        wvm = imu(k:k+nn-1,1:6);
+        wvm = imu(k:k+nn-1,1:6);  t = imu(k+nn-1,end);
         [phim, dvbm] = cnscl(wvm);
         Cnb = q2mat(qnb);
         dvn = Cnn*Cnb*dvbm;
@@ -53,14 +53,14 @@ global glv
         kf = kfupdate(kf, vn);
         qnb = qdelphi(qnb, 0.1*kf.xk(1:3)); kf.xk(1:3) = 0.9*kf.xk(1:3);
         vn = vn-0.1*kf.xk(4:6);  kf.xk(4:6) = 0.9*kf.xk(4:6);
-        attk(ki,:) = [q2att(qnb)',imu(k+nn-1,end)];
-        xkpk(ki,:) = [kf.xk; diag(kf.Pxk)];
+        attk(ki,:) = [q2att(qnb)', t];
+        xkpk(ki,:) = [kf.xk; diag(kf.Pxk); t];
         ki = timebar;
     end
     attk(ki:end,:) = []; xkpk(ki:end,:) = [];
     att0 = attk(end,1:3)';
     resdisp('Initial align attitudes (arcdeg)', att0/glv.deg);
-    avnplot(nts, attk, xkpk);
+    avnplot(attk, xkpk);
     
 function kf = avnkfinit(nts, pos, phi0, imuerr, wvn)
     eth = earth(pos); wnie = eth.wnie;
@@ -78,9 +78,9 @@ function kf = avnkfinit(nts, pos, phi0, imuerr, wvn)
     kf.xconstrain = 0; kf.pconstrain = 0;
     kf.fading = 1;
 
-function avnplot(ts, attk, xkpk)
+function avnplot(attk, xkpk)
 global glv
-    t = (1:length(attk))'*ts;
+    t = attk(:,end);
     myfigure;
 	subplot(421); plot(t, attk(:,1:2)/glv.deg); xygo('pr')
 	subplot(423); plot(t, attk(:,3)/glv.deg); xygo('y');

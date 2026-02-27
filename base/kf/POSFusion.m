@@ -5,7 +5,7 @@ function psf = POSFusion(rf, xpf, rr, xpr, ratio)
 % Inputs: rf - forward avp
 %         xpf - forward state estimation and covariance
 %         rr - backward avp
-%         xpr - forward state estimation and covariance
+%         xpr - backward state estimation and covariance
 %         ratio - the ratio of state estimation used to modify avp.
 % Output: the fields in psf are
 %         rf, pf - avp & coveriance after fusion

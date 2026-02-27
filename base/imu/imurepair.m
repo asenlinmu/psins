@@ -3,10 +3,10 @@ function imu = imurepair(imu0, method)
 %
 % Prototype: imu = imurepair(imu0, method)
 % Inputs: imu0 - raw SIMU data
-%         method - interpolation method
+%         method - interpolation method, 'nearest', 'linear', ect
 % Output: imu - repaired new SIMU dada
 %
-% See also  imuresample.
+% See also  imuresample, interp1.
 
 % Copyright(c) 2009-2015, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi'an, P.R.China

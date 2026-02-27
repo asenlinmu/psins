@@ -7,7 +7,7 @@ function kf = kfinit(ins, varargin)
 %         varargin - if any other parameters
 % Output: kf - Kalman filter structure array
 %
-% See also  kfinit0, kffk, kfkk, kfupdate, kffeedback, kftypedef.
+% See also  kfinit0, kfsetting, kffk, kfkk, kfupdate, kffeedback, psinstypedef.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

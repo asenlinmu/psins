@@ -7,7 +7,7 @@ function [imu, eb, db] = imudeldrift(imu, t0, t1, avp)
 %         t0,t1 - assuming a static-base condition time interval
 % Output: imu - new SIMU date with gyro bias deleted
 %
-% See also  imuadderr, imurepair, imuresample.
+% See also  delbias, imuadderr, imurepair, imuresample.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi'an, P.R.China
@@ -26,9 +26,9 @@ function [imu, eb, db] = imudeldrift(imu, t0, t1, avp)
         idx1 = find(imu(:,end)>t1,1);
         eb = mean(imu(idx0:idx1,1:3),1)'-wbib;
         db = zeros(3,1);
-    else   % [imu, eb] = imudeldrift(imu, eb);
-        if length(t0)==3,
-            eb = t0*ts;
+    else
+        if length(t0)==3,   % [imu, eb] = imudeldrift(imu, eb);
+            eb = t0*ts; db = [0;0;0];
         elseif length(t0)==6,  % [imu, eb, db] = imudeldrift(imu, [eb;db]);
             eb = t0(1:3)*ts; db = t0(4:6)*ts;
         else  % [imu, eb, db] = imudeldrift(imu, avp, t0);

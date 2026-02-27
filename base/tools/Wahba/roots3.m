@@ -28,6 +28,7 @@ function [rts, state] = roots3(coefs)
         state = 4;
     elseif delta<-10*eps  % 3 different real roots
         T = -q*sqrt(-27*p)/2/p^2;
+        if T>1, T=1; elseif T<-1, T=-1; end
         theta = acos(T);
         x0 = 2*sqrt(-p/3); x1 = x0*cos(theta/3); x2 = x0*cos(theta/3-pi*2/3); x3 = x0*cos(theta/3+pi*2/3);
         state = 3;

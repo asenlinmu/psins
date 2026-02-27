@@ -3,7 +3,7 @@
 
 Copyright(c) 2015-2021, by YanGongmin, All rights reserved.
 Northwestern Polytechnical University, Xi'an, P.R.China.
-Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 18/01/2021
+Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 18/02/2021
 */
 
 #ifndef _PSINS_H
@@ -16,6 +16,8 @@ Date: 17/02/2015, 19/07/2017, 11/12/2018, 27/12/2019, 12/12/2020, 18/01/2021
 #include <stdlib.h>
 #include <stdarg.h>
 #include <time.h>
+
+#pragma pack(4)
 
 /************** compiling control !!! ***************/
 #define PSINS_MATRIX_MAX_DIM	34
@@ -54,13 +56,19 @@ typedef unsigned char BYTE;
 #define PI_4	(PI/4.0)
 #define _2PI	(2.0*PI)
 
-#ifndef DEG
-#define DEG		(PI/180.0)
-#endif
+#define sqrt2	1.414213562373095	// sqrt(2) ...
+#define sqrt3	1.732050807568877
+#define sqrt5	2.236067977499790
+#define sqrt6	2.449489742783178
+#define sqrt7	2.645751311064591
+#define sqrt8	2.828427124746190
+
+#define DEG		(PI/180.0)		// arcdeg
+#define MIN		(DEG/60.0)		// arcmin
+#define SEC		(MIN/60.0)		// arcsec
 #define HUR		3600.0			// hur
 #define SHUR	60.0			// sqrt(hur)
 #define DPS		(DEG/1.0)		// deg/s
-#define SEC		(DEG/HUR)		// arcsec
 #define DPH		(DEG/HUR)		// deg/h
 #define DPSH	(DEG/SHUR)		// deg/sqrt(h)
 #define G0		9.7803267714
@@ -79,7 +87,8 @@ typedef unsigned char BYTE;
 #define INFp5	(INF*0.5)
 #define fEND	(10.0*INF)
 
-#define FRQ50		50				// sampling frequency (FRQ** Hz)
+#define FRQ1		1				// sampling frequency (FRQ** Hz)
+#define FRQ50		50
 #define FRQ100		100
 #define FRQ125		125
 #define FRQ200		200
@@ -95,37 +104,38 @@ typedef unsigned char BYTE;
 #define TS8			(1.0/FRQ125)
 #define TS10		(1.0/FRQ100)
 #define TS20		(1.0/FRQ50)
+#define TS1000		(1.0/FRQ1)
 
 // constant define for short in KF P/Q/R setting
 #define fXYZU(X,Y,Z,U)	1.0*(X)*(U),1.0*(Y)*(U),1.0*(Z)*(U)
 #define fXYZ(X,Y,Z)		fXYZU(X,Y,Z,1.0)
 #define fXXZ(X,Z)		fXYZ(X,X,Z)
-#define fXX3(X)			fXYZ(X,X,X)
-#define fXX6(X)			fXX3(X),fXX3(X)
-#define fXX9(X)			fXX6(X),fXX3(X)
-#define fOO3			fXX3(0.0)
+#define fXXX(X)			fXYZ(X,X,X)
+#define fXX6(X)			fXXX(X),fXXX(X)
+#define fXX9(X)			fXX6(X),fXXX(X)
+#define fOOO			fXXX(0.0)
 #define fOO6			fXX6(0.0)
 #define fOO9			fXX9(0.0)
-#define fII3			fXX3(1.0)
+#define fIII			fXXX(1.0)
 #define fII6			fXX6(1.0)
 #define fII9			fXX9(1.0)
-#define fINF3			fXX3(INF)
+#define fINF3			fXXX(INF)
 #define fINF6			fXX6(INF)
 #define fINF9			fXX9(INF)
-#define fPHI(XY,Z)		fXYZU(XY,XY,Z,SEC)
+#define fPHI(EN,U)		fXYZU(EN,EN,U,MIN)
 #define fLLH(LL,H)		fXXZ((LL)/RE,(H))
 #define fPOS(LLH)		fLLH(LLH,LLH)
-#define fDEG3(X)		fXX3(X*DEG)
-#define fMIN3(X)		fXX3(X*DEG/60.0)
-#define fSEC3(X)		fXX3(X*SEC)
-#define fDPS3(X)		fXX3(X*DPS)
-#define fDPH3(X)		fXX3(X*DPH)
-#define fDPSH3(X)		fXX3(X*DPSH)
-#define fMG3(X)			fXX3(X*MG)
-#define fUG3(X)			fXX3(X*UG)
-#define fUGPSHZ3(X)		fXX3(X*UGPSHZ)
-#define fdKG1(dkii,dkij)	(dkii)*PPM
-#define fdKG3(dkii,dkij)	(dkij)*SEC,(dkij)*SEC,(dkii)*PPM
+#define fDEG3(X)		fXXX(X*DEG)
+#define fMIN3(X)		fXXX(X*DEG/60.0)
+#define fSEC3(X)		fXXX(X*SEC)
+#define fDPS3(X)		fXXX(X*DPS)
+#define fDPH3(X)		fXXX(X*DPH)
+#define fDPSH3(X)		fXXX(X*DPSH)
+#define fMG3(X)			fXXX(X*MG)
+#define fUG3(X)			fXXX(X*UG)
+#define fUGPSHZ3(X)		fXXX(X*UGPSHZ)
+#define fdKG1(dkii)			(dkii)*PPM			// dkzz
+#define fdKG3(dkii,dkij)	(dkij)*SEC,(dkij)*SEC,(dkii)*PPM		// dkxz,dkyz,dkzz
 #define fdKG9(dkii,dkij)	(dkii)*PPM,(dkij)*SEC,(dkij)*SEC,(dkij)*SEC,(dkii)*PPM,(dkij)*SEC,(dkij)*SEC,(dkij)*SEC,(dkii)*PPM
 #define fdKA6(dkii,dkij)	(dkii)*PPM,(dkij)*SEC,(dkij)*SEC,(dkii)*PPM,(dkij)*SEC,(dkii)*PPM
 
@@ -199,10 +209,10 @@ void	IMURFU(CVect3 *pwm, CVect3 *pvm, int nSamples, const char *str);
 #define MMD2	(MMD*MMD)
 
 // global variables
-extern const CVect3	I31, O31, Ipos, posNWPU;
+extern const CVect3	O31, One31, Ipos, posNWPU;
 extern const CQuat	qI;
-extern const CMat3	I33, O33;
-extern const CVect  On1, O1n;
+extern const CMat3	I33, O33, One33;
+extern const CVect  On1, O1n, Onen1;
 extern const CGLV	glv;
 extern int			psinslasterror;
 
@@ -215,6 +225,38 @@ public:
 	double dps, dph, dpsh, dphpsh, dph2, dphpg, ugpsh, ugpsHz, ugpg2, mpsh, mpspsh, secpsh;
 
 	CGLV(double Re=6378137.0, double f=(1.0/298.257), double wie0=7.2921151467e-5, double g0=9.7803267714);
+};
+
+class CComplex
+{
+public:
+	double a, b;  // CComplex: z=a+bi
+	CComplex(void) {};
+	CComplex(double a0, double b0=0.0);
+	CComplex operator+(const CComplex &z) const;		// complex addition
+	CComplex operator+(double a0) const;
+	friend CComplex operator+(double a0, const CComplex &z);
+	CComplex operator-(const CComplex &z) const;		// complex subtraction
+	CComplex operator-(double a0) const;
+	friend CComplex operator-(double a0, const CComplex &z);
+	CComplex operator*(const CComplex &z) const;		// complex multiplication
+	CComplex operator*(double a0) const;
+	friend CComplex operator*(double a0, const CComplex &z);
+	CComplex operator/(const CComplex &z) const;		// complex divide
+	CComplex operator/(double a0) const;
+	friend CComplex operator/(double a0, const CComplex &z);
+	CComplex& operator=(double a0);						// equal to a real
+	friend CComplex operator-(const CComplex &z);		// minus
+	friend CComplex operator~(const CComplex &z);		// complex conjugate
+	friend double real(const CComplex &z);				// real
+	friend double img(const CComplex &z);				// image
+	friend double norm(const CComplex &z);				// norm
+	friend double arg(const CComplex &z);				// argument
+	friend CComplex pow(const CComplex &z, double k);	// z^k
+	friend CComplex sqrt(const CComplex &z);
+	friend CVect3 m33abc(const CMat3 &m);
+	friend CVect3 realrt3(double a, double b, double c);	// real roots for x^3+ax^2+bx+c=0;
+	friend CVect3 ShengJin(double a, double b, double c);	// real roots for x^3+ax^2+bx+c=0;
 };
 
 class CVect3 
@@ -248,7 +290,7 @@ public:
 	friend CVect3 operator*(double f, const CVect3 &v);		// scale multiply vector
 	friend CVect3 operator-(const CVect3 &v);				// minus
 	friend CMat3 vxv(const CVect3 &v1, const CVect3 &v2);	// column-vector multiply row-vector, v1*v2'
-	friend CVect3 abs(const CVect3 &v);						// abs
+	friend CVect3 abs(const CVect3 &v);						// abs for each element
 	friend double norm(const CVect3 &v);					// vector norm
 	friend double normInf(const CVect3 &v);					// vector inf-norm
 	friend double normXY(const CVect3 &v);					// vector norm of X & Y components
@@ -275,7 +317,8 @@ public:
 	friend CVect3 xyz2blh(const CVect3 &xyz);				// ECEF X/Y/Z to latitude/longitude/height
 	friend CVect3 blh2xyz(const CVect3 &blh);				// latitude/longitude/height to ECEF X/Y/Z 
 	friend CVect3 Vxyz2enu(const CVect3 &Vxyz, const CVect3 &pos);  // ECEF Vx/Vy/Vz to Ve/Vn/Vu
-	friend CVect3 randn(const CVect3 &mu, const CVect3 &sigma);
+	friend CVect3 randn(const CVect3 &mu, const CVect3 &sigma=One31);
+	friend CVect3 sort(const CVect3 &v);
 };
 
 class CQuat
@@ -307,6 +350,8 @@ public:
 	double e00, e01, e02, e10, e11, e12, e20, e21, e22;
 
 	CMat3(void);
+	CMat3(double xyz);
+	CMat3(double xx, double yy, double zz);
 	CMat3(double xx, double xy, double xz,
 		  double yx, double yy, double yz,
 		  double zx, double zy, double zz );
@@ -324,6 +369,7 @@ public:
 	void SetClm(int i, CVect3 &v);							// set i-column from vector
 	CVect3 GetRow(int i) const;								// get i-row from matrix
 	CVect3 GetClm(int i) const;								// get i-column from matrix
+	friend CMat3 rcijk(const CMat3 &m, int ijk);			// re-arrange row/clm indexed by ijk
 	friend CMat3 operator-(const CMat3 &m);					// minus
 	friend CMat3 operator~(const CMat3 &m);					// matrix transposition
 	friend CMat3 operator*(double f, const CMat3 &m);		// scale multiply matrix
@@ -335,9 +381,13 @@ public:
 	friend CMat3 inv(const CMat3 &m);						// 3x3 matrix inverse
 	friend CVect3 diag(const CMat3 &m);						// the diagonal of a matrix
 	friend CMat3 diag(const CVect3 &v);						// diagonal matrix
+	friend CMat3 MMT(const CMat3 &m1, const CMat3 &m2=I33);	// m=m1*m2^T
+	friend double trMMT(const CMat3 &m1, const CMat3 &m2=I33);	// trace(m1*m2^T)
+	friend double norm(const CMat3 &m);						// matrix norm
 	friend CQuat m2qua(const CMat3 &Cnb);					// DCM to quaternion
 	friend CMat3 q2mat(const CQuat &qnb);					// attitude quaternion to DCM
-	friend CMat3 foam(const CMat3 &B, int iter=50);			// Fast Optimal Attitude Matrix(FOAM)
+	friend CMat3 sfoam(const CMat3 &B, int iter=50);		// Supper Fast Optimal Attitude Matrix(SFOAM)
+	friend CMat3 randn(const CMat3 &mu, const CMat3 &sigma=One33);
 };
 
 class CVect
@@ -361,6 +411,7 @@ public:
 	CVect operator*(double f) const;			// vector multiply scale
 	CVect& operator=(double f);					// every element equal to a same double
 	CVect& operator=(const double *pf);			// vector equal to a array
+	CVect& operator=(const CMat3 &m);			// vector equal to matrix 3x3
 	CVect& operator+=(const CVect &v);			// vector addition
 	CVect& operator-=(const CVect &v);			// vector subtraction
 	CVect& operator*=(double f);				// vector multiply scale
@@ -370,10 +421,12 @@ public:
 	friend double dot(const CVect &v1, const CVect &v2);	// vector dot multiplication
 	friend CVect dotmul(const CVect &v1, const CVect &v2);	// vector dot multiplication '.*'
 	friend CVect operator~(const CVect &v);		// vector transposition
-	friend CVect abs(const CVect &v);			// vector abs
+	friend CVect abs(const CVect &v);			// vector abs for each element
 	friend double norm(const CVect &v);			// vector norm
 	friend double normInf(const CVect &v);		// inf-norm
 	friend CVect pow(const CVect &v, int k=2);	// vector element power
+	friend CVect randn(const CVect &mu, const CVect &sigma=Onen1);
+	friend CVect sort(const CVect &v);
 };
 
 class CMat
@@ -385,6 +438,7 @@ public:
 	CMat(void);
 	CMat(int row0, int clm0);
 	CMat(int row0, int clm0, double f);
+	CMat(int row0, int clm0, double f, double f1, ...);
 	CMat(int row0, int clm0, const double *pf);
 
 	void Clear(void);
@@ -537,6 +591,7 @@ public:
 	void Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts=0.0);
 	friend void IMURFU(CVect3 *pwm, int nSamples, const char *str);
 	friend void IMURFU(CVect3 *pwm, CVect3 *pvm, int nSamples, const char *str);
+	friend void IMUStatic(CVect3 &wm, CVect3 &vm, CVect3 &att0, CVect3 &pos0, double ts=1.0); 
 };
 
 class CSINS	// sizeof(CSINS)~=3k bytes
@@ -561,7 +616,7 @@ public:
 	void Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts);		// SINS update using Gyro&Acc samples
 	void Extrap(const CVect3 &wm=O31, const CVect3 &vm=O31, double ts=0.0);			// SINS fast extrapolation using 1 Gyro&Acc sample
 	void Extrap(double extts);			// SINS fast extrapolation using previous Gyro&Acc sample
-	void lever(const CVect3 &dL=O31);		// lever arm
+	void lever(const CVect3 &dL=O31, CVect3 *ppos=NULL, CVect3* pvn=NULL);		// lever arm
 	void etm(void);							// SINS error transform matrix coefficients
 };
 
@@ -575,7 +630,7 @@ public:
 	CVect3 att, vn, pos;
 	void Init(const CSINS &sins, double ts);
 	void Init(const CVect3 &att0, const CVect3 &vn0, const CVect3 &pos0, double ts);
-	void Push(const CSINS &sins);
+	void Push(const CSINS &sins, BOOL islever=0);
 	void Push(const CVect3 &attk, const CVect3 &vnk=O31, const CVect3 &posk=O31);
 	int Interp(double tpast);			// AVP interpolation, where -AVPINUM*ts<=tpast<=0
 };
@@ -632,6 +687,7 @@ public:
 		FBTau, FBMax, FBOne, FBOne1, FBXk, FBTotal;	// feedback control
 	int Rmaxcount[MMD], Rmaxcount0[MMD];
 
+	CKalman(void);
 	CKalman(int nq0, int nr0);
 	void Init(int nq0, int nr0);				// initialize Qk,Rk,P0...
 	void SetRmaxcount(int cnt=5);
@@ -662,6 +718,7 @@ public:
 	CVect3 meanfn;
 	CSINS sins;
 
+	CSINSTDKF(void);
 	CSINSTDKF(int nq0, int nr0);
 	void Init(const CSINS &sins0);
 	void TDReset(void);
@@ -670,18 +727,19 @@ public:
 	void MarkovGyro(const CVect3 &tauG, const CVect3 &sRG, int stateeb=9);
 	void MarkovAcc(const CVect3 &tauA, const CVect3 &sRA, int statedb=12);
 	void SetYaw(double yaw, int statephi=0, int statedvn=3);
+	virtual void RTOutput(void) {};  // real-time output before KF update i.e. just after SINS update
 	virtual void Miscellanous(void) {};
 	virtual void SecretAttitude(void) {};
-	virtual void RTOutput(void) {};  // real-time output before KF update i.e. just after SINS update
 };
 
-class CSINSGNSS:public CSINSTDKF	// sizeof(CSINSGPSOD)~=21k bytes for 15-state KF
+class CSINSGNSS:public CSINSTDKF	// sizeof(CSINSGNSS)~=21k bytes for 15-state KF
 {
 public:
 	double posGNSSdelay, vnGNSSdelay, yawGNSSdelay, dtGNSSdelay, kfts;
 	CVect3 lvGNSS;
 	CAVPInterp avpi;
 
+	CSINSGNSS(void);
 	CSINSGNSS(int nq0, int nr0, double ts);
 	void Init(const CSINS &sins0, int grade=-1);
 	virtual void SetFt(int nnq);
@@ -689,7 +747,7 @@ public:
 	virtual void Feedback(int nnq, double fbts);
 	virtual void SetMeas(void) {};
 	void SetMeasGNSS(const CVect3 &pgnss=O31, const CVect3 &vgnss=O31);
-	int Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts); 
+	int Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts, int nSteps=5); 
 };
 
 class CAlignkf:public CSINSGNSS
@@ -700,11 +758,12 @@ public:
 	CVect3 mvn, pos0;
 	CQuat qnb;
 
+	CAlignkf(void);
 	CAlignkf(double ts);
 	CAlignkf(const CSINS &sins0, double ts);
 	void Init(const CSINS &sins0);
-	int Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts);
-	int Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts, const CVect3 &vnr);
+	int Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts, int nSteps=5);
+	int Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts, const CVect3 &vnr, int nSteps=5);
 };
 
 class CAligntrkang:public CSINSGNSS  // coarse alignment by GNSS velocity track-angle
@@ -716,7 +775,7 @@ public:
 
 	CAligntrkang(double ts, double vel00=1.0, double wz00=5.0*DPS, double dyaw00=5.0*DEG);
 	void Init(const CSINS &sins0=CSINS(O31,O31,O31));
-	int Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts, const CVect3 &vnr);
+	int Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts, const CVect3 &vnr, int nSteps=5);
 };
 
 class CAlignsv:public CAlignkf  // initial alignment by data save technique
@@ -727,11 +786,27 @@ public:
 	CAligni0 alni0;
 	CRMemory *pMem;
 
+	CAlignsv(void);
 	CAlignsv(double ts);
 	~CAlignsv();
 	CAlignsv(const CVect3 &pos, double ts, double T2=300.0, double T1=0.0);
 	void Init(const CVect3 &pos, double ts, double T2=300.0, double T1=0.0);
-	int Update(const CVect3 *pwm, const CVect3 *pvm);
+	int Update(const CVect3 *pwm, const CVect3 *pvm, int nSteps=5);
+};
+
+class CAligntf:public CSINSGNSS  // transfer alignment by 'velocity+attitude' method
+{
+public:
+	CVect3 mu, lvMINS;
+	double dtMINSdelay;
+	CAligntf(double ts);
+	CAligntf(const CSINS &sins0, double ts);
+	void Init(const CSINS &sins0);
+	virtual void SetFt(int nnq);
+	virtual void SetHk(int nnq);
+	virtual void Feedback(int nnq, double fbts);
+	int Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts, int nSteps=5);
+	void SetMeasVnAtt(const CVect3 &vnMINS=O31, const CVect3 &attMINS=O31);
 };
 
 class CSINSGNSSDR:public CSINSGNSS
@@ -741,6 +816,7 @@ public:
 	CMat3 Cbo;			// Cbo: from body-frame to OD-frame
 	double Kod, gnsslost;
 
+	CSINSGNSSDR(void);
 	CSINSGNSSDR(double ts);
 	void Init(const CSINS &sins0, int grade=-1);
 	virtual void SetFt(int nnq);
@@ -825,6 +901,7 @@ public:
 	int load(int lines=1, BOOL txtDelComma=1);
 	int loadf32(int lines=1);
 	long load(BYTE *buf, long bufsize);
+	void bwseek(int lines, int mod=SEEK_CUR);
 	long filesize(int opt=1);
 	int getl(void);  // get a line
 	BOOL waitfor(int columnk, double val=0.0, double eps=EPS);
@@ -933,5 +1010,7 @@ typedef struct {
 		lon0, lon1, lat0, lat1, hgt, gpsve, gpsvn, gpsvu, gpslon0, gpslon1, gpslat0, gpslat1, gpshgt,
 		gpsstat, gpsdly, tmp, rsv;
 } PSINSBoard;
+
+#pragma pack()
 
 #endif // _PSINS_H

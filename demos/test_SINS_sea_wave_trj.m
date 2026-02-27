@@ -5,7 +5,7 @@
 % 10/01/2021
 glvs
 ts = 1/100;
-avp0 = avpset([0;0;30], 1, glv.pos0);
+avp0 = [[0;0;30]*glv.deg; [1;1;1]; glv.pos0];
 seg = trjsegment([], 'init',         1);
 seg = trjsegment(seg, 'uniform',     360);
 trj = trjsimu(avp0, seg.wat, ts, 1); % insplot(trj.avp)

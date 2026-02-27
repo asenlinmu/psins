@@ -1,4 +1,4 @@
-function [q, mat] = quest(M)
+function [q, mat] = quest(A)
 % QUaternion ESTimator (QUEST)
 % Example: [q, mat] = quest(randn(3));
 %
@@ -7,7 +7,8 @@ function [q, mat] = quest(M)
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 28/01/2020
-	if size(M,1)==3, M = B33M44(M); end
+    M = A;
+	if size(A,1)==3, M = B33M44(A); end
     [V,D] = eig(M); D = diag(D);
     [m,I] = max(D);
     q = V(:,I);

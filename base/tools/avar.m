@@ -2,18 +2,19 @@ function [sigma, tau, Err] = avar(y0, tau0, str, isfig)
 % Calculate Allan variance.
 %
 % Prototype: [sigma, tau, Err] = avar(y0, tau0, str, isfig)
-% Inputs: y - data (gyro in deg/hur; acc in g)
+% Inputs: y0 - data (gyro in deg/hur; acc in g)
 %         tau0 - sampling interval
 %         str - string for ylabel
 %         isfig - figure flag
 % Outputs: sigma - Allan variance
 %          tau - Allan variance correlated time
 %          Err - Allan variance error boundary
+%
 % Example: 
 %     y = randn(100000,1) + 0.00001*[1:100000]';
 %     [sigma, tau, Err] = avar(y, 0.1);
 %
-% See also  avars, meann, sumn.
+% See also  avarsimu, avarfit, avar2, avars, meann, sumn.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -42,5 +43,5 @@ function [sigma, tau, Err] = avar(y0, tau0, str, isfig)
         if ~isempty(idx),   str = str(idx(1):end);
         else                str = [];
         end
-        xlabel('\itt \rm/ s'); ylabel(strcat('\it\sigma_A\rm( \tau ) \rm',str));
+        xlabel('\it\tau \rm/ s'); ylabel(strcat('\it\sigma_A\rm( \tau ) \rm',str));
     end

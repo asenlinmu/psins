@@ -10,12 +10,16 @@ function yaw = yawcvt(yaw, cvstr)
 %         glvs
 %         y=mod((0:400)',360)*glv.deg;       figure, plot([y, yawcvt(y,'c360cc180')]/glv.deg); grid on
 %         y=(mod((0:400)',360)-180)*glv.deg;  figure, plot([y, yawcvt(y,'cc180c360')]/glv.deg); grid on
-% See also  m2att, q2att.
+% See also  avpcvt, att2c.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 30/05/2014, 25/02/2017
     if nargin<2, cvstr='c360cc180'; end
+    if size(yaw,2)>=3                    % avp = yawcvt(avp)
+        yaw(:,3) = yawcvt(yaw(:,3), cvstr);
+        return;
+    end
     switch cvstr
         % 360 -> 180
         case 'c360cc180',  %****** clockwise 0->360deg to counter-clockwise -180->180deg

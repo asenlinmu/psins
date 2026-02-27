@@ -8,7 +8,7 @@ function [res, idx] = norep(scr, clm, delrep)
 % Outputs: res - result
 %          idx - non-repeat index
 %
-% See also  no0, setrep0, normv.
+% See also  no0, setrep0, normv, scaleclm.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

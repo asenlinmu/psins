@@ -1,9 +1,10 @@
-function gpsplot(vpGPS)
+function gpsplot(vpGPS, ts)
 % GPS plot.
 %
-% Prototype: gpsplot(vpGPS)
+% Prototype: gpsplot(vpGPS, ts)
 % Inputs: vpGPS - [vnGPS, posGPS, tag, t] or [posGPS, tag, t]
 %              the tag column may not exist.
+%         ts - GPS sampling interval
 %          
 % See also  imuplot, insplot, inserrplot, kfplot, gpsload, gpssimu, avpfile.
 
@@ -12,7 +13,8 @@ function gpsplot(vpGPS)
 % 19/02/2014
 global glv
     [m,n] = size(vpGPS);
-    if mod(n,3)==0, vpGPS = [vpGPS,(1:length(vpGPS))']; end
+    if nargin<2, ts=1; end
+    if mod(n,3)==0, vpGPS = [vpGPS,(1:length(vpGPS))'*ts]; end
     t = vpGPS(:,end);
     if t(1)>10000
         t = t+(t(2)-2*t(1));

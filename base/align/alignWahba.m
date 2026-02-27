@@ -8,11 +8,17 @@ function [att0, attk] = alignWahba(imu, pos, ts)
 %         ts - IMU sampling interval
 % Output: att0 - attitude align result
 %
-% Example:
+% Example1:
 %     glvs;
 %     [imu, avp0, ts] = imufile('lasergyro.imu');
 %     att = alignWahba(imu(1:300/ts,:), avp0(7:9)');
 %
+% Example2:
+%     glvs;
+%     avp0 = [randn(3,1)*0;zeros(3,1);glv.pos0*0];
+%     [imu, eth] = imustatic(avp0,1,3000,imuerrset(0,0,1.1,100));
+%     att = alignWahba(imu, avp0(7:9)');
+% 
 % See also  alignfn, alignvn, aligncmps, aligni0, alignsb.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
@@ -26,7 +32,7 @@ global glv
     qib0b = [1; 0; 0; 0];
     [vib0, vi0] = setvals(zeros(3,1));
     K = zeros(4); A = zeros(3); Af = zeros(3);
-    attk = zeros(len/nn, 4); attk_SVD = attk; testA = zeros(len/nn, 5);
+    attk = zeros(len/nn, 4); attk_SVD = attk; testA = zeros(len/nn, 7);
     ki = timebar(nn, len, 'Initial align using i0 & Wahba method.');
     for k=1:nn:len-nn+1
         wvm = imu(k:k+nn-1, 1:6);  kts = (k+nn-1)*ts;
@@ -41,10 +47,11 @@ global glv
         qnb = qmul(qmul(qni0,qi0ib0),qib0b);
         attk(ki,:) = [q2att(qnb)', kts];
         A = A + vi0*vib0';  % SVD method
-        [U, S, V]=svd(A);  qi0ib0_SVD = m2qua(U*V');
+%         [U, S, V]=svd(A);  qi0ib0_SVD = m2qua(U*V');  % not good
 %         C = svdest(A);  qi0ib0_SVD = m2qua(C);
-%         C = foam(A);  qi0ib0_SVD = m2qua(C);
+        C = foam(A);  qi0ib0_SVD = m2qua(C);  % FOAM method
         if k<10, continue; end
+testA(ki,:) = [vi0', vib0', kts];
 % testA(ki,:) = [cond(A),det(A),sign(det(A)), det(U)*det(V), kts];
         attk_SVD(ki,:) = [q2att(qmul(qmul(qni0,qi0ib0_SVD),qib0b))', kts];
         ki = timebar;

@@ -21,7 +21,8 @@ for k=1:nn:len-nn+1
     q3 = qrk4(q3, wmi, nts);  % quaternion Runge-Kutta  % q2 = qrk4bad(q2, wm(k:k1+1, :), nts); X
     q4 = qmul(q4, rv2q(btzrk4(wmi, nts)));  % Bortz Runge-Kutta
 %     q5 = qmul(q5, qpicard(wmi'*coef, nts));
-    q5 = qmul(q5, rod2q(rodpicard(wmi'*coef, nts),3)); 
+%     q5 = qmul(q5, qpicard(wmi'*coef, nts));
+    q5 = qmul(q5, rv2q(btzpicard(wmi'*coef, nts),3)); 
 %     q6 = qmul(q6, qtaylor(wmi'*coef, nts));
     q6 = qmul(q6, m2qua(dcmtaylor(wmi'*coef, nts)));
 	res(ki,:) = [qq2phi(q1,q0); qq2phi(q2,q0); qq2phi(q3,q0); qq2phi(q4,q0); qq2phi(q5,q0); qq2phi(q6,q0)]';  ki = ki+1;
@@ -29,14 +30,9 @@ for k=1:nn:len-nn+1
 %         q1=q0; q2=q0; ...
 %     end
 end
-% figure
-% t = (1:size(res,1))*nts;
-% subplot(131), plot(t, res(:,1:3:end)/glv.sec), xygo('\phi / \prime\prime');
-% subplot(132), plot(t, res(:,2:3:end)/glv.sec), xygo('\phi / \prime\prime');
-% subplot(133), plot(t, res(:,3:3:end)/glv.sec), xygo('\phi / \prime\prime');
-
-figure
+myfig;
 t = (1:size(res,1))*nts;
-subplot(131), plot(t, res(:,7:3:15)/glv.sec), xygo('\phi / \prime\prime');
-subplot(132), plot(t, res(:,7:3:15)/glv.sec), xygo('\phi / \prime\prime');
-subplot(133), plot(t, res(:,7:3:15)/glv.sec), xygo('\phi / \prime\prime');
+subplot(131), plot(t, res(:,1:3:end)/glv.sec), xygo('\phi_x / \prime\prime');
+subplot(132), plot(t, res(:,2:3:end)/glv.sec), xygo('\phi_y / \prime\prime');
+subplot(133), plot(t, res(:,3:3:end)/glv.sec), xygo('\phi_z / \prime\prime');
+

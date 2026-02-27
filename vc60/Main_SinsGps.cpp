@@ -5,7 +5,7 @@ void main(void)
 {
 	if(PSINSDemo>=0) {	psinsdemo(); exit(0); }
 	// else (PSINSDemo==-1) ...
-	CFileRdWt::Dir("D:\\ygm2020\\PSINS网站\\惯导数据\\", "D:\\210119\\VC60\\Data\\");
+	CFileRdWt::Dir("D:\\ygm2020\\PSINS网站\\惯导数据\\", "D:\\psins210207\\VC60\\Data\\");
 	CFileRdWt fins("ins.bin"), fkf("kf.bin");
 	CFileRdSr fimu("mimuattgps.bin");  // download from: http://www.psins.org.cn/newsinfo/958984.html
 	DataSensor *pDS=(DataSensor*)fimu.buff, *pDS0=&fimu.DS0;

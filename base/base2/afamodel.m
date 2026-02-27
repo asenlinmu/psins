@@ -1,7 +1,7 @@
 function Xk = afamodel(Xkk_1, px)
 % Large misalignment angle error model(Ref. my postdoctoral report P67).
 % The 6-state only includes large Euler angles [afax;afay;afaz] and
-% level velocity [dvx; dvy; dvz].
+% velocity [dvx; dvy; dvz].
 %
 % Prototype: Xk = afamodel(Xkk_1, px)
 % Inputs: xkk_1 - state at previous time

@@ -5,7 +5,7 @@ function sstate = stateplot(state, maxst)
 % Inputs: state - runing state
 %         maxst - max state
 %          
-% See also  xpzrs, imuplot, insplot, inserrplot, kfplot, rvpplot, gpsplot.
+% See also  kffile, imuplot, insplot, inserrplot, kfplot, rvpplot, gpsplot.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

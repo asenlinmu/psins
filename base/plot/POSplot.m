@@ -76,10 +76,10 @@ if size(x,2)>=34
         plot(t, x1(:,[11,12,14]+19)/arcsec, ':', 'LineWidth',2); 
         plot(t, x2(:,[11,12,14]+19)/arcsec, '-.', 'LineWidth',2),  
         plot(t,  x(:,[11,12,14]+19)/arcsec, 'm'), 
-    subplot(325), hold on, xygo('dV');
-        plot(t, x1(:,[16:18]+19), ':', 'LineWidth',2);
-        plot(t, x2(:,[16:18]+19), '-.', 'LineWidth',2), 
-        plot(t,  x(:,[16:18]+19), 'm'), 
+%     subplot(325), hold on, xygo('dV');
+%         plot(t, x1(:,[16:18]+19), ':', 'LineWidth',2);
+%         plot(t, x2(:,[16:18]+19), '-.', 'LineWidth',2), 
+%         plot(t,  x(:,[16:18]+19), 'm'), 
 end
 
 function POSplot2(x, x1, x2, t)
@@ -143,8 +143,8 @@ if size(x,2)>=34
         plot(t, x1(:,[11,12,14]+19)/arcsec, ':', 'LineWidth',2); 
         plot(t, x2(:,[11,12,14]+19)/arcsec, '-.', 'LineWidth',2),  
         plot(t,  x(:,[11,12,14]+19)/arcsec, 'm'), 
-    subplot(325), hold on, xygo('dV');
-        plot(t, x1(:,[16:18]+19), ':', 'LineWidth',2);
-        plot(t, x2(:,[16:18]+19), '-.', 'LineWidth',2), 
-        plot(t,  x(:,[16:18]+19), 'm'), 
+%     subplot(325), hold on, xygo('dV');
+%         plot(t, x1(:,[16:18]+19), ':', 'LineWidth',2);
+%         plot(t, x2(:,[16:18]+19), '-.', 'LineWidth',2), 
+%         plot(t,  x(:,[16:18]+19), 'm'), 
 end

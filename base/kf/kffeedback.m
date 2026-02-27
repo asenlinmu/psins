@@ -8,7 +8,7 @@ function [kf, ins] = kffeedback(kf, ins, T_fb, fbstr)
 %         fbstr - feedback string
 % Outputs: kf, ins - Kalman filter & SINS structure array after feedback
 %
-% See also  kfinit, kffk, kftypedef.
+% See also  kfinit, kffk, kfhk, kfplot, psinstypedef.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

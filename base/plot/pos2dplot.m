@@ -6,14 +6,14 @@ function xyz = pos2dplot(pos0, varargin)
 %         varargin - other pos parameter
 % Onput: xyz - [x/East, y/North, hgt, t]
 %          
-% See also  tvplot, inserrplot, kfplot, gpsplot, imuplot, pos2dxyz.
+% See also  pos3vplot, inserrplot, kfplot, gpsplot, imuplot, pos2dxyz.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 24/05/2015
     lat0 = pos0(1,1); lon0 = pos0(1,2);
     eth = earth(pos0(1,1:3)');
-    myfigure
+    myfig;
     plot(0, 0, 'bp'); hold on;
     xyz = [(pos0(:,2)-lon0)*eth.clRNh, (pos0(:,1)-lat0)*eth.RMh, pos0(:,3:4)];
     plot(xyz(:,1), xyz(:,2))

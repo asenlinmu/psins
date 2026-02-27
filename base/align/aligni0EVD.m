@@ -1,7 +1,7 @@
 function [att0, res] = aligni0EVD(imu, pos, ts)
 % SINS initial align based on inertial frame method.
 %
-% Prototype: [att0, res] = aligni0(imu, pos, ts)
+% Prototype: [att0, res] = aligni0EVD(imu, pos, ts)
 % Inputs: imu - IMU data
 %         pos - position
 %         ts - IMU sampling interval
@@ -57,10 +57,8 @@ global glv
             qi0ib0 = dv2atti(vi0k(k1,:)', vi0, vib0k(k1,:)', vib0);
     [Uw,Dw] = eig(Tw);  % Tw-Uw*Dw*Uw^-1
     [Ur,Dr] = eig(Tr);
-    C1 = Ur*diag([1,1,sign(det(Tw))*sign(det(Tr))])*Uw^-1;
-    [U,S,V] = svd(A);  % A-U*S*V'
-    C2 = U*diag([1,1,det(U)*det(V)])*V';
-    C2 = U*diag([1,1,sign(det(A))])*V';
+%     C1 = Ur*diag([sign(det(Ur*Uw')),1,1])*Uw';
+    C1 = Ur*Uw';  % error!
     qi0ib0 = m2qua(C1);        
             qnb = qmul(qmul(qni0,qi0ib0),qib0b);
             attkv(ki,:) = q2att(qnb)';    % using vel

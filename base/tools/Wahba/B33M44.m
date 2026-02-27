@@ -26,7 +26,7 @@ function [M, z, s, S, r, cnd] = B33M44(B)
             sA = sqrt(A); end
         y = (3*Bs-2*A*D)/(2*A*sA);
         if y>1, y=1; fail=1; 
-        elseif y<-1, y=-1; end
+        elseif y<-1, y=-1; fail=1; end
         theta = acos(y);
         ct3 = cos(theta/3); st3 = sin(theta/3);
         y1 = (D-2*sA* ct3             )/1;
@@ -39,7 +39,7 @@ function [M, z, s, S, r, cnd] = B33M44(B)
         if y3<0, sy3=0; fail=1; else
             sy3 = sqrt(y3); end
         r = [(sy1+sy2+sy3)/(4*sqrt(3)), sqrt(B2+2*sqrt(adjBp2)), max(eig(M)), fail];
-        cnd = [sqrt(B2*adjBp2)/detB, max([sy1,sy2,sy3])/min([sy1,sy2,sy3]), cond(B)];
+        cnd = [sqrt(B2*adjBp2)/abs(detB), max([sy1,sy2,sy3])/min([sy1,sy2,sy3]), cond(B)];
 %         r0 = max(eig(M)); [r, r-r0, (r-r0)/r0], [[sy1,sy2,sy3]'/(4*sqrt(3)),svd(B)]
         %% FLAE should complex
 %         T0 = 2*b^3 + 27*c^2 - 72*b*d;

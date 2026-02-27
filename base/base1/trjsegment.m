@@ -1,5 +1,5 @@
 function seg = trjsegment(seg, segtype, lasting, w, a, var1)
-% Add trjsegment setting for trajectory simulator.
+% Add trj-segment setting for trajectory simulator.
 %
 % Prototype: seg = trjsegment(seg, segtype, lasting, w, a, var1)
 % Inputs: seg - trjsegment structure array

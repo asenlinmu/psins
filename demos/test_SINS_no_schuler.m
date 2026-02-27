@@ -8,7 +8,7 @@ xxx = [];
 seg = trjsegment(xxx, 'init',         0);
 seg = trjsegment(seg, 'uniform',      84*60/2);
 seg = trjsegment(seg, 'turnleft',     45, 2);
-trj = trjsimu(avpset([0;0;0], 0, glv.pos0), seg.wat, 1, 6);
+trj = trjsimu([[0;0;0]; [0;0;0]; glv.pos0], seg.wat, 1, 6);
 insplot(trj.avp);
 imuplot(trj.imu);
 % inspure(trj.imu, trj.avp0, 'V');

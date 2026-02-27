@@ -24,7 +24,7 @@ global glv
     [att0, res0] = aligni0(imu(1:fix(min(imu(end,end)-imu(1,end),t1)/ts),:), pos, ts);
 	phi = [0.1; 0.1; 1]*glv.deg;
 	imuerr = imuerrset(0.002, 20, 0.001, 10);
-	wvn = [0.01; 0.01; 0.01];
+	wvn = [0.01; 0.01; 0.01]*10;
 	[att1, attk] = alignvn(imu, a2qua(res0.attk(1,1:3)'), pos, phi, imuerr, wvn);
     insplot(attk,'a');
     subplot(211), plot(res0.attk(:,end), res0.attk(:,1:2)/glv.deg, 'm');

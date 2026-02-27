@@ -7,7 +7,7 @@ function err = avpcmpplot(avp0, varargin)
 %         varargin - the last input parameter may be comparison type or by
 %                    default value
 %          
-% See also  avpcmp, inserrplot, kfplot, gpsplot, imuplot.
+% See also  avpcmp, inserrplot, kfplot, gpsplot, imuplot, avperrstd.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -23,12 +23,14 @@ global glv
     if ischar(varargin{end}),  ptype = varargin{end};  varargin = varargin(1:end-1);
     else
         if n<6,  	ptype = 'a';
-        elseif n<9,	ptype = 'av';
+        elseif n<9,	
+            if max(abs(avp0(:,4)))>pi/2, ptype = 'av'; else, ptype = 'vp'; end
         else      	ptype = 'avp';
         end
     end
     %%
     myfigure;
+    if size(avp0,2)>10, avp0=avp0(:,[1:9,end]); end
     switch ptype
         case {'A', 'a'},
             avp = avp0; t = avp(:,end);
@@ -85,6 +87,9 @@ global glv
     end
     kk = length(varargin);
     str = '-.--: ';
+    for k=1:kk
+        if size(varargin{k},2)>10, varargin{k}=varargin{k}(:,[1:9,end]); end
+    end
     switch ptype
         case 'A',
             for k=1:kk

@@ -1,12 +1,12 @@
 function x = delbias(x, b)
 % Delete bias.
 %
-% Prototype:  out = delbias(in)
+% Prototype:  out = delbias(in, b)
 % Inputs: in - input date with bias
 %         b - bias
 % Output: out - output date with no bias
 %
-% See also  adddt, sumn, meann.
+% See also  imudeldrift, adddt, sumn, meann.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

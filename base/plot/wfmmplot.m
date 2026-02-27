@@ -6,7 +6,7 @@ function wfm = wfmmplot(wfmmfile, ts, t0)
 %         ts - sampling interval
 %         t0 - stating time
 %
-% See also  xpplot, kfplot, inserrplot, xpzrsfile.
+% See also  xpplot, kfplot, inserrplot, kffile.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -12,7 +12,7 @@
 
 #include "PSINS.h"
 
-#define FRQ	125
+#define FRQ	FRQ125
 #define TS	(1.0/FRQ)
 
 class CKFApp:public CSINSGNSS
@@ -40,11 +40,12 @@ public:
 	DataSensor *pDS, DS0;
 	CFileRdSr(const char *fname0):CFileRdWt(fname0, -dbsize(DataSensor)) {
 		pDS = (DataSensor*)buff;
+//		waitfor((&DS0.gpsvn.i-&DS0.wm.i)/sizeof(double));
 		load(1);             // just get the first record line
-		memcpy(&DS0, pDS, sizeof(DataSensor));
-		fseek(f, -(long)sizeof(DataSensor), SEEK_CUR);
+		DS0 = *pDS;
+		bwseek(1);
 	};
-	int load(int lines=1, BOOL txtDelComma=1) {
+	int load(int lines=1) {
 		if(!CFileRdWt::load(lines)) return 0;
 		return 1;
 	};

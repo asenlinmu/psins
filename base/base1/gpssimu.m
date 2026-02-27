@@ -12,6 +12,9 @@ function gpsVnPos = gpssimu(avp, dvn, dpos, tau, lever, imu_delay, isplot)
 %         imu_delay - SIMU time delay w.r.t GPS 
 % Output: gpsVnPos - [VE, Vn, VU, lat, lon, height, t]
 %          
+% Example:
+%   gpsVnPos = gpssimu([zeros(3,1);glv.pos0;100], 0.01, 1, 1, 0, 0, 1);
+%
 % See also  trjsimu, odsimu, bhsimu, gpsplot, markov1, la2dpos.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
@@ -28,6 +31,10 @@ global glv
     if length(dvn)==1;   dvn=[dvn;dvn;dvn];   end
     if length(dpos)==1;   dpos=poserrset(dpos);   end
     %% find the nearest second in avp time
+    if length(avp)==7  % avp = [vn0; pos0; T]; % for static
+        T = fix(avp(end));
+        avp = [zeros(T,3), repmat(avp(1:6)', T,1), (1:T)'];
+    end
     idx = zeros(size(avp(:,end))); rt = idx; kk=1;
     gt = imu_delay;
     for k=1:length(avp)-1

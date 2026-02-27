@@ -17,7 +17,7 @@ return
 %% test for real SIMU data
 ts = 0.008;   % sampling interval
 imu = load('lgimu.dat');  % coase yaw angle is -90.6 deg
-avp0 = avpset([0;0;-90.6], [0;0;0], glv.pos0);
+avp0 = [[0;0;-90.6]*glv.deg, [0;0;0], glv.pos0];
 imu = [imu(:,1:3)*0.932*glv.sec, imu(:,4:6)*500*glv.ug, (1:length(imu))'*ts];  % scale factors
 imuplot(imu);
 imu1 = imuresample(imu, 0.01);  imuplot(imu1);

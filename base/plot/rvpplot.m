@@ -5,7 +5,7 @@ function rvpplot(rvp, p, clm)
 % Inputs: rvp - =[Zk(vel), Zk(pos), Var(vel], Var(pos), t]
 %         p - if rvp=[Zk(vel), Zk(pos), t], then p=[Var(vel], Var(pos), t] 
 %
-% See also  kfplot, inserrplot, xpzrsfile.
+% See also  kfplot, inserrplot, kffile.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

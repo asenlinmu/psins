@@ -21,8 +21,11 @@ function [m, q, J] = svdest(B)
     % assert(det(B)>0)
 	[u, s, v] = svd(B);
 %     m = u*v';  % make sure det(B)>0
-%     m = u*diag([1;1;det(u)*det(v)])*v';   % why not: m = u*diag([1;det(u)*det(v);1])*v'; ?
+%     m = u*diag([1;1;det(u*v')])*v';
     m = u*diag([1;1;sign(det(B))])*v';
     if nargout>=2, q = m2qua(m); end
-    s = diag(s); s(3) = sign(det(B))*s(3);
-    J = sum(s);
+    if nargout>=3
+        s = diag(s); s(3) = sign(det(B))*s(3);
+        J = sum(s);
+    end
+    

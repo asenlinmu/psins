@@ -8,7 +8,7 @@ function phi = vn2phi(vn, lti, ts)
 % Output: phi - misalignment between calculating navigation frame and real
 %               navigation frame
 %
-% See also  aa2phi.
+% See also  vn2phiu, aa2phi.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

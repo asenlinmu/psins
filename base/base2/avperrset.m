@@ -7,7 +7,7 @@ function davp = avperrset(phi, dvn, dpos)
 %         dpos - position errors dpos=[dlat;dlon;dhgt], all in m
 % Output: davp = [phi; dvn; dpos]
 % 
-% See also  poserrset, vperrset, avpadderr, imuerrset, avpset, insupdate.
+% See also  poserrset, vperrset, avpadderr, imuerrset, avpset, insupdate, avperrstd.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

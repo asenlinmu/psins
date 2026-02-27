@@ -1,16 +1,16 @@
 % Figure for C++ processing results
 % Make sure Matlab/PSINS Toolbox have been initialized!
 glvs
-PSINSDemo = 9;
+PSINSDemo = 10;
 switch PSINSDemo
     case -1, %% Demo_SINS/GNSS
         ins = binfile('ins.bin', 16+3);
         insplot(ins(:,[1:16]));
         avpcmpplot(adddt(ins(:,[17:19,16]),0.002), ins(:,[1:3,16]), 'a', 'mu');
         psinstypedef(196);
-        xkpk = binfile('kf.bin', (19+6)*2+2);
-        kfplot(xkpk(:,[1:38,end]));
-        stateplot(xkpk(:,end-1:end));
+        [xk,pk,zk,rk,sk] = kffile('kf.bin', 19,6);
+        kfplot(xk,pk,1:19);
+        stateplot(sk);
     case 1, %% Demo_CIIRV3
         res = binfile('res.bin', 6);
         figure,
@@ -43,25 +43,35 @@ switch PSINSDemo
         subplot(211), plot(att(1:T1,end), att(1:T1,1:2)/glv.deg, 'r');
         subplot(212), plot(att(1:T1,end), att(1:T1,3)/glv.deg, 'r');
         legend('Fine align', 'Coarse align');
-    case 8, %% Demo_CAlign_CSINS
+    case 8, %% Demo_CAligntf
+        dd = binfile('aln.bin', 25);
+        avp = dd(:,1:16); avpr = dd(:,[17:end,16]);
+        insplot(avp);
+        avpcmpplot(avpr, avp, 'mu');
+        psinstypedef(196);
+        [xk, pk, zk, rk, sk] = kffile('kf.bin', 19,6, 0);
+        kfplot(xk,pk);
+        xpplot(xk,pk,7:9,glv.min,'mu');
+        xpplot(zk,rk,1:3,1,'dvn');
+        xpplot(zk,rk,4:6,glv.min,'datt');
+        stateplot(sk);
+    case 9, %% Demo_CAlign_CSINS
         att = binfile('aln.bin', 4);
         insplot(att,'a');
         avp = binfile('ins.bin', 16);
         insplot(avp);
-    case 9, %% Demo_CSINSGNSS
-        res = binfile('D:\psins210119\vc60\Data\ins.bin', 16+6);
+    case 10, %% Demo_CSINSGNSS
+        res = binfile([glv.rootpath,'\vc60\Data\ins.bin'], 16+6);
         avp = res(:,1:16); gps = no0(res(:,[17:end,16]),1);
         insplot(avp);
         gpsplot(gps);
         avpcmpplot(avp(:,[4:9,end]), gps, 'vp');
-        psinstypedef(156);
-        [xk,pk,zk,rk,sk] = xpzrsfile('D:\psins210119\vc60\Data\kf.bin', 34,6);
-        kfplot(xk,pk,1:15);
-        xpplot(xk,pk,[],1,'dKG');
-        xpplot(xk,pk,[],1,'dKA');
+        psinstypedef(196);
+        [xk,pk,zk,rk,sk] = kffile([glv.rootpath,'\vc60\Data\kf.bin'], 19,6);
+        kfplot(xk,pk,1:19);
         rvpplot(zk,rk);
         stateplot(sk);
-    case 10, %% Demo_CVCFileFind
+    case 11, %% Demo_CVCFileFind
         NA = 0;
 end
 

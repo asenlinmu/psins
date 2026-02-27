@@ -5,13 +5,17 @@ function kfplot(xkpk, varargin)
 % Inputs: xkpk - Kalman filter state vector estimation and variance
 %         varargin - if any other parameters (such as true values)
 %
-% See also  xpplot, insplot, inserrplot, xpzrsfile, POSplot, kfupdate, kftypedef, psinstypedef.
+% See also  xpplot, rvpplot, insplot, inserrplot, kffile, POSplot, kfupdate, psinstypedef.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 05/10/2013, 14/01/2021
 global psinsdef
     if nargin>1  % kfplot(xk, pk, clm)
+        if psinsdef.kfplot==0
+            feval(psinsdef.typestr, psinsdef.kfplottag, [{xkpk},varargin]); 
+            return;
+        end
         if size(xkpk,2)==size(varargin{1},2)
             if nargin==3, clm=varargin{2}; else, clm=1:psinsdef.kfplot; end;
             if length(clm)==1, clm=1:clm; end

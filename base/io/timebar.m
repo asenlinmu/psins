@@ -9,7 +9,7 @@ function tk = timebar(tStep, tTotal, msgstr)
 %       tk = timebar(tStep, tTotal, msgstr);
 %           where tStep is the step increasing when called timebar once,
 %           tTotlal is the total steps, if reached then waitbar disappears,
-%           msgstr is a message string to be showed in waitbar figure.
+%           msgstr is a message string to be showed in the waitbar figure.
 % In loop usage:        
 %       tk = timebar;
 %

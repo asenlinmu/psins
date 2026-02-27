@@ -2,11 +2,18 @@ function [A, k, lambda, A1] = foam(B, iter)
 % Fast Optimal Attitude Matrix
 % [A, signB, k, lambda, A1] = foam(B)
 %
-% Example:
-% for k=1:1000
-%   A=randn(3); [A0, k, lambda, A1] = foam(A);  res(k,:) = [det(A), max(max(A0-A1))];
-% end
-% figure, subplot(211), plot(res(:,1)); subplot(212), plot(res(:,2)); 
+% Example1:
+%     for k=1:1000
+%       A=randn(3); [A0, k, lambda, A1] = foam(A);  res(k,:) = [det(A), max(max(A0-A1))];
+%     end
+%     figure, subplot(211), plot(res(:,1)); subplot(212), plot(res(:,2)); 
+%
+% Example2:
+%     glvs;
+%     att = m2att(a2mat(randn(3,1)));
+%     [imu, eth] = imustatic(att,1,1);
+%     A = foam(-eth.gn*imu(1,4:6)+eth.wnie*imu(1,1:3));
+%     [att, m2att(A)-att]/glv.deg
 %
 % See also  tr3, det3, inv3, adj3, svd3, foam, B33M44, svdest, vortech
 

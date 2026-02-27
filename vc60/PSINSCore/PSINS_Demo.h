@@ -14,8 +14,6 @@
 
 #define PSINSDemo 10
 
-#ifdef  PSINSDemo
-
 #define psinsdemo()  \
 	switch(PSINSDemo)\
 	{\
@@ -28,10 +26,12 @@
 	case 5: Demo_CRAvar(); break;\
 	case 6: Demo_CSINS_static(); break;\
 	case 7: Demo_CAlignsv(); break;\
-	case 8: Demo_CAlign_CSINS(); break;\
-	case 9: Demo_CSINSGNSS(); break;\
-	case 10: Demo_CSINSGNSSDR(); break;\
-	case 11: Demo_CVCFileFind(); break;\
+	case 8: Demo_CAligntf(); break;\
+	case 9: Demo_CAlign_CSINS(); break;\
+	case 10: Demo_CSINSGNSS(); break;\
+	case 11: Demo_CSINSGNSSDR(); break;\
+	case 12: Demo_CVCFileFind(); break;\
+	case 13: Demo_DSP_main(); break; \
 	}
 void Demo_User(void);
 void Demo_CIIRV3(void);
@@ -41,10 +41,12 @@ void Demo_CVARn(void);
 void Demo_CRAvar(void);
 void Demo_CSINS_static(void);
 void Demo_CAlignsv(void);
+void Demo_CAligntf(void);
 void Demo_CAlign_CSINS(void);
 void Demo_CSINSGNSS(void);
 void Demo_CSINSGNSSDR(void);
 void Demo_CVCFileFind(void);
+void Demo_DSP_main(void);
 
 #ifdef PSINS_IO_FILE
 
@@ -160,10 +162,7 @@ public:
 	}
 };
 
-
 #endif  // PSINS_IO_FILE
-
-#endif  //  PSINSDemo
 
 #endif  // _PSINS_Demo_H
 

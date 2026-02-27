@@ -1,5 +1,7 @@
-function ps = POSProcessing(kf, ins, imu, vpGPS, fbstr, ifbstr)
+function [ps, psf] = POSProcessing(kf, ins, imu, vpGPS, fbstr, ifbstr)
 % POS forward and backward data processing.
+% States: phi(3), dvn(3), dpos(3), eb(3), db(3), lever(3), dT(1), 
+%         dKg(9), dKa(6). (total states 6*3+1+9+6=34)
 %
 % Prototype: ps = POSProcessing(kf, ins, imu, posGPS, fbstr, ifbstr)
 % Inputs: kf - Kalman filter structure array from 'kfinit'
@@ -18,11 +20,11 @@ function ps = POSProcessing(kf, ins, imu, vpGPS, fbstr, ifbstr)
 %                         variance
 %
 % Example:
-%     psinstypedef(376);
+%     psinstypedef(346);
 %     davp0 = avperrset([30;-30;30], [0.01;0.01;0.03], [0.01;0.01;0.03]);
 %     lever = [0.; 0; 0]; dT = 0.0; r0 = davp0(4:9)';
-%     imuerr = imuerrset(0.01, 100, 0.001, 1);
-%     ins = insinit([att; pos], ts); ins.nts=ts;
+%     imuerr = imuerrset(0.01,100,0.001,1, 0,0,0,0, [0;0;1000],0,[0;0;0;0;10;10],0););
+%     ins = insinit([att; pos], ts);
 %     kf = kfinit(ins, davp0, imuerr, lever, dT, r0);
 %     ps = POSProcessing(kf, ins, imu, vpGPS, 'avped', 'avp');
 %     psf = POSFusion(ps.avp, ps.xkpk, ps.iavp, ps.ixkpk);
@@ -66,7 +68,7 @@ function ps = POSProcessing(kf, ins, imu, vpGPS, fbstr, ifbstr)
         [kf, ins] = kffeedback(kf, ins, nts, fbstr);
         dKg = ins.Kg-eye(3); dKa = ins.Ka-eye(3);
         dKga = [dKg(:,1);dKg(:,2);dKg(:,3); dKa(:,1);dKa(2:3,2);dKa(3,3)];
-        avp(ki,:) = [ins.avpL; ins.eb; ins.db; ins.lever; ins.tDelay; dKga; [0;0;0]; t]';
+        avp(ki,:) = [ins.avpL; ins.eb; ins.db; ins.lever; ins.tDelay; dKga; t]';
         xkpk(ki,:) = [kf.xk; diag(kf.Pxk); t]';  ki = ki+1;
         timebar;
     end
@@ -97,7 +99,7 @@ function ps = POSProcessing(kf, ins, imu, vpGPS, fbstr, ifbstr)
         [ikf, iins] = kffeedback(ikf, iins, nts, ifbstr);
         dKg = iins.Kg-eye(3); dKa = iins.Ka-eye(3);
         dKga = [dKg(:,1);dKg(:,2);dKg(:,3); dKa(:,1);dKa(2:3,2);dKa(3,3)];
-        iavp(ki,:) = [iins.avpL; iins.eb; iins.db; iins.lever; iins.tDelay; dKga; [0;0;0]; t]';
+        iavp(ki,:) = [iins.avpL; iins.eb; iins.db; iins.lever; iins.tDelay; dKga; t]';
         ixkpk(ki,:) = [ikf.xk; diag(ikf.Pxk); t]';  ki = ki+1;
         timebar;
     end
@@ -105,7 +107,9 @@ function ps = POSProcessing(kf, ins, imu, vpGPS, fbstr, ifbstr)
     iavp = flipud(iavp); ixkpk = flipud(ixkpk); % reverse inverse sequence
     iavp(:,idx) = -iavp(:,idx);  ixkpk(:,idx) = -ixkpk(:,idx);
     ps.avp = avp; ps.xkpk = xkpk; ps.iavp = iavp; ps.ixkpk = ixkpk;
-
+    if nargout==2
+        psf = POSFusion(ps.avp, ps.xkpk, ps.iavp, ps.ixkpk);
+    end
     
 function [ikf, iins, idx] = POSReverse(kf, ins)
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
@@ -115,7 +119,7 @@ function [ikf, iins, idx] = POSReverse(kf, ins)
     iins.eth.wie = -iins.eth.wie;
     iins.vn = -iins.vn; iins.eb = -iins.eb; iins.tDelay = -iins.tDelay;
     ikf = kf;
-    ikf.Pxk = 10*diag(diag(ikf.Pxk));
-    idx = [4:6,10:12,19,35:37];   % vn,eb,dT,dvn  (dKg no reverse!)
+    Pd=diag(ikf.Pxk); ikf.Pxk = diag([10*Pd(1:19);Pd(20:end)]);
+    idx = [4:6,10:12,19];   % vn,eb,dT  (dKg no reverse!)
     ikf.xk(idx) = -ikf.xk(idx); % !!!
     

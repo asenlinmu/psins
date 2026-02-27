@@ -5,7 +5,7 @@ function stext = labeldef(stext)
 % Input: stext - a short text input
 % Output: stext - corresponding fully formated text output
 %
-% See also  xygo.
+% See also  xygo, myfig.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -38,6 +38,8 @@ function stext = labeldef(stext)
         'att',   '\itAtt\rm / ( \circ )';
         'datt',  '\itdAtt\rm / ( \prime )';
         'VEN',   '\itV \rm_{E,N} / ( m/s )';
+        'VE',   '\itV \rm_E / ( m/s )';
+        'VN',   '\itV \rm_N / ( m/s )';
         'VU',    '\itV \rm_U / ( m/s )';
         'V',     '\itV\rm / ( m/s )';
         'Vx',    '\itVx\rm / ( m/s )';

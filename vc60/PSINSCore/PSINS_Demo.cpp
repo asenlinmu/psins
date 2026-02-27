@@ -5,10 +5,28 @@
 
 void Demo_User(void)
 {
-	CMat m1(2,2, 1.0), m2(2,2, 3.0), m3;
-	m3 = dotmul(m1, m2);
-	CVect v1(2, 1.0), v2(2, 3.0), v3;
-	v3 = dotmul(v1, v2);
+	CFileRdWt::Dir("..\\Data\\", "D:\\ygm2020\\¾«×¼\\");	CFileRdWt fins("ins.bin"), fkf("kf.bin");
+	CVect3 att0=PRY(1,1.01,3), vn0=O31, pos0=LLH(34,0,0);
+	CVect3 wm[2], vm[2];
+	IMUStatic(wm[0], vm[0], att0, pos0, TS1);
+	CSINS sins(a2qua(att0)+CVect3(1,2,0*40)*glv.min, O31, pos0);
+	CSINSGNSS kf(15,6,TS1);
+	kf.Init(sins,1); 		kf.FBTau=INF;
+	for(int i=0; i<500*100; i++)
+	{
+		kf.Update(wm, vm, 1, TS1);
+		if(i%10==0) {
+			fins<<kf.sins;
+			fkf<<kf;
+		}
+		if(i==200*100) {
+			kf.SetYaw(90*DEG);
+		}
+		if(i%100==0) {
+			kf.SetMeasGNSS(pos0);
+		}
+		disp(i,FRQ100,100);
+	}
 }
 
 void Demo_CIIRV3(void)
@@ -20,7 +38,7 @@ void Demo_CIIRV3(void)
 	CIIRV3 iir(Num, Den, sizeof(Num)/sizeof(double));
 	for(int k=1; k<100; k++)
 	{
-		CVect3 x = randn(O31, I31);
+		CVect3 x = randn(O31, One31);
 		CVect3 y = iir.Update(x);
 		res<<x<<y;
 	}
@@ -80,12 +98,8 @@ void Demo_CSINS_static(void)
 	CFileRdWt::Dir("..\\Data\\", ".\\Data\\");;	CFileRdWt fins("ins.bin");
 	double ts=1, t;
 	CVect3 att0=PRY(1,1.01,3), vn0=O31, pos0=LLH(34,0,0);
-	CEarth eth;
-	eth.Update(pos0);
 	CVect3 wm[2], vm[2];
-	CMat3 Cbn=~a2mat(att0);
-	wm[0] = Cbn*eth.wnie*ts; wm[1] = wm[0];  // static IMU simuation
-	vm[0] = -Cbn*eth.gn*ts; vm[1] = vm[0];
+	IMUStatic(wm[0], vm[0], att0, pos0, ts); wm[1]=wm[0]; vm[1]=vm[0]; // static IMU simuation
 	CSINS sins(a2qua(att0)+CVect3(0,0,1)*glv.min, O31, pos0);
 	for(t=0.0; t<24*3600.0; t+=2*ts)
 	{
@@ -105,6 +119,27 @@ void Demo_CAlignsv(void)
 		aln.Update(fimu.pwm, fimu.pvm);
 		faln<<q2att(aln.qnb)<<aln.tk;
 		disp(i, 100, 100);
+	}
+}
+
+void Demo_CAligntf(void)
+{
+	CFileRdWt::Dir("..\\Data\\", ".\\Data\\");
+	CFileRdWt fimuavp("transtrj.bin",-16), faln("aln.bin"), fkf("kf.bin");
+	struct PS { CVect3 wm, vm, att, vn, pos; double t;};
+	PS *pps = (PS*)fimuavp.buff;
+	fimuavp.load(1*100);
+	CAligntf alntf(CSINS(pps->att+CVect3(1,1,5)*glv.deg, pps->vn, pps->pos, pps->t), TS10);
+	for(int i=0; i<600*100; i++)
+	{
+		if(!fimuavp.load(1)) break;
+		alntf.Update(&pps->wm, &pps->vm, 1, TS10);
+		if(i%10==0)	{
+			alntf.SetMeasVnAtt(pps->vn, pps->att);
+		}
+		faln<<alntf.sins<<pps->att<<pps->vn<<pps->pos;
+		fkf<<alntf;
+		disp(i, 100, 10);
 	}
 }
 
@@ -140,19 +175,19 @@ void Demo_CAlign_CSINS(void)
 
 void Demo_CSINSGNSS(void)
 {
-	CFileRdWt::Dir("D:\\ygm2020\\613\\20210121\\1\\");
+	CFileRdWt::Dir("D:\\psins210406\\vc60\\Data\\");
 	CFileIMUGNSS fimu("imugps.bin"); CFileRdWt fins("ins.bin"), fkf("kf.bin");
 	CAlignsv aln(fimu.pos0, fimu.ts, 50);
 	for(double t=0.0; t<50.0; t+=fimu.ts) {
 		fimu.load(1); aln.Update(fimu.pwm, fimu.pvm);
 	}
-	CSINSGNSS kf(15, 6, fimu.ts);
+	CSINSGNSS kf(19, 6, fimu.ts);
 	kf.Init(CSINS(aln.qnb,fimu.vn0,fimu.pos0,fimu.t),0);
-	kf.Pmin.Set2(fPHI(10,60),  fXX3(0.01),  fPOS(0.1),  fDPH3(0.01),  fUG3(10.0),
-			fXX3(0.001), 0.0001, fdKG9(1.0,1.0), fdKA6(1.0,1.0));
-	kf.Qt.Set2(fDPSH3(0.01),  fUGPSHZ3(10.0),  fOO3,  fOO6,
-			fOO3, 0.0,  fOO9,  fOO6);
-	for(int i=0; i<50000*200; i++)
+	kf.Pmin.Set2(fPHI(0.1,1.0),  fXXX(0.01),  fPOS(0.1),  fDPH3(0.01),  fUG3(10.0),
+			fXXX(0.001), 0.0001, fdKG9(1.0,1.0), fdKA6(1.0,1.0));
+	kf.Qt.Set2(fDPSH3(0.01),  fUGPSHZ3(10.0),  fOOO,  fOO6,
+			fOOO, 0.0,  fOO9,  fOO6);
+	for(int i=0; i<50000*100; i++)
 	{
 		if(!fimu.load(1)) break;
 		kf.Update(fimu.pwm, fimu.pvm, 1, fimu.ts);
@@ -161,7 +196,7 @@ void Demo_CSINSGNSS(void)
 		if(i%20==0 || fimu.ppGNSS->i>0.1)
 			fins<<kf.sins<<*fimu.pvGNSS<<*fimu.ppGNSS;
 		if(i%20==0) fkf<<kf;
-		disp(i, 200, 100);
+		disp(i, 100, 100);
 	}
 }
 
@@ -199,6 +234,35 @@ void Demo_CVCFileFind(void)
 		printf("%s\n", fname);
 	}
 #endif  // PSINS_VC_AFX_HEADER
+}
+
+// A main-example for DSP/ARM embedded application
+void Demo_DSP_main(void)
+{
+/*	DSP_init(...);
+	sampleIMUOK = alignOK = gnssOK = FALSE;
+	CAligni0 align(pos0);
+	CKFApp kf(TS);
+	while(1) {
+		if(!sampleIMUOK) continue;
+		sampleIMUOK = FALSE;
+		if(!alignOK) {
+			align.Update(...);
+			if(t>300) {
+				alignOK = TRUE;
+				kf.Init(...);
+			}
+		}
+		else {
+			kf.Update(...);  // virtual kf.RTOutput(...);
+			if(gnssOK) {
+				kf.SetMeasGNSS(...);
+				gnssOK = FALSE;
+			}
+		}
+		OutputResult(...);
+		t += TS;
+	}*/
 }
 
 #endif

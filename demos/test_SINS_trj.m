@@ -3,11 +3,9 @@
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 10/06/2011, 10/02/2014
-% profile on
-clear all
 glvs
 ts = 0.01;       % sampling interval
-avp0 = avpset([0;0;0], 0, glv.pos0); % init avp
+avp0 = [[0;0;0]; [0;0;0]; glv.pos0]; % init avp
 % trajectory segment setting
 xxx = [];
 seg = trjsegment(xxx, 'init',         0);
@@ -25,9 +23,9 @@ seg = trjsegment(seg, 'uniform',      100);
 seg = trjsegment(seg, 'deaccelerate', 5,  xxx, 2);
 seg = trjsegment(seg, 'uniform',      100);
 % generate, save & plot
-trj = trjsimu(avp0, seg.wat, ts, 1);
+trj = trjsimu(avp0, seg.wat, ts, 2);
 trjfile('trj10ms.mat', trj);
 insplot(trj.avp);
 imuplot(trj.imu);
 % pos2gpx('trj_SINS_gps', trj.avp(1:round(1/trj.ts):end,7:9)); % to Google Earth
-% profile viewer
+

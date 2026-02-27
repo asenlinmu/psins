@@ -66,7 +66,7 @@ function init_gui(hObject, handles)
 glvs
 if ~isfield(handles,'setting')
     % ampmin ampmax  t1min t2max t2/t1 amp t1 t2
-    handles.setting = [10; 1; 0.05; 0.01; 1; 0.2; 100; 60; 0; 1000];
+    handles.setting = [10; 1; 0.05; 0.01; 1; 0.5; 10; 60; 0; 1000];
 end
 setting = handles.setting;
 set(handles.eb, 'String', setting(1));      set(handles.phiz, 'String', setting(6));

@@ -1,7 +1,7 @@
 function pos = posset(pos0, lon, hgt)
 % Geographic position = [latitude; logititude; height] setting.
 %
-% Prototype: pos = posset(pos0, lon, hgt)
+% Prototype: pos = posset(pos0, lon, hgt, isdeg)
 % Input: pos0=[lat; lon; height], where lat and lon are always in arcdeg,
 %             & height is in m.
 %           or pos0=[lat; lon; hgt].

@@ -28,7 +28,7 @@ function imuerr = imuerrset(eb, db, web, wdb, sqrtR0G, TauG, sqrtR0A, TauA, dKGi
 %       scale factor error=10ppm, askew installation error=10arcsec
 %       sqrtR0G=0.001dph, taug=1000s, sqrtR0A=10ug, taug=1000s
 %    then call this funcion by
-%       imuerr = imuerrset(0.01,100,0.001,10, 0.001,1000,10,1000, 10,10,10,10, 10);
+%       imuerr = imuerrset(0.01,100,0.001,10, 0.001,1000,10,1000, 10,10,10,10, 10, 10, 10);
 %
 % See also  imuadderr, gabias, avperrset, insinit, kfinit.
 

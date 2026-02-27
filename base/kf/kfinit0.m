@@ -1,7 +1,7 @@
 function kf = kfinit0(kf, nts)
 % Always called by kfinit and initialize the remaining fields of kf.
 %
-% See also kfinit, kfupdate, kffeedback.
+% See also kfinit, kfupdate, kffeedback, psinstypedef.
     kf.nts = nts;
     [kf.m, kf.n] = size(kf.Hk);
     kf.I = eye(kf.n);

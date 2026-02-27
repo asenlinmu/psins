@@ -58,11 +58,11 @@ global glv
         case 'avp',
             if size(avp,2)==9, t=1:length(t); end
             myfigure;
-            subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr');
-            subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y');
-            subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)]); xygo('V');
+            subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr'); legend('Pitch','Roll');
+            subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y'); legend('Yaw');
+            subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)]); xygo('V'); legend('V_E','V_N', 'V_U', '|V|');
             dxyz = pos2dxyz(avp(:,7:9));
-            subplot(325), plot(t, dxyz(:,[2,1,3])); xygo('DP');
+            subplot(325), plot(t, dxyz(:,[2,1,3])); xygo('DP'); legend('\DeltaLat','\DeltaLon','\DeltaHgt');
 %             subplot(325), plot(t, [[avp(:,7)-avp(1,7),(avp(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avp(:,9)-avp(1,9)]); xygo('DP');
 %             subplot(3,2,[4,6]), plot(r2d(avp(:,8)), r2d(avp(:,7))); xygo('lon', 'lat');
 %                 hold on, plot(r2d(avp(1,8)), r2d(avp(1,7)), 'rp');
@@ -74,16 +74,23 @@ global glv
             insplot([avp(:,1:3),zeros(length(avp),3),avp(:,4:end)],'avp');
         case 'vp',
             insplot([zeros(length(avp),3),avp],'avp');
+        case 'vuh',  % plot VU & hgt
+            if n>9, vuh=avp(:,[6,9,end]);   % avp input
+            elseif n>6, vuh=avp(:,[3,6,end]); end  % vp input
+            myfig;
+            ax = plotyy(vuh(:,end), vuh(:,1), vuh(:,end), vuh(:,2));
+            xlabel('t / s'); grid on;
+            ylabel(ax(1), 'V_U / m/s'); ylabel(ax(2), 'h / m');
         case 'avped'
             myfigure;
-            subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr');
-            subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y');
-            subplot(323), plot(t, [avp(:,4:6),normv(avp(:,4:6))]); xygo('V');
+            subplot(321), plot(t, avp(:,1:2)/glv.deg); xygo('pr'); legend('Pitch','Roll');
+            subplot(322), plot(t, avp(:,3)/glv.deg); xygo('y'); legend('Yaw');
+            subplot(323), plot(t, [avp(:,4:6),normv(avp(:,4:6))]); xygo('V'); legend('V_E','V_N', 'V_U', '|V|');
             dxyz = pos2dxyz(avp(:,7:9));
-            subplot(324), plot(t, dxyz(:,[2,1,3])); xygo('DP');
+            subplot(324), plot(t, dxyz(:,[2,1,3])); xygo('DP'); legend('\DeltaLat','\DeltaLon','\DeltaHgt');
 %             subplot(324), plot(t, [[avp(:,7)-avp(1,7),(avp(:,8)-avp(1,8))*cos(avp(1,7))]*glv.Re,avp(:,9)-avp(1,9)]); xygo('DP');
-            subplot(325), plot(t, avp(:,10:12)/glv.dph); xygo('eb');
-            subplot(326), plot(t, avp(:,13:15)/glv.ug); xygo('db');
+            subplot(325), plot(t, avp(:,10:12)/glv.dph); xygo('eb'); legend('\epsilon_x','\epsilon_y','\epsilon_z');
+            subplot(326), plot(t, avp(:,13:15)/glv.ug); xygo('db'); legend('\nabla_x','\nabla_y','\nabla_z');
         case 'avpedl'
             myfigure;
             subplot(421), plot(t, avp(:,1:2)/glv.deg); xygo('pr');
@@ -97,6 +104,17 @@ global glv
         case 'avpedlt'
             insplot(avp, 'avpedl');
             subplot(428), plot(t, avp(:,19)); xygo('dT');
+        case 'trjpy'  
+            py = vn2att(avp(:,[4:6,end]));
+            p1 = interp1(avp(:,end), avp(:,1), py(:,end));
+            y1 = interp1(avp(:,end), avp(:,3), py(:,end));
+            myfigure;
+            subplot(321), plot(t, avp(:,1:2)/glv.deg, py(:,end), py(:,1)/glv.deg); xygo('pr'); legend('pitch','roll','pitch_{trj}');
+            subplot(322), plot(t, avp(:,3)/glv.deg, py(:,end), py(:,3)/glv.deg); xygo('y'); legend('yaw','yaw_{trj}');
+            subplot(323), plot(py(:,end), [p1-py(:,1)]/glv.deg); xygo('\delta\theta / ( \circ )'); legend('pitch_{trj}-pitch'); % attack angle
+            subplot(324), plot(py(:,end), asin(sin(y1-py(:,3)))/glv.deg); xygo('\delta\psi / ( \circ )'); legend('yaw_{trj}-yaw'); % drift angle
+            subplot(325), plot(t, [normv(avp(:,4:5)),avp(:,6)]); xygo('V'); legend('|V_{EN}|', 'V_U');
+            subplot(326), plot(t, avp(:,4:5)); xygo('V'); legend('V_E', 'V_N');
         case 'DR',
             avptrue = setvals(varargin);
             myfigure;

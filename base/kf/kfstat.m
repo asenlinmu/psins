@@ -1,12 +1,20 @@
 function kfs = kfstat(kfs, kf, flag)
-% See also  kfupdate
+% Kalman filter error distribution analysis and statistic.
+% Ref. 'Yan G. Error Distribution Method and Analysis of Observability Degree 
+%      Based on the Covariances in Kalman Filter, CCC2018'.
+%
+% See also  alignvn_kfs, kfupdate.
+
+% Copyright(c) 2009-2018, by Gongmin Yan, All rights reserved.
+% Northwestern Polytechnical University, Xi An, P.R.China
+% 11/06/2018
 global glv
-    if isempty(kfs),  % kfs = kfstat([], kf)
+    if isempty(kfs),  % initialize,   kfs = kfstat([], kf)
         kfs.Ak0 = eye(kf.n);
         kfs.P0 = kf.Pxk;  kfs.Pk = kf.Pxk; kfs.Pk1 = kfs.Pk;
         for k=1:kf.l, kfs.Qjk{k} = zeros(kf.n); end
         for k=1:kf.m, kfs.Rsk{k} = zeros(kf.n); end
-    elseif nargin>=3,  % kfs = kfstat(kfs, kf, 'B/T/M')
+    elseif nargin>=3,  % update,   kfs = kfstat(kfs, kf, 'B/T/M')
         IKH = kf.I-kf.Kk*kf.Hk;  Akk_1 = IKH*kf.Phikk_1;  Bkk_1 = IKH*kf.Gammak;
         if nargin==2, flag='B'; end
         if flag=='B'
@@ -47,13 +55,13 @@ global glv
             end
             kfs.Pk = Bkk_1*kfs.Pk*Bkk_1'+kf.Kk*kf.Rk*kf.Kk';
         end         
-    elseif nargin==2 && ~isempty(kfs)   %  kfs = kfstat(kfs, kf)
+    elseif nargin==2 && ~isempty(kfs)   %  plot,   kfs = kfstat(kfs, kf)
         n = length(kfs.P0); m = length(kfs.Rsk);
         p = zeros(n); q = zeros(n,kf.l); r = zeros(n,m);
         kfs.Pk0 = kfs.Ak0*kfs.P0*kfs.Ak0';
         for ll=1:n
-            Pkll = 1;
-%             Pkll = kfs.Pk(ll,ll)+eps*eps;
+%             Pkll = 1;
+            Pkll = kfs.Pk(ll,ll)+eps*eps;
             for jj=1:n
                 p(ll,jj) = kfs.Ak0(ll,jj)*kfs.P0(jj,jj)*kfs.Ak0(ll,jj)/Pkll;
             end

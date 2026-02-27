@@ -1,5 +1,5 @@
 function [phi, iter] = btzpicard(Wt, T)
-% see also qpicard
+% see also qpicard, rodpicard.
     phi = [0;0;0];
     for iter=1:6
         pw = polycross(phi,Wt);

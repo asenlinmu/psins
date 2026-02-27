@@ -4,9 +4,10 @@ function [res, idx] = no0(scr, clm)
 % Prototype: res = no0(scr, clm)
 % Inputs: scr - data source input
 %         clm - column for non-zero
-% Output: res - result
+% Outputs: res - result
+%          idx - row index for non-zero data
 %
-% See also  norep, normv.
+% See also  firstno0, norep, normv.
 
 % Copyright(c) 2009-2020, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

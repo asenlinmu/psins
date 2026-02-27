@@ -8,7 +8,7 @@ function rod = rodpicard(Wt, T, iter0)
 %         iter0 - iteration count
 % Outputs: rod - output Rodrigues parameters
 %
-% see also  qpicard
+% see also  qpicard, btzpicard.
 
 % Copyright(c) 2009-2019, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

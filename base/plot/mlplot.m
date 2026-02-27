@@ -5,7 +5,7 @@ function mlplot(data, lineType, lineColor)
 % Inputs: data - data to plot = [y, x], 
 %         lineType,lineColor - line type & line color
 % Example: 
-%     mlplot(randn(100,1))
+%     mlplot(randn(100,1));
 %
 % See also  miniplot, msplot.
 
@@ -16,6 +16,8 @@ function mlplot(data, lineType, lineColor)
     if nargin<2, lineType='osdv^'; end
     if size(data,2)==1, data(:,2) = (1:length(data))'; end
     len = length(lineType);
+    myfig;
     for k=1:len
         plot(data(k:len:end,2), data(k:len:end,1), [lineType(k),lineColor]); hold on;
     end
+    grid on;

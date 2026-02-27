@@ -5,7 +5,7 @@ function h = myfigure(namestr)
 % Input: namestr - figure name string
 % Output: h - handle to this figure
 %
-% See also  imuplot, insplot, inserrplot, kfplot, POSplot, gpsplot.
+% See also  labeldef, xygo, miniplot, imuplot, insplot, inserrplot, kfplot, POSplot, gpsplot.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

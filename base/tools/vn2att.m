@@ -15,7 +15,8 @@ function att = vn2att(vn, th, isfig)
 % 21/12/2019
 global glv
     if nargin<3, isfig = 0; end
-    if nargin<2, th = 0.1; end
+    if nargin<2, th = diff(vn(1:2,end)); end
+    if isempty(th), th = diff(vn(1:2,end)); end
     if size(vn,2)>4, vn = vn(:,[1:3,end]); end
     if size(vn,2)==1,  vn = vn'; vn(1,4)=0;   end
     vl = normv(vn(:,1:2));

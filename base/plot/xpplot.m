@@ -7,7 +7,7 @@ function xpplot(x, p, clm, unt, untstr, clm1, unt1, untstr1)
 %         unt - unit
 %         untstr = unit string to show in ylabel
 %
-% See also  kfplot, inserrplot, xpzrsfile.
+% See also  kfplot, inserrplot, kffile.
 
 % Copyright(c) 2009-2021, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
@@ -50,5 +50,14 @@ global glv
         subplot(224), plot(t, sqrt(p(:,[2:4,6:8, 11:12,14]))/glv.sec); xygo('dKij'); title('Std Non-orthodox Gyro/Acc')
         return
     end
-    subplot(211), plot(x(:,end), x(:,clm)/unt); xygo(sprintf('x / %s',untstr));
-    subplot(212), plot(p(:,end), sqrt(p(:,clm))/unt); xygo(sprintf('std(x) / %s',untstr));
+    if strcmp(untstr,'kappa')
+        if length(clm)<19, clm=16:18; end
+        t = p(:,end); x = x(:,clm); p = p(:,clm);
+        subplot(221), plot(t, x(:,[1,3])/glv.deg); xygo('dP,dY / \circ'); title('Pitch/Yaw Install Angle')
+        subplot(222), plot(t, x(:,2)*1000); xygo('dKod / 0.1%'); title('OD Scale Error')
+        subplot(223), plot(t, sqrt(p(:,[1,3]))/glv.deg); xygo('dP,dY / \circ'); title('Std P/Y')
+        subplot(224), plot(t, sqrt(p(:,2))*1000); xygo('dKod / 0.1%'); title('Std OD Scale Error')
+        return
+    end
+    subplot(211), plot(x(:,end), scaleclm(x(:,clm),1./unt)); xygo(sprintf('x / %s',untstr));
+    subplot(212), plot(p(:,end), sqrt(scaleclm(p(:,clm),1./unt))); xygo(sprintf('std(x) / %s',untstr));

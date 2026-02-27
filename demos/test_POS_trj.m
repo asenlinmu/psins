@@ -5,7 +5,7 @@
 % 10/02/2014
 glvs
 ts = 0.1;
-avp0 = avpset([0;0;0], 0, glv.pos0);
+avp0 = [[0;0;0]; [0;0;0]; glv.pos0];
 xxx = [];
 seg = trjsegment(xxx, 'init',         0);
 seg = trjsegment(seg, 'uniform',      100);

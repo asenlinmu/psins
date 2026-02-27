@@ -29,7 +29,7 @@ for k=1:nn:len-nn+1
     if mod(t,1)==0
         posGPS = trj.avp(k1,7:9)' + davp0(7:9).*randn(3,1);  % GPS pos simulation with some white noise
         kf = kfupdate(kf, ins.pos-posGPS, 'M');
-        [kf, ins] = kffeedback(kf, ins, 1, 'avp');
+        [kf, ins] = kffeedback(kf, ins, 1, 'p');
         avp(ki,:) = [ins.avp', t];
         xkpk(ki,:) = [kf.xk; diag(kf.Pxk); t]';  ki = ki+1;
     end
@@ -37,6 +37,7 @@ for k=1:nn:len-nn+1
 end
 avp(ki:end,:) = [];  xkpk(ki:end,:) = []; 
 % show results
+insplot(avp);
 avperr = avpcmpplot(trj.avp, avp);
 kfplot(xkpk, avperr, imuerr);
 

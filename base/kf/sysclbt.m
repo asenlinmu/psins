@@ -14,7 +14,7 @@ function [clbt, av] = sysclbt(imu, pos, g0, Cba)
 %                where wb=wm/ts, fb=vm/ts, and fL is accelerometer inner
 %                lever arm effect (refer to the following code). 
 %
-% See also  imuscale, lsclbt, clbtfile, imuclbt, imuerrset, insupdate, kfupdate.
+% See also  imuscale, lsclbt, clbtfile, clbtdiff, imuclbt, imuerrset, insupdate, kfupdate.
 
 % Copyright(c) 2009-2016, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

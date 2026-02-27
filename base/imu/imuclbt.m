@@ -1,4 +1,4 @@
-function imu = imuclbt(imu, clbt)
+function imu = imuclbt(imu, clbt, eb, Ka, db)
 % IMU simuation by adding calibration errors.
 %
 % Prototype: imu = imuclbt(imu, clbt)
@@ -23,6 +23,11 @@ global glv
         clbt.Ka2 = [10; 20; 30]*glv.ugpg2;
         clbt.rx = [1;2;3]/100; clbt.ry = [4;5;6]/100; clbt.rz = zeros(3,1);
         clbt.tGA = 0.001;
+    end
+    if nargin>2  % imuclbt(imu, Kg, eb, Ka, db)
+        Kg = clbt;
+        imu(:,1:6) = [imu(:,1:3)*Kg',imu(:,4:6)*Ka'] - repmat([eb;db]'*ts,length(imu),1);
+        return;
     end
     if ~isfield(clbt, 'Kg'), clbt.Kg = eye(3); end
     if ~isfield(clbt, 'Ka'), clbt.Ka = eye(3); end

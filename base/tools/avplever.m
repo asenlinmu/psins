@@ -1,10 +1,14 @@
-function avp = avplever(avp, lever)
+function avp = avplever(avp, lever, tDelay)
 % AVP lever arm monitoring or compensation.
 %
 % Prototype: avp = avplever(avp, lever)
 % Inputs: avp - initial AVP parameter array
 %         lever - lever arms [lx^b; ly^b; lz^b];
+%         tDelay - time delay;
 % Output: avp - AVP parameter array after lever arm compensation
+%
+% Example:
+%    avp1 = avplever(avp, xkpk(end,16:18)', xkpk(end,19));
 %
 % See also  inslever.
 
@@ -24,4 +28,8 @@ function avp = avplever(avp, lever)
         Cnb_1 = Cnb;
     end
     avp(1,4:9) = avp(2,4:9);
+    if nargin==3
+        avp = avpinterp1(avp, avp(:,end)+tDelay);
+        avp(:,end) = avp(:,end)-tDelay;
+    end
 
