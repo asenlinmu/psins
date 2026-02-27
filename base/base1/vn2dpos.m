@@ -8,7 +8,7 @@ function dpos = vn2dpos(eth, vn, ts)
 % Output: dpos - position increment, dpos=[dlat;dlon;dhgt]
 %              where dlat & dlon are in radians, dhgt in meter
 %
-% See also  pp2vn, la2dpos, earth.
+% See also  pp2vn, la2dpos, earth, vn2att.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

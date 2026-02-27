@@ -1,7 +1,7 @@
 function imu = imumeanplot(imu, n)
 % SIMU data plot.
 %
-% Prototype: imumeanplot(imu, n)
+% Prototype: imu = imumeanplot(imu, n)
 % Inputs: imu - SIMU data, the last column is time tag
 %         n - mean count
 %          
@@ -11,4 +11,5 @@ function imu = imumeanplot(imu, n)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 04/03/2018
     if nargin<2, n=100; end
-    imuplot([sumn(imu(:,1:6),n),imu(n:n:end,end)],1);
+    imu = [meann(imu(:,1:6),n)*n,imu(n:n:end,end)];
+    imuplot(imu,0);

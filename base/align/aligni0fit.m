@@ -1,14 +1,14 @@
 function [att0, res] = aligni0fit(imu, pos, ts)
-% SINS initial align based on inertial frame method.
+% SINS initial align based on inertial frame method & using polynomial fit.
 %
-% Prototype: [att0, res] = aligni0(imu, pos, ts)
+% Prototype: [att0, res] = aligni0fit(imu, pos, ts)
 % Inputs: imu - IMU data
 %         pos - position
 %         ts - IMU sampling interval
 % Output: att0 - attitude align result
 %         res - some other paramters for debug
 %
-% See also  alignfn, alignvn, aligncmps, alignWahba, alignsb.
+% See also  aligni0, alignfn, alignvn, aligncmps, alignWahba, alignsb.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -13,11 +13,12 @@ function [inst, kod] = drcalibrate(pos0, pos1Real, pos1DR, distance)
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
-% 12/05/2017
+% 12/05/2017, 07/09/2019
     eth = earth(pos0);
     dpos = pos1Real - pos0;  xyzReal = [dpos(2)*eth.clRNh; dpos(1)*eth.RMh; dpos(3)];
     dpos = pos1DR - pos0;    xyzDR   = [dpos(2)*eth.clRNh; dpos(1)*eth.RMh; dpos(3)];
     if nargin<4,  distance = norm(xyzReal);  end
+    if distance==-1, distance = -norm(xyzReal); end
     kod = norm(xyzReal) / norm(xyzDR);
     dpitch = (xyzDR(3) - xyzReal(3)) / distance;
     dyaw = cross([xyzReal(1:2);0]/norm(xyzReal(1:2)), [xyzDR(1:2);0]/norm(xyzDR(1:2))); dyaw = dyaw(3);

@@ -19,7 +19,7 @@ function [att0, attk, xkpk] = alignfn(imu, qnb, pos, phi0, imuerr, ts)
 global glv
     if nargin<6,  ts = imu(2,7)-imu(1,7);  end
     if length(qnb)==3, qnb=a2qua(qnb); end  %if input qnb is Eular angles.
-    nn = 4; nts = nn*ts;
+    nn = 2; nts = nn*ts;
     len = fix(length(imu)/nn)*nn;
     eth = earth(pos);  Cnn = rv2m(-eth.wnie*nts/2);
     kf = afnkfinit(nts, pos, phi0, imuerr); 
@@ -46,7 +46,7 @@ function kf = afnkfinit(nts, pos, phi0, imuerr)
     kf = []; kf.s = 1; kf.nts = nts;
     kf.Qk = diag([imuerr.web; 0;0])^2*nts;
 	kf.Rk = diag(imuerr.wdb(1:2)/sqrt(nts))^2;
-	kf.Pxk = diag([phi0; imuerr.eb(1:2)])^2;
+	kf.Pxk = diag([phi0; imuerr.eb(2:3)])^2;
 	wN = eth.wnie(2); wU = eth.wnie(3); g = -eth.gn(3);
 	Ft = [  0   wU -wN   0   0 
            -wU  0   0   -1   0 

@@ -1,10 +1,10 @@
 function q1 = qrk4(q0, wm, T)
 % Solution for quaternion differential equation (4-order Runge-Kutta method).
 % 
-% Prototype: [qt0, iter] = qtaylor(Wt, ts, tol)
+% Prototype: q1 = qrk4(q0, wm, T)
 % Inputs: q0 - input quaternion at time 0 
 %         wm - angular increment
-%         T - one step forward for time 0 to T
+%         T - one step forward from time 0 to T
 % Output: q1 - output quaternion at time T
 % 
 % See also  btzrk4, qpicard, qtaylor, wm2wtcoef.

@@ -1,6 +1,6 @@
 function [xyz, Cen] = blh2xyz(blh)
 % Convert ECEF geographic coordinate [lat;lon;height] to
-% Cartesian coordinate [x;y;z].
+% Cartesian coordinate [x;y;z].  Note: BLH for Breite/Laenge/Hoehe?
 %
 % Prototype: [xyz, Cne] = blh2xyz(blh)
 % Input: blh - geographic coordinate blh=[lat;lon;height],

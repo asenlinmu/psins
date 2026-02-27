@@ -14,7 +14,7 @@ function [att0, attk] = alignWahba(imu, pos, ts)
 % 29/06/2012
 global glv
     if nargin<3,  ts = imu(2,7)-imu(1,7);  end
-	nn = 4; nts = nn*ts;
+	nn = 2; nts = nn*ts;
     len = fix(length(imu)/nn)*nn;
 	eth = earth(pos);   g0 = -eth.gn(3);
     qib0b = [1; 0; 0; 0];
@@ -31,7 +31,7 @@ global glv
         dM = rq2m([0;vib0])-lq2m([0;vi0]);
         K = 0.99991*K + dM'*dM*nts;
         [v, d] = eig(K);  qi0ib0 = v(:,1); 
-        Cni0 = p2cne([pos(1); kts*glv.wie; 0]); qni0 = m2qua(Cni0);
+        Cni0 = pos2cen([pos(1); kts*glv.wie; 0])'; qni0 = m2qua(Cni0);
         qnb = qmul(qmul(qni0,qi0ib0),qib0b);
         attk(ki,:) = q2att(qnb)';
         ki = timebar;

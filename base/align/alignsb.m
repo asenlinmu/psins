@@ -1,4 +1,4 @@
-function [att, qnb, eb, db] = alignsb(imu, pos)
+function [att, qnb, Cnb, eb, db] = alignsb(imu, pos)
 % SINS coarse align on static base.
 %
 % Prototype: [att, qnb] = alignsb(imu, pos)

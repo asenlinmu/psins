@@ -6,7 +6,7 @@ function [qt0, iter] = qpicard(Wt, T, tol)
 %              descending powers
 %         T - one step forward for time 0 to T
 %         tol - error tolerance
-% Outputs: qt0 - output quaternion at time ts
+% Outputs: qt0 - output quaternion at time T
 %          iter - iteration count
 % 
 % See also  qrk4, qtaylor, dcmtaylor, wm2wtcoef.

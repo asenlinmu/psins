@@ -6,7 +6,7 @@ function c = polycross(a, b)
 % Inputs: a, b - polynomial coefficient [3Xn] vectors
 % Output: c - c = a x b, [3X(2n-1)] vectors
 %
-% See also  cros, conv.
+% See also  polydot, polydotmul, polyadd, polyintn, polycut.
 
 % Copyright(c) 2009-2017, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

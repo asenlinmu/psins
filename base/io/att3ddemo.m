@@ -1,7 +1,7 @@
 function att3ddemo(att, fps)
 % Display attitude motion in 3-D coordinate system.
 %
-% Prototype: att3ddemo(att, ts)
+% Prototype: att3ddemo(att, fps)
 % Inputs: att - attitude array
 %         fps - display frequency, i.e. frames per second
 %
@@ -12,7 +12,7 @@ function att3ddemo(att, fps)
 % 26/08/2014
     if nargin<2, fps=1/diff(att(1:2,4)); end
     if size(att,2)<4, att = [att,(1:length(att))'];  end
-    t = (0:1/fps:att(end,4))';
+    t = (att(1,4):1/fps:att(end,4))';
     att = interp1(att(:,4), att(:,1:3), t); att = [att,t];
     len = length(att);
     [xk, yk, zk] = prealloc(len, 3);

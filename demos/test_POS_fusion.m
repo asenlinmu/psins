@@ -11,13 +11,13 @@ psinstypedef(376);
 %% init
 trj = trjfile('trjPOS10ms.mat');
 davp0 = avpseterr([30;-30;30], [0.01;0.01;0.03], [0.01;0.01;0.03]);
-lever = [0.5; 1.5; 2]; dT = 0.009;
-% gps = gpssimu(trj.avp, davp0(4:6), davp0(7:9), 3, lever, dT, 1); gps(:,1:3) = gps(:,1:3)+0.1;
+lever = [0.5; 1.5; 2]; dT = 0.009; r0 = davp0(4:9)';
+gps = gpssimu(trj.avp, davp0(4:6), davp0(7:9), 3, lever, dT, 1); gps(:,1:3) = gps(:,1:3)+0.1;
 [nn, ts, nts] = nnts(4, trj.ts);
 imuerr = imuerrset([1;2;3]*0.01, [50;100;150], 0.001, 10, 0,0,0,0, 20,10);
 imu = imuadderr(trj.imu, imuerr);
 ins = insinit(avpadderr(trj.avp0(1:9),davp0), ts); ins = inslever(ins);  ins.nts = nts;
-kf = kfinit(ins, davp0, imuerr, lever, dT);
+kf = kfinit(ins, davp0, imuerr, lever, dT, r0);
 %% POS, forward & backward processing
 ps = POSProcessing(kf, ins, imu(1:end,:), gps, 'avped', 'avp');
 avperr = avpcmp(ps.avp(:,[1:9,end]), trj.avp);

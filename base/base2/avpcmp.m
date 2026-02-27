@@ -18,7 +18,11 @@ function [avperr, i1, i0] = avpcmp(avp1, avp0, eb_db_Etc0)
         avp0 = avp0(:)';  % convert to row vector
         avp0 = [repmat(avp0,length(avp1),1), avp1(:,end)];
     end
-    [t, i1, i0] = intersect(avp1(:,end), avp0(:,end));
+    [t, i1, i0] = intersect(round(avp1(:,end)*1e4), round(avp0(:,end)*1e4)); t = t/1e4;
+    if length(t)<1
+        avp1 = avpinterp1(avp1, avp0(:,end), 'linear');
+        [t, i1, i0] = intersect(avp1(:,end), avp0(:,end));
+    end
     avp1 = avp1(i1,1:end-1); avp0 = avp0(i0,1:end-1);
     dn = size(avp1,2) - size(avp0,2);
     if dn>0

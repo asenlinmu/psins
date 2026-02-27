@@ -3,7 +3,7 @@ ts = 0.1;
 ahrs = MahonyInit(4);
 len = 50/ts; avp = zeros(len, 7);
 for k=1:len
-    ahrs = MahonyUpdate(ahrs, [1;0;0]*0, [1;0;1/glv.deg], [0.2;-10;0], ts);
+    ahrs = MahonyUpdate(ahrs, [[1,0,0]*0, [1,0,1/glv.deg]], [0.2;-10;0], ts);
     avp(k,:) = [m2att(ahrs.Cnb); ahrs.exyzInt; ahrs.tk];
 end
 sysw=tf([1,0], [1,ahrs.Kp,ahrs.Ki]);

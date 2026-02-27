@@ -2,9 +2,9 @@ function [imu, avp] = seawavesimu(dA, pA, dP, pP, ts, T, pos0, yaw0)
 % Vessel swaying simulation under sea-wave environment.
 %
 % Prototype: [imu, avp] = seawavesimu(dA, wA, dP, wP, ts, T, pos0, yaw0)
-% Inputs: dA - wave angular amplitudes (in rad)
+% Inputs: dA - wave angular amplitudes (in rad), [pitch,roll,yaw]
 %        pA - wave angular period (in second)
-%        dP - wave linear amplitudes (in meter)
+%        dP - wave linear amplitudes (in meter), [right,forward,up]
 %        pP - wave linear period (in second)
 %        ts - sampling interval (in second)
 %        T - total simulation time (in second)
@@ -47,7 +47,7 @@ function [imu, avp] = seawavesimu(dA, pA, dP, pP, ts, T, pos0, yaw0)
     AP(:,3) = AP(:,3)+yaw0;
     eth = earth(pos0);
     AP(:,4:6) = AP(:,4:6)*a2mat([0;0;-yaw0]);
-    AP(:,4:6) = [AP(:,4)/eth.RMh+pos0(1), AP(:,5)/eth.clRNh+pos0(2) AP(:,6)+pos0(3)];
+    AP(:,4:6) = [AP(:,5)/eth.RMh+pos0(1), AP(:,4)/eth.clRNh+pos0(2) AP(:,6)+pos0(3)];
     AP(:,7) = (0:length(AP)-1)*ts;
     
     avp = ap2avp(AP, ts);

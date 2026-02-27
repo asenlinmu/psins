@@ -19,12 +19,14 @@ global glv
     idx0 = find(avp(:,end)>=t0,1);
     avp0 = avp(idx0,:)';
     idx0 = find(imu(:,end)>avp(idx0,end),1);
-    idx1 = find(imu(:,end)>=t1,1);
+    idx1 = find(imu(:,end)>=t1,1); 
     if length(avp0)<9, avp0 = [avp0(1:3); zeros(6,1)]; end
     avp1 = inspure(imu(idx0:idx1,:), avp0, 'f');   % imuplot(imu(idx0:idx1,:),1)
+    idx0 = find(avp(:,end)>=t0,1);
+    idx1 = find(avp(:,end)>=t1,1);
     avp = avp(idx0:idx1,:);
     t = avp(:,end);
-	subplot(321), plot(t, avp(:,1:2)/glv.deg, '-.m', 'linewidth', 2); xygo('pr');
+	subplot(321), plot(t, avp(:,1:2)/glv.deg, '-.m', 'linewidth', 2); xygo('pr'); legend('Pitch Pure', 'Roll Pure');
 	subplot(322), plot(t, avp(:,3)/glv.deg, '-.m', 'linewidth', 2); xygo('y');
     if size(avp,2)>4
         subplot(323), plot(t, [avp(:,4:6),sqrt(avp(:,4).^2+avp(:,5).^2+avp(:,6).^2)], '-.m', 'linewidth', 2); xygo('V');

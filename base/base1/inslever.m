@@ -22,4 +22,5 @@ function ins = inslever(ins, lever)
     else  % else n==1, the following code is faster
         ins.vnL = ins.vn + ins.CW*lever;
         ins.posL = ins.pos + ins.MpvCnb*lever;
+        ins.avpL = [ins.att; ins.vnL; ins.posL];
     end

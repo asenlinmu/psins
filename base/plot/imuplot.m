@@ -1,9 +1,10 @@
-function imuplot(imu, type)
+function imuplot(imu, type, t0)
 % SIMU data plot.
 %
-% Prototype: imuplot(imu, type)
+% Prototype: imuplot(imu, type, t0)
 % Inputs: imu - SIMU data, the last column is time tag
 %         type - figure type
+%         t0 - plot time t0 as 0
 %          
 % See also  imumeanplot, insplot, inserrplot, kfplot, gpsplot.
 
@@ -14,7 +15,14 @@ global glv
     dps = glv.dps; g0 = 9.8069; glv.g0;
     if nargin<2, type=0; end
     if size(imu,2)<7, imu(:,7) = (1:length(imu))'; end
-    t = imu(:,7);
+    t = imu(:,end);
+    if nargin==3,  % t0
+        if ischar(t0)
+            if strcmp(t0,'t0'), t0=t(1);
+            elseif strcmp(t0,'t1'), t0=t(end); end
+        end
+        t = t-t0;
+    end
     if norm(mean(imu(:,4:6)))<9.8/2   % if it's velocity increment
         imu(:,1:6)=imu(:,1:6)/(t(2)-t(1));
     end

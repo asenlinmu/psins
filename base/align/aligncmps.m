@@ -21,7 +21,7 @@ function [att0, attk] = aligncmps(imu, qnb, pos, ctl0, ctl1, ts)
 global glv
     if nargin<6,  ts = imu(2,7)-imu(1,7);  end
     if length(qnb)==3, qnb=a2qua(qnb); end  %if input qnb is Eular angles.
-    nn = 4; nts = nn*ts;
+    nn = 2; nts = nn*ts;
     len = fix(length(imu)/nn)*nn;
     eth = earth(pos);
     wnie = eth.wnie; wN = wnie(2); wU = wnie(3); Cnn = rv2m(-wnie*nts/2);

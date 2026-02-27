@@ -8,7 +8,7 @@ function [att0, res] = aligni0(imu, pos, ts)
 % Output: att0 - attitude align result
 %         res - some other paramters for debug
 %
-% See also  alignfn, alignvn, aligncmps, alignWahba, alignsb.
+% See also  alignfn, alignvn, aligncmps, alignWahba, alignsb, i0fvp.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -20,7 +20,8 @@ function ins = insupdate(ins, imu)
     phim = ins.Kg*phim-ins.eb*nts; dvbm = ins.Ka*dvbm-ins.db*nts;  % calibration
     %% earth & angular rate updating 
     vn01 = ins.vn+ins.an*nts2; pos01 = ins.pos+ins.Mpv*vn01*nts2;  % extrapolation at t1/2
-    ins.eth = ethupdate(ins.eth, pos01, vn01);
+    if ins.openloop==0, ins.eth = ethupdate(ins.eth, pos01, vn01);
+    elseif ins.openloop==1, ins.eth = ethupdate(ins.eth, ins.pos0, ins.vn0); end
     ins.wib = phim/nts; ins.fb = dvbm/nts;  % same as trjsimu
     ins.web = ins.wib - ins.Cnb'*ins.eth.wnie;
 %     ins.wnb = ins.wib - ins.Cnb'*ins.eth.wnin;

@@ -1,6 +1,8 @@
 function  avp = ap2avp(ap, ts)
 % Cubic spline interpolation of ap to generate avp with sampling time ts,
 % where the velocity is the differentiation of position.
+
+% Prototype: avp = ap2avp(ap, ts)
 % Inputs: ap = [att, pos, t]
 %         ts - sampling time
 % Output: avp = [att, vn, pos, t]

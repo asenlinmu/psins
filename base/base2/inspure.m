@@ -12,35 +12,46 @@ function avp = inspure(imu, avp0, href)
 %                   'p' - position fix-damping
 %                   'H' - height fix-damping.
 %                   'f' - height free.
+%                   'O' - open loop, vn=0.
 % Output: avp - navigation results, avp = [att,vn,pos,t]
 %
-% See also  insinstant, trjsimu, insupdate.
+% See also  insinstant, trjsimu, insupdate, drpure.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 12/01/2013, 04/09/2014
 global glv
-    [nn, ts, nts] = nnts(2, imu(2,7)-imu(1,7));
+    [nn, ts, nts] = nnts(2, imu(2,end)-imu(1,end));
     ins = insinit(avp0, ts);  vn0 = avp0(4:6); pos0 = avp0(7:9);
     if nargin<3,  href = avp0(9);  end
     vp_fix = 'n';
     if length(href)==1
         if ischar(href), vp_fix = href;
         else
-            t = imu(10:10:end,7);
+            t = imu(10:10:end,end);
             href = [href*ones(size(t)),t];  % all have the same height
+        end
+        if vp_fix=='O',
+            ins.vn0 = zeros(3,1);
+            ins.openloop = 1;
+        end
+    else
+        if size(href,2)==2
+            vp_fix = 'z';
+        elseif size(href,2)==1
+            vp_fix = 'Z';
         end
     end
     if vp_fix=='n';
         alt = altfilt(1000, 1*glv.ugpsHz, 10.0, nts);  % altitude damping setting
-        imugpssyn(imu(:,7), href(:,2));
+        imugpssyn(imu(:,end), href(:,2));
         dbU = href; dbU(:,1) = 0;
     end
     len = length(imu);    avp = zeros(fix(len/nn), 10);
     ki = timebar(nn, len, 'Pure inertial navigation processing.');
     for k=1:nn:len-nn+1
         k1 = k+nn-1;
-        wvm = imu(k:k1, 1:6);  t = imu(k1,7);
+        wvm = imu(k:k1, 1:6);  t = imu(k1,end);
         ins = insupdate(ins, wvm);  % ins.vn(3) = 0;
         if vp_fix=='v',      ins.vn = vn0;
         elseif vp_fix=='V',  ins.vn(3) = vn0(3);
@@ -58,7 +69,14 @@ global glv
                 dbU(khref,1) = alt.xk(1); % just for plot debug
             end
         elseif vp_fix=='f',
-                ins.vn(3) = ins.vn(3);
+            ins.vn(3) = ins.vn(3);
+        elseif vp_fix=='z',
+            ins.vn(3) = href(k1,1);  ins.pos(3) = href(k1,2);
+        elseif vp_fix=='Z',
+            ins.pos(3) = href(k1,1);
+        elseif vp_fix=='O',
+            ins.vn0 = zeros(3,1);
+            ins.openloop = 1;
         else
             error('No SINS type matched!');
         end

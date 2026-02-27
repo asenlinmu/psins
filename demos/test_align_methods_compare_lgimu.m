@@ -6,7 +6,7 @@
 % 10/03/2014
 glvs
 [imu, avp0, ts] = imufile('lasergyro');
-idx = (1/ts:600/ts)';
+idx = (1/ts:300/ts)';
 %% i0 method
 [atti0, resi0] = aligni0(imu(idx,:), avp0(7:9), ts);
 % resfit = aligni0fit(resi0, resi0.lat, resi0.nts);
@@ -31,13 +31,11 @@ ctl0 = [20; 30]; ctl1 = [50; 150];
 [att0c, attkc] = aligncmps(imu(idx,:), att0, avp0(7:9), ctl0, ctl1, ts);
 %% compare & show different methods
 [phii0p,phii0v,phii0w,phikf,phic] = setvals(zeros(size(attkc)));
-for k=1:length(attkc)
-    phii0p(k,:) = aa2phi(resi0.attk(k,:)',attkv(k,:)')';
-    phii0v(k,:) = aa2phi(resi0.attkv(k,:)',attkv(k,:)')';
-    phii0w(k,:) = aa2phi(attkw(k,:)',attkv(k,:)')';
-    phikf(k,:) = aa2phi(attkf(k,:)',attkv(k,:)')';
-    phic(k,:) = aa2phi(attkc(k,:)',attkv(k,:)')';
-end
+phii0p = aa2phi(resi0.attk,attkv);
+phii0v = aa2phi(resi0.attkv,attkv);
+phii0w = aa2phi(attkw,attkv);
+phikf = aa2phi(attkf,attkv);
+phic = aa2phi(attkc,attkv);
 myfigure,
 t = (1:length(attkv))'*resi0.nts;
 subplot(211);  xygo('phiE')

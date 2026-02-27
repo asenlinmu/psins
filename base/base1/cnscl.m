@@ -30,7 +30,7 @@ global glv
 	if n==1
         wmm = wm;
         if coneoptimal==2
-            dphim = 1/12*cros(glv.wm_1,wm);  wm_1 = wm;  glv.wm_1 = wm;
+            dphim = 1/12*cros(glv.wm_1,wm);  if m<6, glv.wm_1 = wm; end
         else
             dphim = [0, 0, 0];
         end
@@ -54,7 +54,7 @@ global glv
             if coneoptimal==0
                 scullm = [0, 0, 0];
             else
-                scullm = 1/12*(cros(glv.wm_1,vm)+cros(glv.vm_1,wm));  glv.vm_1 = vm;
+                scullm = 1/12*(cros(glv.wm_1,vm)+cros(glv.vm_1,wm));  glv.wm_1 = wm; glv.vm_1 = vm;
             end
         else
             vmm = sum(vm,1);

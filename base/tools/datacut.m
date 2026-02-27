@@ -5,6 +5,8 @@ function [data, idx] = datacut(data0, t1, t2)
 % Inputs: data0 - input data, whose last column should be time index
 %         t1, t2 - start & end time tags
 % Outputs: data, idxi - output data & index in data0
+%
+% See also  gett, combinet.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

@@ -18,19 +18,20 @@ while 1
     end
     if ~ishandle(hfig),  break;  end
     clf(hfig);  hold off;
+    plot3([0,cos(w*t)],[0,sin(w*t)],[0,0],'-.bo','LineWidth',2); hold on; grid on % rotation vector
     plot3([0,1.5],[0,0],[0,0],'m', ...
           [0,0],[0,1.5],[0,0],'m', ...
           [0,0],[0,0],[0,1.5], 'm'); % coordinate frames
-    axis([-1.5 1.5 -1.5 1.5 -1.5 1.5]); view([1 1.2 1.1]); hold on; grid on
+    axis([-1.5 1.5 -1.5 1.5 -1.5 1.5]); view([1 1.2 1.1]);
     title('Coning Motion Simulation (by Yan G M)'); 
     xlabel('X'); ylabel('Y'); zlabel('Z'); 
     plot3([0,x(1)],[0,x(2)],[0,x(3)],'-o', ...
           [0,y(1)],[0,y(2)],[0,y(3)],'-o', ...
           [0,z(1)],[0,z(2)],[0,z(3)],'-o','LineWidth',3); % body frame
-    plot3([0,cos(w*t)],[0,sin(w*t)],[0,0],'-.bo','LineWidth',2); % rotation vector
     plot3(xk(:,1),xk(:,2),xk(:,3), ...
           yk(:,1),yk(:,2),yk(:,3), ...
           zk(:,1),zk(:,2),zk(:,3)); % tracks
+    hl = legend('\it\bf\phi'); set(hl, 'Fontsize', 16);
     pause(.2);
     ki = ki+1;
 end

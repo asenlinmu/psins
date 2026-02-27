@@ -3,7 +3,7 @@ ts = 0.1;
 ahrs = QEAHRSInit(ts);
 len = 100/ts; avp = zeros(len, 14);
 for k=1:len
-    ahrs = QEAHRSUpdate(ahrs, [1;0;0]*0, [1;0;1/glv.deg], [0;0;0], ts);
+    ahrs = QEAHRSUpdate(ahrs, [[1,0,0]*0, [1,0,1/glv.deg]], [0;0;0], ts);
     avp(k,:) = [m2att(ahrs.Cnb); ahrs.kf.xk(5:7); diag(ahrs.kf.Pxk); ahrs.tk];
 end
 figure,

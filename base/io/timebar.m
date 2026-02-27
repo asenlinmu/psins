@@ -35,7 +35,7 @@ global tb_arg
         end
         if nargin<3,  msgstr = [];    end
         tb_arg.handle = waitbar(0,[msgstr, ' Please wait...'], ...
-            'Name','PSINS Toolbox', ...
+            'Name','PSINS Toolbox', 'WindowStyle', 'modal', ...
             'CreateCancelBtn', 'delete(gcbf);');
         return;
     end
@@ -55,6 +55,8 @@ global tb_arg
             if r<tb_arg.rClosed
                 clear global tb_arg;
                 error('PSINS processing is terminated by user.');
+%                 disp('PSINS processing is terminated by user.\n');
+%                 quit;
             end
         end
     end

@@ -33,5 +33,5 @@ function phi = aa2phi(att1, att0)
                  cj*sk+si*sj*ck, ci*ck,   sj*sk-si*cj*ck;
                 -ci*sj,          si,      ci*cj ];
         Cnn = Cn1b*Cn0b';
-        phi(k,:) = [Cnn(2,3)-Cnn(3,2), Cnn(3,1)-Cnn(1,3), Cnn(1,2)-Cnn(2,1)]/2.0;
+        phi(k,1:3) = [Cnn(2,3)-Cnn(3,2), Cnn(3,1)-Cnn(1,3), Cnn(1,2)-Cnn(2,1)]/2.0;
     end

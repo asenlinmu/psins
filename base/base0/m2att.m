@@ -5,7 +5,7 @@ function att = m2att(Cnb)
 % Input: Cnb - DCM from body-frame to navigation-frame
 % Output: att - att=[pitch; roll; yaw] in radians
 %
-% See also  a2mat, a2qua, m2qua, q2att, q2mat, attsyn, m2rv.
+% See also  a2mat, a2qua, m2qua, q2att, q2mat, attsyn, m2rv, incline.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

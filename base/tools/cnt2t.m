@@ -8,7 +8,7 @@ function t = cnt2t(cnt, ts, t0)
 %         t0 - start time
 % Output: t - continuous time tag
 %
-% See also  N/A.
+% See also  dhms2t.
 
 % Copyright(c) 2009-2018, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

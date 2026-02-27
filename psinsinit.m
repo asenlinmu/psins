@@ -44,5 +44,5 @@ fclose(fid);
 clear pp rootpath datapath res fid mytestflag;
 glvs;
 % disp('   *** PSINS Toolbox Initialization Done! ***');
-msgbox('PSINS Toolbox Initialization Done!','PSINS','modal')
+msgbox('         PSINS Toolbox Initialization Done!     ','PSINS','modal')
 

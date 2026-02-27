@@ -11,11 +11,12 @@ function gpsplot(vpGPS)
 % Northwestern Polytechnical University, Xi An, P.R.China
 % 19/02/2014
 global glv
-    t = vpGPS(:,end);
-    if vpGPS(1,end)>1000
-        t = vpGPS(:,end)+(vpGPS(2,end)-2*vpGPS(1,end));
-    end
     [m,n] = size(vpGPS);
+    if mod(n,3)==0, vpGPS = [vpGPS,(1:length(vpGPS))']; end
+    t = vpGPS(:,end);
+    if t(1)>1000
+        t = t+(t(2)-2*t(1));
+    end
     if mod(n,3)==1  % if not exist tag, then add 1
         vpGPS=[vpGPS(:,1:end-1),ones(m,1),vpGPS(:,end)];  
     end

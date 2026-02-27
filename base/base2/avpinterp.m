@@ -7,7 +7,7 @@ function avp = avpinterp(avp1, avp2, ratio)
 %         ratio - interpolated time ratio point
 % Output: avp - interpolated avp
 %
-% See also  attinterp.
+% See also  attinterp, avpinterp1.
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China

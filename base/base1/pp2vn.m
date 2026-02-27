@@ -11,8 +11,15 @@ function vn = pp2vn(pos0, pos1, ts)
 
 % Copyright(c) 2009-2014, by Gongmin Yan, All rights reserved.
 % Northwestern Polytechnical University, Xi An, P.R.China
-% 03/10/2013
+% 03/10/2013, 10/1/2019
 global glv
+    if nargin==1
+        vn = pos0; vn(1,1:3) = 0;
+        for k=2:size(pos0,1)
+            vn(k,1:3) = pp2vn(pos0(k-1,1:3), pos0(k,1:3), pos0(k,4)-pos0(k-1,4));
+        end
+        return;
+    end
     if nargin<3
         ts = 1;
     end

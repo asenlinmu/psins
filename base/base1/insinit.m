@@ -30,7 +30,7 @@ global glv
     end        
 	ins = [];
 	ins.ts = ts; ins.nts = [];
-    [ins.qnb, ins.vn, ins.pos] = setvals(qnb0, vn0, pos0); 
+    [ins.qnb, ins.vn, ins.pos] = setvals(qnb0, vn0, pos0); ins.vn0 = vn0; ins.pos0 = pos0;
 	[ins.qnb, ins.att, ins.Cnb] = attsyn(ins.qnb);  ins.Cnb0 = ins.Cnb;
     ins.avp  = [ins.att; ins.vn; ins.pos];
     ins.eth = ethinit(ins.pos, ins.vn);
@@ -44,7 +44,8 @@ global glv
 	[ins.Kg, ins.Ka] = setvals(eye(3)); % calibration parameters
     [ins.eb, ins.db] = setvals(zeros(3,1));
     [ins.tauG, ins.tauA] = setvals(inf(3,1)); % gyro & acc correlation time
-    ins.lever = zeros(3,1); % lever arm
+    ins.lever = zeros(3,1); ins = inslever(ins); % lever arm
 	ins.tDelay = 0; % time delay
+    ins.openloop = 0;
     glv.wm_1 = zeros(3,1)';  glv.vm_1 = zeros(3,1)';  % for 'single sample+previous sample' coning algorithm
     ins.an0 = zeros(3,1);
